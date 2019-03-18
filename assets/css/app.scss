@@ -1,0 +1,58 @@
+@import "~bootswatch/dist/litera/variables";
+@import "~bootstrap/scss/bootstrap";
+@import "~bootswatch/dist/litera/bootswatch";
+
+@import "reset";
+
+.select-btn {
+  -webkit-appearance: none;
+  border-radius: 1.078em;
+  cursor: pointer;
+  font-size: 0.9em;
+}
+
+.select-btn.text-white {
+  background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'><path fill='%23FFFFFF' d='M2 0L0 2h4zm0 5L0 3h4z'/></svg>");
+  border: none;
+}
+
+.select-btn:disabled {
+  cursor: not-allowed;
+  background-image: none;
+}
+
+
+.time-slot {
+  overflow: scroll;
+  padding-bottom: 20px;
+}
+
+.time-slot table {
+  table-layout: fixed;
+}
+
+.time-slot table tr td {
+  width: 28px;
+  height: 26px;
+}
+
+.time-slot table tbody td {
+  border: 1px solid rgb(220, 220, 220);
+}
+
+.time-slot table .hours {
+  font-size: 0.8rem;
+}
+
+.time-slot table .days {
+  font-weight: bold;
+}
+
+.time-slot table .days td {
+  border-left: 3px solid #c8c8c8;
+  padding-left: 0.4rem;
+}
+
+.time-slot table tbody td input {
+  display: none;
+}

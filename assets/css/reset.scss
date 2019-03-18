@@ -1,0 +1,13 @@
+.bg-dark {
+  background-color: $dark !important;
+}
+
+.navbar-dark .navbar-brand {
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: -0.5px;
+}
+
+p {
+  font-family: $font-family-base;
+}
