@@ -15,6 +15,7 @@
         <nav class="navbar navbar-dark bg-dark">
             <a class="navbar-brand" href="#">Planner</a>
         </nav>
+        {% block body %}
         <div class="container mt-5">
             <div class="col-md-12">
                 <h1 class="mb-4">Evènements à venir</h1>
@@ -57,7 +58,7 @@
                                             <thead>
                                                 <tr class="days">
                                                     <td colspan="16">1er juin</td>
-                                                    <td colspan="24">2 juin</td>
+                                                    <td colspan="7">2 juin</td>
                                                 </tr>
                                                 <tr class="hours">
                                                     <td>8h</td>
@@ -127,7 +128,7 @@
                 </div>
             </div>
         </div>
-        {% block body %}{% endblock %}
+        {% endblock %}
         {% block javascripts %}
             {{ encore_entry_script_tags('app') }}
             <!-- Renders app.js & a webpack runtime.js file

@@ -599,6 +599,34 @@
     lodash "^4.17.11"
     to-fast-properties "^2.0.0"
 
+"@fullcalendar/bootstrap@^4.0.1":
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/@fullcalendar/bootstrap/-/bootstrap-4.0.1.tgz#8ae745f338c6c49e93ac2ec873cb32748e982c3d"
+  integrity sha512-aKyb4LQjoCLtWfmOT/GPkPOgvxF/IQznJeKBmnw6co/F1drgwKtCrBKkrXarD7ayN+MXVzLQ8vAIqcMnO1IVjw==
+
+"@fullcalendar/core@^4.0.1":
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/@fullcalendar/core/-/core-4.0.1.tgz#9ae5d53f67dc5f5062ffa142b9226d57b0a3b41e"
+  integrity sha512-dUhBtZ2hIuPFJP4Rr1QOFs5/nG5EAnzqMDvy1IZ0JEBw/+0Dwj4X55Ugb3buHBh5GDrQmPbZVW21mbcUqeTprQ==
+
+"@fullcalendar/resource-common@^4.0.1":
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/@fullcalendar/resource-common/-/resource-common-4.0.1.tgz#9bdb35b1e79a07aee443e1cfe0db54d0e048c46e"
+  integrity sha512-KWPTMO+UNsbaU7J+2cXVucgbiEOeNAIN1+9W+mJ96MPx2aeljAPdrxY2co0frk3usbzQ0P47DkSx05k5r6FkgA==
+
+"@fullcalendar/resource-timeline@^4.0.1":
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/@fullcalendar/resource-timeline/-/resource-timeline-4.0.1.tgz#fae0f3ef5c55bef4db6aed132d7c38782121cf94"
+  integrity sha512-UXMU9QLE30UhfKTEHBrjvPrINTN3wfSkokgIL+flUWoefp8fkveP/hZpVKhhN283ZxWzy6gkKxqUSUQHmOtGlw==
+  dependencies:
+    "@fullcalendar/resource-common" "^4.0.1"
+    "@fullcalendar/timeline" "^4.0.1"
+
+"@fullcalendar/timeline@^4.0.1":
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/@fullcalendar/timeline/-/timeline-4.0.1.tgz#cbec89b8ffed3c522f114e61a9042dcc45be401d"
+  integrity sha512-DNqiQCKFlctyWWki05FTyOjFN6pM1j/IY/yzg93FGeb7OsW5BCtPRwpsVWAUbeX+gsXlJTDupwXhNPtfLbOOCw==
+
 "@symfony/webpack-encore@^0.22.0":
   version "0.22.4"
   resolved "https://registry.yarnpkg.com/@symfony/webpack-encore/-/webpack-encore-0.22.4.tgz#249609c784706aa3dac9243c55ac4ec667a26d6e"
@@ -2818,6 +2846,23 @@ fstream@^1.0.0, fstream@^1.0.2:
     mkdirp ">=0.5 0"
     rimraf "2"
 
+fullcalendar-scheduler@^1.9.4:
+  version "1.9.4"
+  resolved "https://registry.yarnpkg.com/fullcalendar-scheduler/-/fullcalendar-scheduler-1.9.4.tgz#15acc98aa0f2b80330b1e93cc768343404827b92"
+  integrity sha512-QJ5p/qRnK+vuiNRTbsxKCytiCu2adUn1dSlRSlPSivR/FOUL4J5XQA/4o/h6YCpIMWnmLTXPOuyqBTbsG3ydyg==
+  dependencies:
+    fullcalendar "~3.9.0"
+    jquery "2 - 3"
+    moment "^2.20.1"
+
+fullcalendar@~3.9.0:
+  version "3.9.0"
+  resolved "https://registry.yarnpkg.com/fullcalendar/-/fullcalendar-3.9.0.tgz#b608a9989f3416f0b1d526c6bdfeeaf2ac79eda5"
+  integrity sha512-bbALDK8+SBqluv8SKPDeVNtaSr87NYblte/pRgV5NnDJWCEARpRlQ1qQ/XEakcAXbMZov6rWYIvLOrtKwQo2Bg==
+  dependencies:
+    jquery "2 - 3"
+    moment "^2.20.1"
+
 function-bind@^1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/function-bind/-/function-bind-1.1.1.tgz#a56899d3ea3c9bab874bb9773b7c5ede92f4895d"
@@ -3593,6 +3638,11 @@ isstream@~0.1.2:
   resolved "https://registry.yarnpkg.com/isstream/-/isstream-0.1.2.tgz#47e63f7af55afa6f92e1500e690eb8b8529c099a"
   integrity sha1-R+Y/evVa+m+S4VAOaQ64uFKcCZo=
 
+"jquery@2 - 3", jquery@^3.3.1:
+  version "3.3.1"
+  resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.3.1.tgz#958ce29e81c9790f31be7792df5d4d95fc57fbca"
+  integrity sha512-Ubldcmxp5np52/ENotGxlLe6aGMvmF4R8S6tZjsP6Knsaxd/xp3Zrh50cG93lR6nPXyUFwzN3ZSOQI0wRJNdGg==
+
 js-base64@^2.1.8:
   version "2.5.1"
   resolved "https://registry.yarnpkg.com/js-base64/-/js-base64-2.5.1.tgz#1efa39ef2c5f7980bb1784ade4a8af2de3291121"
@@ -4213,6 +4263,11 @@ mkdirp@0.5.x, "mkdirp@>=0.5 0", mkdirp@^0.5.0, mkdirp@^0.5.1, mkdirp@~0.5.0, mkd
   integrity sha1-MAV0OOrGz3+MR2fzhkjWaX11yQM=
   dependencies:
     minimist "0.0.8"
+
+moment@^2.20.1:
+  version "2.24.0"
+  resolved "https://registry.yarnpkg.com/moment/-/moment-2.24.0.tgz#0d055d53f5052aa653c9f6eb68bb5d12bf5c2b5b"
+  integrity sha512-bV7f+6l2QigeBBZSM/6yTNq4P2fNpSWj/0e7jQcy87A8e7o2nAfP/34/2ky5Vw4B9S446EtIhodAzkFCcR4dQg==
 
 move-concurrently@^1.0.1:
   version "1.0.1"
@@ -4878,6 +4933,11 @@ pkg-up@^1.0.0:
   integrity sha1-Pgj7RhUlxEIWJKM7n35tCvWwWiY=
   dependencies:
     find-up "^1.0.0"
+
+popper.js@^1.14.7:
+  version "1.14.7"
+  resolved "https://registry.yarnpkg.com/popper.js/-/popper.js-1.14.7.tgz#e31ec06cfac6a97a53280c3e55e4e0c860e7738e"
+  integrity sha512-4q1hNvoUre/8srWsH7hnoSJ5xVmIL4qgz+s4qf2TnJIMyZFUFMGH+9vE7mXynAlHSZ/NdTmmow86muD0myUkVQ==
 
 portfinder@^1.0.9:
   version "1.0.20"

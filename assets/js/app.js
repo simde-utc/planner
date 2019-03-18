@@ -9,7 +9,6 @@
 require('../css/app.scss');
 
 // Need jQuery? Install it with "yarn add jquery", then uncomment to require it.
-const $ = require('jquery');
 require('bootstrap');
 
 let slots = document.querySelectorAll('.time-slot .slot');
@@ -22,7 +21,7 @@ Array.from(slots).forEach(slot => {
         currentState = !this.classList.contains('bg-success');
         this.classList.toggle('bg-success');
     });
-    slot.addEventListener('mouseup', function () {
+    document.addEventListener('mouseup', function () {
         mouseIsDown = false;
     });
 
@@ -35,4 +34,61 @@ Array.from(slots).forEach(slot => {
             }
         }
     });
+});
+
+import { Calendar } from '@fullcalendar/core';
+import timeline from '@fullcalendar/timeline';
+import resourceTimelinePlugin from '@fullcalendar/resource-timeline'
+import bootstrap from "@fullcalendar/bootstrap";
+
+import '@fullcalendar/core/main.css';
+import '@fullcalendar/timeline/main.css';
+import '@fullcalendar/bootstrap/main.css';
+
+//import { Scheduler } from '@fullcalendar/scheduler'
+
+document.addEventListener('DOMContentLoaded', function() {
+    var calendarEl = document.getElementById('calendar');
+
+    var calendar = new Calendar(calendarEl, {
+        schedulerLicenseKey: 'GPL-My-Project-Is-Open-Source',
+        plugins: [ resourceTimelinePlugin, bootstrap ],
+        themeSystem: 'bootstrap4',
+        editable: true,
+        bootstrapFontAwesome : {
+            close: 'times',
+            prev: 'chevron-left',
+            next: 'chevron-right',
+            prevYear: 'angle-double-left',
+            nextYear: 'angle-double-right'
+        },
+        customButtons: {
+            eventStart: {
+                text: "Début de l'évenement",
+                click: function() {
+                    $('#timeline').fullCalendar('gotoDate', '{{ event.startDate|date("Y-m-d H:i:s") }}');
+                }
+            }
+        },
+        header: {
+            left:   'title',
+            center: '',
+            right:  'eventStart today prev,next'
+        },
+        events: [{
+            id: 'a',
+            title: 'my event',
+            start: '2019-03-18'
+        }],
+        nowIndicator: true,
+        defaultView: 'event',
+        views: {
+            event: {
+                type: 'timeline',
+                duration: { hours: 25 }
+            }
+        },
+    });
+
+    calendar.render();
 });

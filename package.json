@@ -16,6 +16,11 @@
         "build": "encore production --progress"
     },
     "dependencies": {
+        "@fullcalendar/bootstrap": "^4.0.1",
+        "@fullcalendar/core": "^4.0.1",
+        "@fullcalendar/resource-timeline": "^4.0.1",
+        "@fullcalendar/timeline": "^4.0.1",
+        "fullcalendar-scheduler": "^1.9.4",
         "jquery": "^3.3.1",
         "popper.js": "^1.14.7"
     }
