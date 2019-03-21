@@ -5,3 +5,11 @@ index:
 timeline:
     path: /timeline
     controller: App\Controller\DefaultController::timeline
+
+event_new:
+    path: /event/new
+    controller: App\Controller\EventController::new
+
+event_show:
+    path: /event
+    controller: App\Controller\EventController::show

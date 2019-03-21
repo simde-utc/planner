@@ -37,12 +37,14 @@ Array.from(slots).forEach(slot => {
 });
 
 import { Calendar } from '@fullcalendar/core';
-import timeline from '@fullcalendar/timeline';
+import timelinePlugin from '@fullcalendar/timeline'
+import common from '@fullcalendar/resource-common/main'
 import resourceTimelinePlugin from '@fullcalendar/resource-timeline'
 import bootstrap from "@fullcalendar/bootstrap";
 
 import '@fullcalendar/core/main.css';
 import '@fullcalendar/timeline/main.css';
+import '@fullcalendar/resource-timeline/main.css';
 import '@fullcalendar/bootstrap/main.css';
 
 //import { Scheduler } from '@fullcalendar/scheduler'
@@ -53,7 +55,7 @@ document.addEventListener('DOMContentLoaded', function() {
     var calendar = new Calendar(calendarEl, {
         schedulerLicenseKey: 'GPL-My-Project-Is-Open-Source',
         plugins: [ resourceTimelinePlugin, bootstrap ],
-        themeSystem: 'bootstrap4',
+        themeSystem: 'bootstrap',
         editable: true,
         bootstrapFontAwesome : {
             close: 'times',
@@ -62,6 +64,7 @@ document.addEventListener('DOMContentLoaded', function() {
             prevYear: 'angle-double-left',
             nextYear: 'angle-double-right'
         },
+        resourceAreaWidth: "20%",
         customButtons: {
             eventStart: {
                 text: "Début de l'évenement",
@@ -75,17 +78,17 @@ document.addEventListener('DOMContentLoaded', function() {
             center: '',
             right:  'eventStart today prev,next'
         },
-        events: [{
-            id: 'a',
-            title: 'my event',
-            start: '2019-03-18'
-        }],
+        locale: 'fr',
+        resources: 'https://fullcalendar.io/demo-resources.json?with-nesting&with-colors',
+        events: 'https://fullcalendar.io/demo-events.json?single-day&for-resource-timeline',
         nowIndicator: true,
         defaultView: 'event',
         views: {
             event: {
-                type: 'timeline',
-                duration: { hours: 25 }
+                type: 'resourceTimeline',
+                duration: { hours: 25 },
+                slotDuration: '00:15',
+                slotWidth: 20,
             }
         },
     });

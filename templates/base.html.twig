@@ -26,12 +26,13 @@
                             <div class="col-md-9">
                                 <h6 class="card-subtitle mb-3 text-muted">par <a href="#">Imaginarium Festival</a></h6>
                                 <p class="card-text">Planning des deux jours de l'Imaginarium Festival</p>
-                                <a href="#" class="card-link">Accéder à l'évènement</a>
+                                <a href="#" class="card-link">Voir mon planning</a>
+                                <a href="{{ path('event_show') }}" class="card-link">Gérer l'évènement</a>
                             </div>
                             <div class="col-md-3">
                                 <p class="text-center mb-1 text-muted"><small>12 mai 2019 - 14 mai 2019</small></p>
                                 <div class="form-group">
-                                    <select class="custom-select select-btn text-sm-center bg-success text-white">
+                                    <select class="custom-select select-btn text-sm-center bg-success text-white" data-toggle="tooltip" data-placement="right" title="Il ne vous es plus possible changer la disponibilité pour cet évènement, veuillez contacter le responsable du planning.">
                                         <option disabled selected="">Disponibilité</option>
                                         <option >Je suis disponible</option>
                                         <option value="2">Je ne suis pas disponible</option>

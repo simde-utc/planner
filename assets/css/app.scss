@@ -3,6 +3,9 @@
 @import "~bootswatch/dist/litera/bootswatch";
 
 @import "reset";
+@import "calendar";
+
+@import "~@fortawesome/fontawesome-free/css/all";
 
 .select-btn {
   -webkit-appearance: none;
@@ -55,4 +58,37 @@
 
 .time-slot table tbody td input {
   display: none;
+}
+
+.stairs {
+  width: 100%;
+  display: table;
+  table-layout: fixed;
+  border-collapse: collapse;
+}
+
+.stairs .stairs-head {
+  display: table-header-group;
+}
+
+.stairs .stairs-row {
+  display: table-row;
+}
+
+.stairs .stairs-rows {
+  display: table-row-group;
+}
+
+.stairs .stairs-rows .stairs-cell {
+  border: 1px solid rgb(225, 225, 225);
+  height: 15px;
+}
+
+.stairs .stairs-cell {
+  display: table-cell;
+}
+
+.stairs .stairs-cell.enable-cell {
+  background: rgba(#d9534f, 0.4);
+  border-color: rgba(#d9534f, 0.4);
 }
