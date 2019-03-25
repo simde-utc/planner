@@ -2,6 +2,14 @@ index:
     path: /
     controller: App\Controller\DefaultController::index
 
+landing:
+    path: /landing
+    controller: App\Controller\DefaultController::landing
+
+planning:
+    path: /planning
+    controller: App\Controller\DefaultController::planning
+
 timeline:
     path: /timeline
     controller: App\Controller\DefaultController::timeline

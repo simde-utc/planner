@@ -1,0 +1,139 @@
+{% extends 'layout/default.html.twig' %}
+
+{% block main_app %}
+    <div class="container mt-5">
+        <div class="col-md-12">
+            <h1 class="mb-3">Evènements à venir</h1>
+            <h2 class="mb-4">Evènements auxquels vous êtes invité :</h2>
+            <div class="card">
+                <div class="card-body" style="position: relative">
+                    <h4 class="card-title">Imaginarium Festival 2019</h4>
+                    <div class="row">
+                        <div class="col-md-9">
+                            <h6 class="card-subtitle mb-3 text-muted">par <a href="#">Imaginarium Festival</a></h6>
+                            <p class="card-text">Planning des deux jours de l'Imaginarium Festival</p>
+                            <a href="{{ path('planning') }}" class="card-link">Voir mon planning</a>
+                            <a href="{{ path('event_show') }}" class="card-link">Gérer l'évènement</a>
+                        </div>
+                        <div class="col-md-3 text-center">
+                            <p class="text-center mb-1 text-muted"><small>12 mai 2019 - 14 mai 2019</small></p>
+                            <div class="form-group">
+                                <select class="custom-select select-btn text-sm-center bg-success text-white" data-toggle="tooltip" data-placement="right" title="Il ne vous es plus possible changer la disponibilité pour cet évènement, veuillez contacter le responsable du planning.">
+                                    <option disabled selected="">Disponibilité</option>
+                                    <option >Je suis disponible</option>
+                                    <option value="2">Je ne suis pas disponible</option>
+                                </select>
+                                <small class="form-text text-center text-muted"><a href="#" data-toggle="modal" data-target="#exampleModal">Préciser mes disponibilités</a></small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Disponibilités</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form action="#">
+                            <div class="modal-body">
+                                <div class="time-slot">
+                                    <table width="644px">
+                                        <thead>
+                                        <tr class="days">
+                                            <td colspan="16">1er juin</td>
+                                            <td colspan="7">2 juin</td>
+                                        </tr>
+                                        <tr class="hours">
+                                            <td>8h</td>
+                                            <td>9h</td>
+                                            <td>10h</td>
+                                            <td>11h</td>
+                                            <td>12h</td>
+                                            <td>13h</td>
+                                            <td>14h</td>
+                                            <td>15h</td>
+                                            <td>16h</td>
+                                            <td>17h</td>
+                                            <td>18h</td>
+                                            <td>19h</td>
+                                            <td>20h</td>
+                                            <td>21h</td>
+                                            <td>22h</td>
+                                            <td>23h</td>
+                                            <td>0h</td>
+                                            <td>1h</td>
+                                            <td>2h</td>
+                                            <td>3h</td>
+                                            <td>4h</td>
+                                            <td>5h</td>
+                                            <td>6h</td>
+                                            <td>7h</td>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td class="slot"><input type="checkbox"></td>
+                                            <td class="slot"><input type="checkbox"></td>
+                                            <td class="slot"><input type="checkbox"></td>
+                                            <td class="slot"><input type="checkbox"></td>
+                                            <td class="slot"><input type="checkbox"></td>
+                                            <td class="slot"><input type="checkbox"></td>
+                                            <td class="slot"><input type="checkbox"></td>
+                                            <td class="slot"><input type="checkbox"></td>
+                                            <td class="slot"><input type="checkbox"></td>
+                                            <td class="slot"><input type="checkbox"></td>
+                                            <td class="slot"><input type="checkbox"></td>
+                                            <td class="slot"><input type="checkbox"></td>
+                                            <td class="slot"><input type="checkbox"></td>
+                                            <td class="slot"><input type="checkbox"></td>
+                                            <td class="slot"><input type="checkbox"></td>
+                                            <td class="slot"><input type="checkbox"></td>
+                                            <td class="slot"><input type="checkbox"></td>
+                                            <td class="slot"><input type="checkbox"></td>
+                                            <td class="slot"><input type="checkbox"></td>
+                                            <td class="slot"><input type="checkbox"></td>
+                                            <td class="slot"><input type="checkbox"></td>
+                                            <td class="slot"><input type="checkbox"></td>
+                                            <td class="slot"><input type="checkbox"></td>
+                                            <td class="slot"><input type="checkbox"></td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                                <button type="button" class="btn btn-primary">
+                                    <span class="spinner-grow spinner-grow-sm mr-1" role="status" aria-hidden="true"></span>
+                                    Enregistrer
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <h2 class="mt-5 mb-4">Evènements recherchant des participants</h2>
+            <div class="card">
+                <div class="card-body" style="position: relative">
+                    <h4 class="card-title">Imaginarium Festival 2019</h4>
+                    <div class="row">
+                        <div class="col-md-9">
+                            <h6 class="card-subtitle mb-3 text-muted">par <a href="#">Imaginarium Festival</a></h6>
+                            <p class="card-text">Planning des deux jours de l'Imaginarium Festival</p>
+                            <a href="#" class="card-link">Voir mon planning</a>
+                            <a href="{{ path('event_show') }}" class="card-link">Gérer l'évènement</a>
+                        </div>
+                        <div class="col-md-3 text-center">
+                            <p class="text-center mb-1 text-muted"><small>12 mai 2019 - 14 mai 2019</small></p>
+                            <a href="#" class="btn btn-primary">S'inscrire à l'évènement</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock main_app %}

@@ -1,13 +1,49 @@
-{% extends 'base.html.twig' %}
+{% extends 'layout/default.html.twig' %}
 
-{% block body %}
+{% block main_app %}
     <div class="container">
-        <div class="row">
+        <div class="row mt-5">
+            <div class="col-md-12 text-center">
+                <h1>Créer un nouvel évènement</h1>
+                <div class="d-flex justify-content-center mt-5">
+                    <div class="card border-primary shadow ml-4 mr-4" style="max-width: 18rem;">
+                        <div class="card-body text-primary text-center">
+                            <h3 class="card-title">Démarrer de zéro</h3>
+                            <p class="card-text">
+                                Si votre évènement ne ressemble à aucun autre. Vous devrez définir chacune de vos tâches et leurs contraintes.
+                            </p>
+                            <p class="card-text">
+                                <a href="#" class="btn btn-primary stretched-link">Commencer <i class="ml-1 fa fa-sm fa-arrow-right"></i></a>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="card bg-primary shadow text-white ml-4 mr-4" style="max-width: 18rem;">
+                        <div class="card-body text-center">
+                            <h3 class="card-title">Depuis un modèle existant</h3>
+                            <p class="card-text">
+                                Les tâches et leurs contrintes seront crées à partir d'un modèle existant.
+                            </p>
+                            <p class="card-text">
+                                <a href="#" class="btn btn-light text-primary stretched-link">Commencer <i class="ml-1 fa fa-sm fa-arrow-right"></i></a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="col-md-12">
-                <h1>Nouvel évènement</h1>
+
                 {{ form_start(form) }}
-                {{ form_widget(form) }}
+                {{ form_row(form.name) }}
+                {{ form_row(form.description) }}
+                <div class="row">
+                    <div class="col-md-4">{{ form_row(form.startAt) }}</div>
+                    <div class="col-md-4">{{ form_row(form.endAt) }}</div>
+                    <div class="col-md-4">{{ form_row(form.timePrecision) }}</div>
+                </div>
+
+
                 {{ form_end(form) }}
+
             </div>
         </div>
     </div>

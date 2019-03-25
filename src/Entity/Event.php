@@ -60,6 +60,11 @@ class Event
      */
     private $availabilities;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $allowSubmissions;
+
     public function __construct()
     {
         $this->tasks = new ArrayCollection();
@@ -189,6 +194,18 @@ class Event
                 $availability->setEvent(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getAllowSubmissions(): ?bool
+    {
+        return $this->allowSubmissions;
+    }
+
+    public function setAllowSubmissions(bool $allowSubmissions): self
+    {
+        $this->allowSubmissions = $allowSubmissions;
 
         return $this;
     }

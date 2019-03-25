@@ -11,3 +11,7 @@
 p {
   font-family: $font-family-base;
 }
+
+.form-group label, .form-group legend {
+  font-weight: 600;
+}

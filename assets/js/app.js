@@ -36,6 +36,60 @@ Array.from(slots).forEach(slot => {
     });
 });
 
+import Chartist from 'chartist';
+require('chartist-plugin-threshold');
+
+var chart = new Chartist.Line('.ct-chart', {
+    labels: ['1h', '2h', '3h', '4h', '5h', '6h', '7h', '8h', '9h', '9h', '9h', '9h', '9h', '9h', '9h',  '9h', '9h', '9h',  '9h', '9h', '9h', '9h', '9h', '9h', '9h', '9h', '9h', '9h', '9h', '9h'],
+    // Naming the series with the series object array notation
+    series: [
+        {
+            name: 'series-1',
+            data: [15, 15, 13, 13, 11, 13, 13, 13, 13, 15, 15, 15, 16, 16, 16, 15, 10, 10, 10, 10, 10, 9, 9, 9, 9, 10, 10, 10, 10, 10,]
+        },
+        {
+            name: 'series-2',
+            data: [13, 12, 14, 12, 10, 13, 12, 10, 12, 12, 10, 12, 15, 15, 13, 12, 15, 13, 12, 10, 12, 15, 10, 12, 15, 10, 12, 15, 12, 15,]
+        }
+
+
+    ]
+}, {
+    fullWidth: true,
+    // Within the series options you can use the series names
+    // to specify configuration that will only be used for the
+    // specific series.
+    series: {
+        'series-1': {
+            lineSmooth: Chartist.Interpolation.step(),
+            showPoint: false,
+            showArea: true,
+        },
+
+        'series-2': {
+            lineSmooth: Chartist.Interpolation.step(),
+            showPoint: false,
+
+        }
+
+    },
+    //low: 0,
+    axisY: {
+        onlyInteger: true,
+    },
+    plugins: [
+        Chartist.plugins.ctThreshold({
+            threshold: 'series-2',// [12, 10, 12, 17, 10, 13, 12, 13, 15, 14, 12, 10, 10, 10, 11, 13, 12, 14, 14, 10, 12, 15, 10, 12, 15, 10, 12, 15, 12, 15,],
+            lineSmooth: Chartist.Interpolation.step()
+        }),
+        Chartist.plugins.ctThreshold({
+            threshold: 'series-1',// [12, 10, 12, 17, 10, 13, 12, 13, 15, 14, 12, 10, 10, 10, 11, 13, 12, 14, 14, 10, 12, 15, 10, 12, 15, 10, 12, 15, 12, 15,],
+            lineSmooth: Chartist.Interpolation.step()
+        })
+    ]
+});
+
+
 import { Calendar } from '@fullcalendar/core';
 import timelinePlugin from '@fullcalendar/timeline'
 import common from '@fullcalendar/resource-common/main'

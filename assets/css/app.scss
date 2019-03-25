@@ -6,6 +6,44 @@
 @import "calendar";
 
 @import "~@fortawesome/fontawesome-free/css/all";
+@import "~chartist/dist/scss/chartist";
+
+
+.ct-series-a .ct-line,
+.ct-series-a .ct-point {
+  stroke: $danger;
+}
+
+
+.ct-series-b .ct-line,
+.ct-series-b .ct-point {
+  stroke: $primary;
+}
+
+.ct-point {
+  stroke-width: 7px;
+}
+.ct-line {
+  stroke-width: 2px;
+}
+
+
+.ct-line.ct-threshold-above, .ct-point.ct-threshold-above, .ct-bar.ct-threshold-above {
+  //stroke: #59922b;
+}
+
+.ct-line.ct-threshold-below, .ct-point.ct-threshold-below, .ct-bar.ct-threshold-below {
+  //stroke: #f05b4f;
+}
+
+.ct-area.ct-threshold-above {
+  fill: #59922b;
+}
+
+.ct-area.ct-threshold-below {
+  fill: #f05b4f;
+}
+
 
 .select-btn {
   -webkit-appearance: none;
@@ -58,37 +96,4 @@
 
 .time-slot table tbody td input {
   display: none;
-}
-
-.stairs {
-  width: 100%;
-  display: table;
-  table-layout: fixed;
-  border-collapse: collapse;
-}
-
-.stairs .stairs-head {
-  display: table-header-group;
-}
-
-.stairs .stairs-row {
-  display: table-row;
-}
-
-.stairs .stairs-rows {
-  display: table-row-group;
-}
-
-.stairs .stairs-rows .stairs-cell {
-  border: 1px solid rgb(225, 225, 225);
-  height: 15px;
-}
-
-.stairs .stairs-cell {
-  display: table-cell;
-}
-
-.stairs .stairs-cell.enable-cell {
-  background: rgba(#d9534f, 0.4);
-  border-color: rgba(#d9534f, 0.4);
 }

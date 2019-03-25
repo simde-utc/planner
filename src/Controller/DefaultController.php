@@ -14,11 +14,21 @@ class DefaultController extends AbstractController
 {
     public function index()
     {
-        return $this->render('base.html.twig');
+        return $this->render('index.html.twig');
+    }
+
+    public function landing()
+    {
+        return $this->render('landing.html.twig');
     }
 
     public function timeline()
     {
         return $this->render('timeline.html.twig');
+    }
+
+    public function planning()
+    {
+        return $this->render('event/planning.html.twig');
     }
 }

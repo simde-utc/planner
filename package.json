@@ -21,6 +21,8 @@
         "@fullcalendar/core": "^4.0.1",
         "@fullcalendar/resource-timeline": "^4.0.1",
         "@fullcalendar/timeline": "^4.0.1",
+        "chartist": "^0.11.0",
+        "chartist-plugin-threshold": "https://github.com/mezzi/chartist-plugin-threshold#dynamic-threshold",
         "fullcalendar-scheduler": "^1.9.4",
         "jquery": "^3.3.1",
         "popper.js": "^1.14.7"
