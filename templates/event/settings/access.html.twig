@@ -1,0 +1,81 @@
+{% extends 'event/settings/base.html.twig' %}
+
+{% block settings_container %}
+    <h3>Gestion des accès</h3>
+    <div class="list-group mt-4">
+        <div class="list-group-item d-flex w-100 justify-content-between">
+            <div>
+                <p class="mb-0"><strong>Corentin HEMBISE</strong></p>
+                <small class="text-muted">chembise</small>
+            </div>
+            <div class="dropdown">
+                <button class="btn btn-sm btn-outline-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Administrateur
+                </button>
+                <div class="dropdown-menu dropdown-menu-right" style="width: 330px;" aria-labelledby="dropdownMenuButton">
+                    <h6 class="dropdown-header">Rôle</h6>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item active" href="#">
+                        <p class="mt-1 mb-1"><strong>Administrateur</strong></p>
+                        <p class="text-wrap mb-0">Peut modifier les paramètres de l'évènement et ajouter/supprimer des administrateurs.</p>
+                    </a>
+                    <a class="dropdown-item" href="#">
+                        <p class="mt-1 mb-1"><strong>Plannificateur</strong></p>
+                        <p class="text-muted text-wrap mb-0">Peut gérer les tâches, les groupes, les utilisateurs et plannifier l'évènement.</p>
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item text-danger" href="#"><strong><i class="fa fa-sm fa-user-slash mr-1"></i>Retirer</strong></a>
+                </div>
+            </div>
+        </div>
+        <div class="list-group-item d-flex w-100 justify-content-between">
+            <div>
+                <p class="mb-0"><strong>Romain BAICHERE</strong></p>
+                <small class="text-muted">rbaicher</small>
+            </div>
+            <div class="dropdown">
+                <button class="btn btn-sm btn-outline-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Plannificateur
+                </button>
+                <div class="dropdown-menu dropdown-menu-right" style="width: 330px;" aria-labelledby="dropdownMenuButton">
+                    <h6 class="dropdown-header">Rôle</h6>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#">
+                        <p class="mt-1 mb-1"><strong>Administrateur</strong></p>
+                        <p class="text-wrap text-muted  mb-0">Peut modifier les paramètres de l'évènement et ajouter/supprimer des administrateurs.</p>
+                    </a>
+                    <a class="dropdown-item active" href="#">
+                        <p class="mt-1 mb-1"><strong>Plannificateur</strong></p>
+                        <p class="text-wrap mb-0">Peut gérer les tâches, les groupes, les utilisateurs et plannifier l'évènement.</p>
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item text-danger" href="#"><strong><i class="fa fa-sm fa-user-slash mr-1"></i>Retirer</strong></a>
+                </div>
+            </div>
+        </div>
+        <div class="list-group-item">
+            <h6 class="text-muted mb-0 mt-2">Ajouter un utilisateur</h6>
+            <p class="mb-2"><small class="text-muted">Rechercher parmis tous les utilisateurs du PLANNER et de l'UTC.</small></p>
+            <div class="input-group input-group-sm">
+                <input type="text" class="form-control" placeholder="Rechercher un utilisateur" aria-label="Text input with dropdown button">
+                <div class="input-group-append">
+                        <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Ajouter en tant que ..
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-right" style="width: 330px;" aria-labelledby="dropdownMenuButton">
+                            <h6 class="dropdown-header">Ajouter en tant que ..</h6>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#">
+                                <p class="mt-1 mb-1"><strong>Administrateur</strong></p>
+                                <p class="text-wrap text-muted mb-0">Peut modifier les paramètres de l'évènement et ajouter/supprimer des administrateurs.</p>
+                            </a>
+                            <a class="dropdown-item" href="#">
+                                <p class="mt-1 mb-1"><strong>Plannificateur</strong></p>
+                                <p class="text-wrap text-muted mb-0">Peut gérer les tâches, les groupes, les utilisateurs et plannifier l'évènement.</p>
+                            </a>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

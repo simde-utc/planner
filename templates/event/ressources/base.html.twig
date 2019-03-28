@@ -1,0 +1,16 @@
+{% extends 'event/base.html.twig' %}
+
+{% block event_container %}
+    <div class="row mt-4">
+        <div class="col-3">
+            <div class="list-group" style="font-size: 0.775em;" id="list-tab" role="tablist">
+                <a class="list-group-item list-group-item-action active" href="#"><i class="fa fa-users mr-2"></i>Liste des ressources</a>
+                <a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" href="#"><i class="fa fa-paper-plane"></i>Gérer les invitations <span class="badge badge-primary badge-pill">20 / 93</span></a>
+                <a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" href="#"><i class="fa fa-mail-bulk"></i>Demandes d'inscriptions <span class="badge badge-danger badge-pill">14</span></a>
+            </div>
+        </div>
+        <div class="col-9">
+            {% block resource_container %}{% endblock %}
+        </div>
+    </div>
+{% endblock %}

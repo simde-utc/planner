@@ -97,3 +97,30 @@
 .time-slot table tbody td input {
   display: none;
 }
+
+.event_admin {
+  .nav-tabs .nav-link {
+    color: $dark;
+  }
+  .nav-tabs .nav-link.active {
+    color: $primary;
+  }
+}
+
+.list-group-container {
+  .list-group-inner-container {
+    overflow-y: scroll;
+    .list-group {
+
+    }
+  }
+  .list-group-header {
+
+  }
+
+  .list-group-footer {
+
+  }
+
+
+}

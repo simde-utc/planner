@@ -17,7 +17,34 @@ class EventController extends AbstractController
 {
     public function show()
     {
-        return $this->render('event/show.html.twig');
+        return $this->render('event/summary.html.twig');
+    }
+
+    public function resources()
+    {
+        return $this->render('event/ressources/list.html.twig');
+    }
+
+    public function invitations()
+    {
+        return $this->render('event/ressources/invitations.html.twig');
+    }
+
+    public function edit()
+    {
+        $form = $this->createForm(EventType::class);
+        $form->add('submit', SubmitType::class, [
+            'label' => 'Enregistrer',
+        ]);
+
+        return $this->render('event/settings/edit.html.twig', [
+            'form' => $form->createView()
+        ]);
+    }
+
+    public function access()
+    {
+        return $this->render('event/settings/access.html.twig');
     }
 
     public function new()

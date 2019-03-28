@@ -15,3 +15,12 @@ p {
 .form-group label, .form-group legend {
   font-weight: 600;
 }
+
+.nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link {
+  border-top: 2px solid $primary;
+}
+
+.badge-medium-success {
+  color: #FFF;
+  background-color: #83d6a9;
+}

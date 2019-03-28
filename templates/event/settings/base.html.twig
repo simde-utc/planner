@@ -1,0 +1,15 @@
+{% extends 'event/base.html.twig' %}
+
+{% block event_container %}
+    <div class="row mt-4">
+        <div class="col-3">
+            <div class="list-group" style="font-size: 0.775em;" id="list-tab" role="tablist">
+                <a class="list-group-item list-group-item-action active" href="#"><i class="fa fa-cogs mr-2"></i>Modifier les paramètres</a>
+                <a class="list-group-item list-group-item-action" href="#"><i class="fa fa-user-shield mr-2"></i>Gérer les accès</a>
+            </div>
+        </div>
+        <div class="col-9">
+            {% block settings_container %}{% endblock %}
+        </div>
+    </div>
+{% endblock %}

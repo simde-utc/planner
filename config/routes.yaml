@@ -21,3 +21,19 @@ event_new:
 event_show:
     path: /event
     controller: App\Controller\EventController::show
+
+event_resources:
+    path: /event/resources
+    controller: App\Controller\EventController::resources
+
+event_settings:
+    path: /event/settings
+    controller: App\Controller\EventController::edit
+
+event_settings_access:
+    path: /event/settings/access
+    controller: App\Controller\EventController::access
+
+event_tasks:
+    path: /event/tasks
+    controller: App\Controller\TaskController:tasks
