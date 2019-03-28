@@ -1,0 +1,55 @@
+{% extends 'event/base.html.twig' %}
+
+{% block event_container %}
+    <div class="row mt-4">
+        <div class="col-md-12">
+            <h2>Configurer les tâches</h2>
+        </div>
+        <div class="col-4">
+            <div class="list-group-container">
+                <div class="list-group-header">
+                    <div class="input-group input-group-sm mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" ><i class="fa fa-search"></i></span>
+                        </div>
+                        <input type="text" class="form-control" placeholder="Rechercher" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                    </div>
+                </div>
+                <div class="list-group-inner-container" style="height: 500px">
+                    <div class="list-group">
+                        <a href="#" class="list-group-item list-group-item-action active">
+                            <h6 class="mb-0">Vérification billet et encodage bracelet </h6>
+                            <small><i class="fa fa-map-marker-alt mr-1"></i>Entrées, dans la file vérification des billets</small>
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action">
+                            <h6 class="mb-0">Vérification billet et encodage bracelet </h6>
+                            <small><i class="fa fa-map-marker-alt mr-1"></i>Entrées, dans la file vérification des billets</small>
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action">
+                            <h6 class="mb-0">Vérification billet et encodage bracelet </h6>
+                            <small><i class="fa fa-map-marker-alt mr-1"></i>Entrées, dans la file vérification des billets</small>
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action">
+                            <h6 class="mb-0">Vérification billet et encodage bracelet </h6>
+                            <small><i class="fa fa-map-marker-alt mr-1"></i>Entrées, dans la file vérification des billets</small>
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action">
+                            <h6 class="mb-0">Vérification billet et encodage bracelet </h6>
+                            <small><i class="fa fa-map-marker-alt mr-1"></i>Entrées, dans la file vérification des billets</small>
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action">
+                            <h6 class="mb-0">Vérification billet et encodage bracelet</h6>
+                            <small><i class="fa fa-map-marker-alt mr-1"></i>Entrées, dans la file vérification des billets</small>
+                        </a>
+                    </div>
+                </div>
+                <div class="list-group-footer mt-3">
+                    <a href="#" class="btn btn-primary btn-block"><i class="fa fa-plus mr-2"></i>Nouveau type de tâche</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-8">
+            {% block tasks_container %}{% endblock %}
+        </div>
+    </div>
+{% endblock %}

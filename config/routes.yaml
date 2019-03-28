@@ -37,3 +37,8 @@ event_settings_access:
 event_tasks:
     path: /event/tasks
     controller: App\Controller\TaskController:tasks
+
+
+event_tasks_edit:
+    path: /event/tasks/edit
+    controller: App\Controller\TaskController:edit

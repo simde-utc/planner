@@ -1,21 +1,17 @@
-{% extends 'event/settings/base.html.twig' %}
+{% extends 'event/tasks/base.html.twig' %}
 
-{% block settings_container %}
-    <h3>Modifier les paramètres</h3>
+{% block tasks_container %}
+    <h3>Modifier la tâche</h3>
     {{ form_start(form) }}
     {{ form_row(form.name) }}
     {{ form_row(form.description) }}
-    <div class="row">
-        <div class="col-md-4">{{ form_row(form.startAt) }}</div>
-        <div class="col-md-4">{{ form_row(form.endAt) }}</div>
-        <div class="col-md-4">{{ form_row(form.timePrecision) }}</div>
-    </div>
-    {{ form_row(form.allowSubmissions) }}
+    {{ form_row(form.location) }}
+    {{ form_row(form.color) }}
 
     <div class="mt-5">
         {{ form_widget(form.submit) }}
         <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delete_modal">
-            Supprimer l'évènement
+            Supprimer la tâche
         </button>
     </div>
     {{ form_end(form) }}
@@ -25,13 +21,14 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Supprimer l'évènement</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Supprimer la tâche</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <p>Etes vous sûr de vouloir supprimer cet évènement ?</p>
+                    <p>Etes vous sûr de vouloir supprimer cette tâche ?</p>
+                    <p>12 ressources sont affectés à cette tâche</p>
                     <strong>Attention, cette action est irreversible.</strong>
                 </div>
                 <div class="modal-footer">
