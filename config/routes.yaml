@@ -42,3 +42,11 @@ event_tasks:
 event_tasks_edit:
     path: /event/tasks/edit
     controller: App\Controller\TaskController:edit
+
+connect_portal_connect:
+    path: /auth/connect
+    controller: App\Controller\AuthenticationController:connectAction
+
+connect_portal_check:
+    path: /auth/check
+    controller: App\Controller\AuthenticationController:connectCheckAction
