@@ -51,7 +51,7 @@ class PortalUserProvider implements UserProviderInterface
      */
     public function loadUserByUsername($portalId)
     {
-        dump('ok');
+        dump($portalId);
         $accessToken = $this->oAuthClient->getAccessToken();
         $request = new Request('GET', 'http://127.0.0.1/api/v1/user', [
             'access_token' => $accessToken

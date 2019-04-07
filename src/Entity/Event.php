@@ -46,7 +46,6 @@ class Event
     /**
      * @ORM\Column(type="time")
      * @Assert\NotBlank
-     * @Assert\GreaterThan(0)
      */
     private $timePrecision;
 

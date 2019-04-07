@@ -1,0 +1,27 @@
+event_new:
+  path: /new
+  controller: App\Controller\EventController::new
+
+event_show:
+  path: /{id}
+  controller: App\Controller\EventController::show
+
+event_resources:
+  path: /resources
+  controller: App\Controller\EventController::resources
+
+event_settings:
+  path: /{id}/settings
+  controller: App\Controller\EventController::edit
+
+event_settings_access:
+  path: /settings/access
+  controller: App\Controller\EventController::access
+
+event_tasks:
+  path: /tasks
+  controller: App\Controller\TaskController:tasks
+
+event_tasks_edit:
+  path: /tasks/edit
+  controller: App\Controller\TaskController:edit

@@ -76,6 +76,8 @@ class PortalAuthenticator extends SocialAuthenticator
         $portalUser = $this->getPortalClient()
             ->fetchUserFromToken($credentials);
 
+
+
         $this->session->set('access_token', $credentials);
 
         return $portalUser;

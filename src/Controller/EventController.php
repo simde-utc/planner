@@ -9,15 +9,19 @@
 namespace App\Controller;
 
 
+use App\Entity\Event;
 use App\Form\EventType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\HttpFoundation\Request;
 
 class EventController extends AbstractController
 {
-    public function show()
+    public function show(Event $event)
     {
-        return $this->render('event/summary.html.twig');
+        return $this->render('event/summary.html.twig', [
+            'event' => $event,
+        ]);
     }
 
     public function resources()
@@ -30,15 +34,25 @@ class EventController extends AbstractController
         return $this->render('event/ressources/invitations.html.twig');
     }
 
-    public function edit()
+    public function edit(Event $event, Request $request)
     {
-        $form = $this->createForm(EventType::class);
+        $form = $this->createForm(EventType::class, $event);
         $form->add('submit', SubmitType::class, [
             'label' => 'Enregistrer',
         ]);
 
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($event);
+            $em->flush();
+        }
+
+
         return $this->render('event/settings/edit.html.twig', [
-            'form' => $form->createView()
+            'form'  => $form->createView(),
+            'event' => $event,
         ]);
     }
 

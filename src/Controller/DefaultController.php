@@ -9,7 +9,6 @@
 namespace App\Controller;
 
 use App\PortalEntity\User;
-use Doctrine\ORM\EntityRepository;
 use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
 use League\OAuth2\Client\Token\AccessTokenInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

@@ -11,7 +11,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  */
-class User extends PortalResourceOwner implements UserInterface
+class User implements UserInterface
 {
     /**
      * @ORM\Id()
@@ -19,6 +19,11 @@ class User extends PortalResourceOwner implements UserInterface
      * @ORM\Column(type="integer")
      */
     private $id;
+
+    /**
+     * @ORM\Column(type="string", unique=true)
+     */
+    private $portalId;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\UserTask", mappedBy="user", orphanRemoval=true)
@@ -31,19 +36,14 @@ class User extends PortalResourceOwner implements UserInterface
         $this->userTasks = new ArrayCollection();
     }
 
-    public function getDbId(): ?int
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getPortalId(): ?string
-    {
-        return parent::getId();
-    }
-
     public function getUsername(): ?string
     {
-        return $this->getEmail();
+        return $this->getId();
     }
 
     /**
@@ -75,6 +75,22 @@ class User extends PortalResourceOwner implements UserInterface
         }
 
         return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPortalId()
+    {
+        return $this->portalId;
+    }
+
+    /**
+     * @param mixed $portalId
+     */
+    public function setPortalId($portalId): void
+    {
+        $this->portalId = $portalId;
     }
 
     /**
