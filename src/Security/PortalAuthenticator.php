@@ -16,6 +16,7 @@ use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
@@ -24,11 +25,16 @@ class PortalAuthenticator extends SocialAuthenticator
 {
     private $clientRegistry;
     private $em;
+    /**
+     * @var SessionInterface
+     */
+    private $session;
 
-    public function __construct(ClientRegistry $clientRegistry, EntityManagerInterface $em)
+    public function __construct(ClientRegistry $clientRegistry, EntityManagerInterface $em, SessionInterface $session)
     {
         $this->clientRegistry = $clientRegistry;
         $this->em = $em;
+        $this->session = $session;
     }
 
     public function supports(Request $request)
@@ -37,15 +43,31 @@ class PortalAuthenticator extends SocialAuthenticator
         return $request->attributes->get('_route') === 'connect_portal_check';
     }
 
+    /**
+     * Get the authentication credentials from the request and return them
+     * as any type (e.g. an associate array).
+     *
+     * Whatever value you return here will be passed to getUser() and checkCredentials()
+     *
+     * For example, for a form login, you might:
+     *
+     *      return [
+     *          'username' => $request->request->get('_username'),
+     *          'password' => $request->request->get('_password'),
+     *      ];
+     *
+     * Or for an API token that's on a header, you might use:
+     *
+     *      return ['api_key' => $request->headers->get('X-API-TOKEN')];
+     *
+     * @param Request $request
+     *
+     * @return mixed Any non-null value
+     *
+     * @throws \UnexpectedValueException If null is returned
+     */
     public function getCredentials(Request $request)
     {
-        // this method is only called if supports() returns true
-
-        // For Symfony lower than 3.4 the supports method need to be called manually here:
-        // if (!$this->supports($request)) {
-        //     return null;
-        // }
-
         return $this->fetchAccessToken($this->getPortalClient());
     }
 
@@ -53,6 +75,8 @@ class PortalAuthenticator extends SocialAuthenticator
     {
         $portalUser = $this->getPortalClient()
             ->fetchUserFromToken($credentials);
+
+        $this->session->set('access_token', $credentials);
 
         return $portalUser;
 

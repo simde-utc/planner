@@ -8,12 +8,19 @@
 
 namespace App\Controller;
 
+use App\PortalEntity\User;
+use Doctrine\ORM\EntityRepository;
+use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
+use League\OAuth2\Client\Token\AccessTokenInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class DefaultController extends AbstractController
 {
-    public function index()
+    public function index(ClientRegistry $clientRegistry)
     {
+        /** @var AccessTokenInterface $accessToken */
+        $accessToken = $this->get('session')->get('access_token');
+
         return $this->render('index.html.twig');
     }
 
