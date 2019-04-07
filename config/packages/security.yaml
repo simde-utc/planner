@@ -1,14 +1,18 @@
 security:
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
-        in_memory: { memory: ~ }
+        oauth:
+            id: App\Provider\PortalUserProvider
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
-            anonymous: true
-
+            anonymous: ~
+            logout: ~
+            guard:
+                authenticators:
+                    - App\Security\PortalAuthenticator
             # activate different ways to authenticate
 
             # http_basic: true
@@ -21,4 +25,4 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
         # - { path: ^/admin, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
+        # - { path: ^/, roles: ROLE_USER }
