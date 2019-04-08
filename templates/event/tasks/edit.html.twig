@@ -1,5 +1,9 @@
 {% extends 'event/tasks/base.html.twig' %}
 
+{% block event_container_tools %}
+    <a href="{{ path('event_tasks_show', {id: event.id, task_id: task.id}) }}"><i class="fa fa-arrow-left mr-2"></i>retour</a>
+{% endblock %}
+
 {% block tasks_container %}
     <h3>Modifier la tâche</h3>
     {{ form_start(form) }}

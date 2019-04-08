@@ -6,7 +6,7 @@
             <div class="col-md-12">
                 <h1>{{ event.name }}</h1>
                 <p class="text-muted">
-                    {{ event.startAt|date('d/m/Y H:i') }} au {{ event.endAt|date('d/m/Y H:i') }}
+                    Du {{ event.startAt|localizeddate('medium') }} au {{ event.endAt|localizeddate('medium') }}
                     {% if event.isFinished %}
                         <span class="badge badge-info">Terminé</span>
                     {% endif %}

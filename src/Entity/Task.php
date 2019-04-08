@@ -44,6 +44,16 @@ class Task
      */
     private $event;
 
+    /**
+     * @ORM\Column(type="time", nullable=true)
+     */
+    private $minWorkingTime;
+
+    /**
+     * @ORM\Column(type="time", nullable=true)
+     */
+    private $maxWorkingTime;
+
     public function __construct()
     {
         $this->users = new ArrayCollection();
@@ -110,6 +120,30 @@ class Task
     public function setEvent(?Event $event): self
     {
         $this->event = $event;
+
+        return $this;
+    }
+
+    public function getMinWorkingTime(): ?\DateTimeInterface
+    {
+        return $this->minWorkingTime;
+    }
+
+    public function setMinWorkingTime(?\DateTimeInterface $minWorkingTime): self
+    {
+        $this->minWorkingTime = $minWorkingTime;
+
+        return $this;
+    }
+
+    public function getMaxWorkingTime(): ?\DateTimeInterface
+    {
+        return $this->maxWorkingTime;
+    }
+
+    public function setMaxWorkingTime(?\DateTimeInterface $maxWorkingTime): self
+    {
+        $this->maxWorkingTime = $maxWorkingTime;
 
         return $this;
     }

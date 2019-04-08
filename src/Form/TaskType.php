@@ -29,14 +29,12 @@ class TaskType extends AbstractType
                 'minutes' => $this->getMinutesAsArray($options['precision']),
                 'hours'   => $this->getHoursAsArray($options['precision']),
                 'data' => new \DateTime("01:00:00"),
-                'mapped' => false,
             ])
             ->add('maxWorkingTime', TimeType::class, [
                 'label'   => 'Temps de travail maximum sur la tâche',
                 'minutes' => $this->getMinutesAsArray($options['precision']),
                 'hours'   => $this->getHoursAsArray($options['precision']),
                 'data' => new \DateTime("03:00:00"),
-                'mapped' => false,
             ])
             ->add('color', ColorType::class, [
                 'label' => 'Couleur',

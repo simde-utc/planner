@@ -29,9 +29,11 @@
                         {% endfor %}
                     </div>
                 </div>
+                {% if app.request.get('_route') != 'event_tasks_new' %}
                 <div class="list-group-footer mt-3">
                     <a href="{{ path('event_tasks_new', {id: event.id}) }}" class="btn btn-primary btn-block"><i class="fa fa-plus mr-2"></i>Nouveau type de tâche</a>
                 </div>
+                {% endif %}
             </div>
         </div>
         <div class="col-8">

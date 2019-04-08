@@ -4,7 +4,6 @@
     <a href="{{ path('event_tasks_edit', {id: event.id, task_id: task.id}) }}" class="btn mb-3 btn-sm btn-primary"><i class="fa fa-magic mr-2"></i>Plannifier la tâche</a>
     <a href="{{ path('event_tasks_edit', {id: event.id, task_id: task.id}) }}" class="btn mb-3 btn-sm btn-primary"><i class="fa fa-pencil-alt mr-2"></i>Editer le type de tâche</a>
     <a href="{{ path('event_tasks_edit', {id: event.id, task_id: task.id}) }}" class="btn mb-3 btn-sm btn-danger"><i class="fa fa-trash mr-2"></i>Supprimer le type de tâche</a>
-
 {% endblock %}
 
 {% block tasks_container %}
@@ -15,6 +14,9 @@
     <h4>Profil de la tâche</h4>
     <small class="text-muted d-block mb-3">Représente par tranches horaires : le nombre de ressources requises en rouge, le nombre de ressources effectives en bleu.</small>
     <div class="ct-chart"></div>
+    {% if task.minWorkingTime is not null and task.maxWorkingTime is not null %}
+        La tâche est ségmentée par tranche de {{ task.minWorkingTime|date('G\\hi') }} à {{ task.maxWorkingTime|date('G\\hi') }}
+    {% endif %}
     <h4 class="mt-4">Groupes autorisés</h4>
     <small class="text-muted d-block mb-3">Seuls les ressources appartenant à ces groupes peuvent effectuer cette tâche.</small>
     <a href="#" class="badge badge-info badge-pill" title="Groupe d'équité">Bénévoles</a>
