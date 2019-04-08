@@ -46,7 +46,7 @@ class EventType extends AbstractType
             ])
             ->add('allowSubmissions', CheckboxType::class, [
                 'label' => "Accepter les inscriptions à cet évènement",
-                'help'  => "Tous les utilisateurs de la plateforme pourrons candidater pour participer à cet évènement",
+                'help'  => "Tous les utilisateur·rice·s de la plateforme pourrons candidater pour participer à cet évènement",
                 "required" => false,
             ])
         ;

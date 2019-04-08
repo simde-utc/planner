@@ -1,7 +1,11 @@
 {% extends 'event/settings/base.html.twig' %}
 
 {% block settings_container %}
-    <h3>Modifier les paramètres</h3>
+    {% if event.isFinished %}
+        <div class="alert alert-warning"><i class="fa fa-exclamation-triangle mr-2"></i>Il n'est pas possible de modifier un évènement passé.</div>
+    {% else %}
+        <h3>Modifier les paramètres</h3>
+    {% endif %}
     {{ form_start(form) }}
     {{ form_row(form.name) }}
     {{ form_row(form.description) }}
@@ -12,6 +16,7 @@
     </div>
     {{ form_row(form.allowSubmissions) }}
 
+    {% if not event.isFinished %}
     <div class="mt-5">
         {{ form_widget(form.submit) }}
         <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delete_modal">
@@ -19,6 +24,7 @@
         </button>
     </div>
     {{ form_end(form) }}
+    {% endif %}
 
     <!-- Modal -->
     <div class="modal fade" id="delete_modal" tabindex="-1" role="dialog" aria-labelledby="delete_modal" aria-hidden="true">

@@ -5,13 +5,18 @@
         <div class="row event_admin">
             <div class="col-md-12">
                 <h1>{{ event.name }}</h1>
-                <p class="text-muted">{{ event.startAt|date('d/m/Y H:i') }} au {{ event.endAt|date('d/m/Y H:i') }}</p>
+                <p class="text-muted">
+                    {{ event.startAt|date('d/m/Y H:i') }} au {{ event.endAt|date('d/m/Y H:i') }}
+                    {% if event.isFinished %}
+                        <span class="badge badge-info">Terminé</span>
+                    {% endif %}
+                </p>
                 <nav>
                     <div class="nav nav-tabs mt-5" id="myTab" role="tablist">
                         <a class="nav-item nav-link {{ app.request.get('_route') starts with 'event_show' ? 'active' }}" href="{{ path('event_show', {id: event.id}) }}">
                             <i class="fa fa-sm fa-calendar-week mr-2"></i>Planning
                         </a>
-                        <a class="nav-item nav-link {{ app.request.get('_route') starts with 'event_tasks' ? 'active' }}" href="{{ path('event_tasks') }}">
+                        <a class="nav-item nav-link {{ app.request.get('_route') starts with 'event_tasks' ? 'active' }}" href="{{ path('event_tasks', {id: event.id}) }}">
                             <i class="fa fa-sm fa-list mr-2"></i>Tâches
                         </a>
                         <a class="nav-item nav-link {{ app.request.get('_route') starts with 'event_resources' ? 'active' }}" href="{{ path('event_resources') }}">

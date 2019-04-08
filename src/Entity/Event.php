@@ -208,4 +208,16 @@ class Event
 
         return $this;
     }
+
+    /**
+     * @param \DateTime|null $now : for test purpose
+     * @return bool : true if event is finished, else false
+     * @throws \Exception
+     */
+    public function isFinished(\DateTime $now = null): bool
+    {
+        $now = $now ?? new \DateTime();
+
+        return $now > $this->getEndAt();
+    }
 }

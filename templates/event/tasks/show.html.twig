@@ -1,0 +1,22 @@
+{% extends 'event/tasks/base.html.twig' %}
+
+{% block event_container_tools %}
+    <a href="{{ path('event_tasks_edit', {id: event.id, task_id: task.id}) }}" class="btn mb-3 btn-sm btn-primary"><i class="fa fa-magic mr-2"></i>Plannifier la tâche</a>
+    <a href="{{ path('event_tasks_edit', {id: event.id, task_id: task.id}) }}" class="btn mb-3 btn-sm btn-primary"><i class="fa fa-pencil-alt mr-2"></i>Editer le type de tâche</a>
+    <a href="{{ path('event_tasks_edit', {id: event.id, task_id: task.id}) }}" class="btn mb-3 btn-sm btn-danger"><i class="fa fa-trash mr-2"></i>Supprimer le type de tâche</a>
+
+{% endblock %}
+
+{% block tasks_container %}
+    <h3><i class="fa fa-circle fa-sm mr-2" style="color: {{ task.color }}"></i>{{ task.name }}</h3>
+    <small class="text-muted d-block"><i class="fa fa-map-marker-alt mr-1"></i>{{ task.location }}</small>
+    <p class="mt-3">{{ task.description }}</p>
+    <hr/>
+    <h4>Profil de la tâche</h4>
+    <small class="text-muted d-block mb-3">Représente par tranches horaires : le nombre de ressources requises en rouge, le nombre de ressources effectives en bleu.</small>
+    <div class="ct-chart"></div>
+    <h4 class="mt-4">Groupes autorisés</h4>
+    <small class="text-muted d-block mb-3">Seuls les ressources appartenant à ces groupes peuvent effectuer cette tâche.</small>
+    <a href="#" class="badge badge-info badge-pill" title="Groupe d'équité">Bénévoles</a>
+    <a href="#" class="badge badge-warning badge-pill" title="Groupe de compétence">Membres de l'asso</a>
+{% endblock %}

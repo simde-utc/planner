@@ -1,0 +1,24 @@
+{% extends 'event/tasks/base.html.twig' %}
+
+{% block tasks_container %}
+    <h3>Nouveau type de tâche</h3>
+    {{ form_start(form) }}
+    {{ form_row(form.name) }}
+    {{ form_row(form.description) }}
+    {{ form_row(form.location) }}
+    <div class="row">
+        <div class="col-md-6">
+            {{ form_row(form.minWorkingTime) }}
+        </div>
+        <div class="col-md-6">
+            {{ form_row(form.maxWorkingTime) }}
+        </div>
+    </div>
+
+    {{ form_row(form.color) }}
+
+    <div class="mt-5">
+        {{ form_widget(form.submit) }}
+    </div>
+    {{ form_end(form) }}
+{% endblock %}

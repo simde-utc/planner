@@ -36,17 +36,21 @@ class EventController extends AbstractController
 
     public function edit(Event $event, Request $request)
     {
-        $form = $this->createForm(EventType::class, $event);
+        $form = $this->createForm(EventType::class, $event, [
+            'disabled' => $event->isFinished(),
+        ]);
         $form->add('submit', SubmitType::class, [
             'label' => 'Enregistrer',
         ]);
 
-        $form->handleRequest($request);
+        if (!$event->isFinished()) {
+            $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($event);
-            $em->flush();
+            if ($form->isSubmitted() && $form->isValid()) {
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($event);
+                $em->flush();
+            }
         }
 
 

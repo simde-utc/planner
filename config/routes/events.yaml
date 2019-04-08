@@ -2,13 +2,13 @@ event_new:
   path: /new
   controller: App\Controller\EventController::new
 
-event_show:
-  path: /{id}
-  controller: App\Controller\EventController::show
-
 event_resources:
   path: /resources
   controller: App\Controller\EventController::resources
+
+event_show:
+  path: /{id}
+  controller: App\Controller\EventController::show
 
 event_settings:
   path: /{id}/settings
@@ -18,10 +18,25 @@ event_settings_access:
   path: /settings/access
   controller: App\Controller\EventController::access
 
+# ----------
+# EVENT TASK
+# ----------
 event_tasks:
-  path: /tasks
+  path: /{id}/tasks
   controller: App\Controller\TaskController:tasks
 
+event_tasks_new:
+  path: /{id}/tasks/new
+  controller: App\Controller\TaskController:new
+
+event_tasks_show:
+  path: /{id}/tasks/{task_id}
+  controller: App\Controller\TaskController:show
+
 event_tasks_edit:
-  path: /tasks/edit
+  path: /{id}/tasks/{task_id}/edit
   controller: App\Controller\TaskController:edit
+
+event_tasks_delete:
+  path: /{id}/tasks/{task_id}/delete
+  controller: App\Controller\TaskController:delete
