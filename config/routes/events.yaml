@@ -3,7 +3,7 @@ event_new:
   controller: App\Controller\EventController::new
 
 event_resources:
-  path: /resources
+  path: /{id}/resources
   controller: App\Controller\EventController::resources
 
 event_show:
@@ -40,3 +40,10 @@ event_tasks_edit:
 event_tasks_delete:
   path: /{id}/tasks/{task_id}/delete
   controller: App\Controller\TaskController:delete
+
+# ----------
+# EVENT GROUP
+# ----------
+event_groups:
+  path: /{id}/groups
+  controller: App\Controller\GroupController:index

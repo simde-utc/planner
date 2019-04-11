@@ -53,68 +53,51 @@
         </div>
     </div>
 </div>
-<div class="list-group mt-4">
-    <div  class="list-group-item d-flex w-100 justify-content-between">
-        <div>
-            <a href="#" class="mb-0"><strong>Corentin HEMBISE</strong></a>
-            <br/>
-            <small class="text-muted">chembise</small>
-        </div>
-        <span class="badge badge-success badge-pill">Disponible</span>
-        <div>
-            <p class="mb-0 text-muted"><small>Groupe d'équité</small></p>
-            <a href="#">Bénévole</a>
-        </div>
-        <a href="#"><i class="fa fa-times text-danger"></i></a>
-    </div>
-    <div class="list-group-item d-flex w-100 justify-content-between">
-        <div>
-            <p class="mb-0"><strong>Romain BAICHERE</strong></p>
-            <small class="text-muted">rbaicher</small>
-            <span class="badge badge-success">Disponible</span>
-        </div>
-        <div class="dropdown">
-            <button class="btn btn-sm btn-outline-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Plannificateur
-            </button>
-            <div class="dropdown-menu dropdown-menu-right" style="width: 330px;" aria-labelledby="dropdownMenuButton">
-                <h6 class="dropdown-header">Rôle</h6>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#">
-                    <p class="mt-1 mb-1"><strong>Administrateur</strong></p>
-                    <p class="text-wrap text-muted  mb-0">Peut modifier les paramètres de l'évènement et ajouter/supprimer des administrateurs.</p>
-                </a>
-                <a class="dropdown-item active" href="#">
-                    <p class="mt-1 mb-1"><strong>Plannificateur</strong></p>
-                    <p class="text-wrap mb-0">Peut gérer les tâches, les groupes, les utilisateurs et plannifier l'évènement.</p>
-                </a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item text-danger" href="#"><strong><i class="fa fa-sm fa-user-slash mr-1"></i>Retirer</strong></a>
-            </div>
-        </div>
-    </div>
-</div>
-<table class="table table-hover">
+{# TABLE : LIST OF USER : #}
+<table class="table table-hover mt-4 user-list">
     <thead class="thead-light">
     <tr>
+        <th scope="col"></th>
         <th scope="col">Nom</th>
-        <th scope="col">Contact</th>
-        <th scope="col">Invitation / Candidature</th>
-        <th scope="col">Disponibilité</th>
-        <th scope="col">Groupe d'équité</th>
+        <th scope="col">Charge de travail</th>
+        <th scope="col">Groupe</th>
         <th scope="col">Actions</th>
     </tr>
     </thead>
     <tbody>
+    {% for user in users %}
     <tr>
-        <th>Mark</th>
-        <td>1</td>
-        <td>Invitation</td>
-        <td><span class="badge badge-danger">Non disponible</span></td>
-        <td class="text-muted">Aucun</td>
+        <td class="text-right" width="15">
+            {% if user.availability is null %}
+                <i class="fa fa-circle text-secondary" title="En attente"></i>
+            {% elseif user.availability == 2 %}
+                <i class="fa fa-circle text-medium-success" title="Partiellement disponible"></i>
+            {% elseif user.availability == 1 %}
+                <i class="fa fa-circle text-success" title="Disponible"></i>
+            {% elseif user.availability == 0 %}
+                <i class="fa fa-circle text-danger" title="Non disponible"></i>
+            {% endif %}
+        </td>
+        <th>
+            <p class="mb-0"><strong>{{ user.name }}</strong></p>
+            <a href="mailto:{{ user.email }}" class="text-muted"><small>{{ user.email }}</small></a>
+        </th>
+        <td class="text-center">
+            <span class="badge badge-pill badge-success"><small>{{ user.working_time|date("H\\hi") }}</small></span>
+
+        </td>
+        <td class="text-muted">
+            {% if user.group %}
+                <a href="#">{{ user.group }}</a>
+            {% else %}
+                Aucun
+            {% endif %}
+        </td>
         <td>
-            <div class="dropdown">
-                <button class="btn btn-sm btn-outline-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Actions</button>
+            <div class="dropdown text-center">
+                <button class="btn-reset" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fa fa-ellipsis-v text-muted"></i>
+                </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                     <a class="dropdown-item" href="#">Voir le profil</a>
                     <a class="dropdown-item text-danger" href="#"><i class="fa fa-sm fa-user-slash mr-1"></i>Retirer</a>
@@ -122,22 +105,7 @@
             </div>
         </td>
     </tr>
-    <tr>
-        <th>Jacob</th>
-        <td>2</td>
-        <td>Invitation</td>
-        <td><span class="badge badge-success">Disponible</span></td>
-        <td><a href="#">Bénévole</a></td>
-        <td><a href="#">Bénévole</a></td>
-    </tr>
-    <tr>
-        <th>Larry</th>
-        <td>3</td>
-        <td>Candidature</td>
-        <td><span class="badge badge-medium-success">Partiellement disponible</span></td>
-        <td><a href="#">Orga</a></td>
-        <td><a href="#">Orga</a></td>
-    </tr>
+    {% endfor %}
     </tbody>
 </table>
 {% endblock %}

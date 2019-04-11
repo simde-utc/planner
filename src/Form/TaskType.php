@@ -2,7 +2,11 @@
 
 namespace App\Form;
 
+use App\Entity\Group;
 use App\Entity\Task;
+use App\Repository\GroupRepository;
+use Doctrine\ORM\EntityRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ColorType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -35,6 +39,18 @@ class TaskType extends AbstractType
                 'minutes' => $this->getMinutesAsArray($options['precision']),
                 'hours'   => $this->getHoursAsArray($options['precision']),
                 'data' => new \DateTime("03:00:00"),
+            ])
+            ->add('groups', EntityType::class, [
+                'label' => 'Groupes autorisés',
+                'help'  => "Aucune restriction sur les groupes ne sera appliqué si aucun groupe n'est selectionné.",
+                'class' => Group::class,
+                'multiple' => true,
+                'by_reference' => false,
+                'query_builder' => function(GroupRepository $er) use ($builder) {
+                    /** @var Task $task */
+                    $task = $builder->getData();
+                    return $er->findAllForEvent($task->getEvent());
+                }
             ])
             ->add('color', ColorType::class, [
                 'label' => 'Couleur',

@@ -40,16 +40,16 @@ import Chartist from 'chartist';
 require('chartist-plugin-threshold');
 
 var chart = new Chartist.Line('.ct-chart', {
-    labels: ['1h', '2h', '3h', '4h', '5h', '6h', '7h', '8h', '9h', '9h', '9h', '9h', '9h', '9h', '9h',  '9h', '9h', '9h',  '9h', '9h', '9h', '9h', '9h', '9h', '9h', '9h', '9h', '9h', '9h', '9h'],
+    labels: ['8h',null,null,null,'9h',null,null,null,'10h',null,null,null,'11h',null,null,null,'12h',null,null,null,'13h',null,null,null,'14h',null,null,null,'15h',null,null,null,'16h',null,null,null,'17h',null,null,null,'18h',null,null,null,'19h',null,null,null,'20h',null,null,null,'21h',null,null,null,'22h',null,null,null,'23h',null,null,null,'0h',null,null,null,'1h',null,null,null,'2h',null,null,null,'3h',null,null,null,'4h',null,null,null],
     // Naming the series with the series object array notation
     series: [
         {
             name: 'series-1',
-            data: [15, 15, 13, 13, 11, 13, 13, 13, 13, 15, 15, 15, 16, 16, 16, 15, 10, 10, 10, 10, 10, 9, 9, 9, 9, 10, 10, 10, 10, 10,]
+            data: [3,3,3,3,3,3,3,3,9,9,12,12,26,26,22,22,34,34,35,35,31,31,29,29,71,71,71,71,67,67,67,67,65,65,64,64,70,70,72,72,80,80,88,88,85,85,89,89,85,85,77,77,77,77,81,81,73,73,70,70,70,70,77,72,66,66,67,67,67,67,70,70,66,66,60,60,21,21,15,15,2,2,0,0]
         },
         {
             name: 'series-2',
-            data: [13, 12, 14, 12, 10, 13, 12, 10, 12, 12, 10, 12, 15, 15, 13, 12, 15, 13, 12, 10, 12, 15, 10, 12, 15, 10, 12, 15, 12, 15,]
+            data: [3,3,3,3,3,3,3,3,9,9,12,12,28,28,24,24,36,36,36,36,32,32,30,30,73,73,73,73,69,69,69,69,65,65,65,65,70,70,72,72,79,79,85,85,83,83,88,88,85,85,77,77,77,77,81,81,73,73,71,71,70,70,76,71,66,66,66,66,67,67,70,70,66,66,61,61,22,22,15,15,3,3,1,1]
         }
 
 
@@ -63,13 +63,12 @@ var chart = new Chartist.Line('.ct-chart', {
         'series-1': {
             lineSmooth: Chartist.Interpolation.step(),
             showPoint: false,
-            showArea: true,
+
         },
 
         'series-2': {
             lineSmooth: Chartist.Interpolation.step(),
             showPoint: false,
-
         }
 
     },
@@ -79,11 +78,11 @@ var chart = new Chartist.Line('.ct-chart', {
     },
     plugins: [
         Chartist.plugins.ctThreshold({
-            threshold: 'series-2',// [12, 10, 12, 17, 10, 13, 12, 13, 15, 14, 12, 10, 10, 10, 11, 13, 12, 14, 14, 10, 12, 15, 10, 12, 15, 10, 12, 15, 12, 15,],
+            threshold: 'series-1',// [12, 10, 12, 17, 10, 13, 12, 13, 15, 14, 12, 10, 10, 10, 11, 13, 12, 14, 14, 10, 12, 15, 10, 12, 15, 10, 12, 15, 12, 15,],
             lineSmooth: Chartist.Interpolation.step()
         }),
         Chartist.plugins.ctThreshold({
-            threshold: 'series-1',// [12, 10, 12, 17, 10, 13, 12, 13, 15, 14, 12, 10, 10, 10, 11, 13, 12, 14, 14, 10, 12, 15, 10, 12, 15, 10, 12, 15, 12, 15,],
+            threshold: 'series-2',// [12, 10, 12, 17, 10, 13, 12, 13, 15, 14, 12, 10, 10, 10, 11, 13, 12, 14, 14, 10, 12, 15, 10, 12, 15, 10, 12, 15, 12, 15,],
             lineSmooth: Chartist.Interpolation.step()
         })
     ]

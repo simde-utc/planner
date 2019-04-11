@@ -21,9 +21,10 @@ class TaskController extends AbstractController
 {
     public function tasks(Event $event)
     {
+        $tasks = $event->getTasks();
         return $this->render('event/tasks/show.html.twig', [
             'event' => $event,
-            'task'  => $event->getTasks()->first()
+            'task'  =>  $tasks ? $tasks->first() : null,
         ]);
     }
 
@@ -76,6 +77,7 @@ class TaskController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            dump($form->getData());
             $em = $this->getDoctrine()->getManager();
             $em->persist($task);
             $em->flush();

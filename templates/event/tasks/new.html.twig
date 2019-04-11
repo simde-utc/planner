@@ -6,6 +6,9 @@
     {{ form_row(form.name) }}
     {{ form_row(form.description) }}
     {{ form_row(form.location) }}
+    {{ form_row(form.color) }}
+    <hr/>
+    <h5>Contraintes</h5>
     <div class="row">
         <div class="col-md-6">
             {{ form_row(form.minWorkingTime) }}
@@ -14,8 +17,8 @@
             {{ form_row(form.maxWorkingTime) }}
         </div>
     </div>
+    {{ form_row(form.groups) }}
 
-    {{ form_row(form.color) }}
 
     <div class="mt-5">
         {{ form_widget(form.submit) }}

@@ -30,6 +30,11 @@ class User implements UserInterface
      */
     private $userTasks;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\EquityGroup", inversedBy="users")
+     */
+    private $equityGroup;
+
     public function __construct($response = [])
     {
         parent::__construct($response);
@@ -145,5 +150,17 @@ class User implements UserInterface
      */
     public function eraseCredentials()
     {
+    }
+
+    public function getEquityGroup(): ?EquityGroup
+    {
+        return $this->equityGroup;
+    }
+
+    public function setEquityGroup(?EquityGroup $equityGroup): self
+    {
+        $this->equityGroup = $equityGroup;
+
+        return $this;
     }
 }

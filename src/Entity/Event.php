@@ -64,10 +64,16 @@ class Event
      */
     private $allowSubmissions;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Group", mappedBy="event", orphanRemoval=true)
+     */
+    private $groups;
+
     public function __construct()
     {
         $this->tasks = new ArrayCollection();
         $this->availabilities = new ArrayCollection();
+        $this->groups = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -219,5 +225,36 @@ class Event
         $now = $now ?? new \DateTime();
 
         return $now > $this->getEndAt();
+    }
+
+    /**
+     * @return Collection|Group[]
+     */
+    public function getGroups(): Collection
+    {
+        return $this->groups;
+    }
+
+    public function addGroup(Group $group): self
+    {
+        if (!$this->groups->contains($group)) {
+            $this->groups[] = $group;
+            $group->setEvent($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGroup(Group $group): self
+    {
+        if ($this->groups->contains($group)) {
+            $this->groups->removeElement($group);
+            // set the owning side to null (unless already changed)
+            if ($group->getEvent() === $this) {
+                $group->setEvent(null);
+            }
+        }
+
+        return $this;
     }
 }

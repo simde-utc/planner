@@ -1,3 +1,5 @@
+$medium-success: #83d6a9;
+
 .bg-dark {
   background-color: $dark !important;
 }
@@ -22,5 +24,22 @@ p {
 
 .badge-medium-success {
   color: #FFF;
-  background-color: #83d6a9;
+  background-color: $medium-success;
+}
+
+.text-medium-success {
+  color: $medium-success;
+}
+
+.fa-equity {
+  @extend .fa-balance-scale;
+}
+
+.fa-skills {
+  @extend .fa-tools;
+}
+
+.btn-reset {
+  border: none;
+  background: none;
 }

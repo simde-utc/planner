@@ -54,9 +54,15 @@ class Task
      */
     private $maxWorkingTime;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Group", mappedBy="tasks", cascade={"persist"})
+     */
+    private $groups;
+
     public function __construct()
     {
         $this->users = new ArrayCollection();
+        $this->groups = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -144,6 +150,34 @@ class Task
     public function setMaxWorkingTime(?\DateTimeInterface $maxWorkingTime): self
     {
         $this->maxWorkingTime = $maxWorkingTime;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Group[]
+     */
+    public function getGroups(): Collection
+    {
+        return $this->groups;
+    }
+
+    public function addGroup(Group $group): self
+    {
+        if (!$this->groups->contains($group)) {
+            $this->groups[] = $group;
+            $group->addTask($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGroup(Group $group): self
+    {
+        if ($this->groups->contains($group)) {
+            $this->groups->removeElement($group);
+            $group->removeTask($this);
+        }
 
         return $this;
     }
