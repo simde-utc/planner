@@ -42,8 +42,24 @@ event_tasks_delete:
   controller: App\Controller\TaskController:delete
 
 # ----------
-# EVENT GROUP
+# EVENT SKILLS
 # ----------
-event_groups:
-  path: /{id}/groups
-  controller: App\Controller\GroupController:index
+event_skills:
+  path: /{id}/skills
+  controller: App\Controller\SkillController:index
+
+event_skills_new:
+  path: /{id}/skills/new
+  controller: App\Controller\SkillController:new
+
+event_skills_edit:
+  path: /{id}/skills/{skill_id}/edit
+  controller: App\Controller\SkillController:edit
+
+event_skills_show:
+  path: /{id}/skills/{skill_id}
+  controller: App\Controller\SkillController:show
+
+event_skills_delete:
+  path: /{id}/skills/{skill_id}/delete
+  controller: App\Controller\SkillController:delete

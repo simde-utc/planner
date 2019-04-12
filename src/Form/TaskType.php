@@ -2,10 +2,9 @@
 
 namespace App\Form;
 
-use App\Entity\Group;
+use App\Entity\Skill;
 use App\Entity\Task;
-use App\Repository\GroupRepository;
-use Doctrine\ORM\EntityRepository;
+use App\Repository\SkillRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ColorType;
@@ -40,13 +39,13 @@ class TaskType extends AbstractType
                 'hours'   => $this->getHoursAsArray($options['precision']),
                 'data' => new \DateTime("03:00:00"),
             ])
-            ->add('groups', EntityType::class, [
-                'label' => 'Groupes autorisés',
-                'help'  => "Aucune restriction sur les groupes ne sera appliqué si aucun groupe n'est selectionné.",
-                'class' => Group::class,
+            ->add('skills', EntityType::class, [
+                'label' => 'Compétences requises',
+                'help'  => "Aucune restriction de compétence ne sera appliqué si rien n'est selectionné.",
+                'class' => Skill::class,
                 'multiple' => true,
                 'by_reference' => false,
-                'query_builder' => function(GroupRepository $er) use ($builder) {
+                'query_builder' => function(SkillRepository $er) use ($builder) {
                     /** @var Task $task */
                     $task = $builder->getData();
                     return $er->findAllForEvent($task->getEvent());

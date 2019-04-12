@@ -9,11 +9,8 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\GroupRepository")
  * @ORM\Table(name="t_group")
- * @ORM\InheritanceType("SINGLE_TABLE")
- * @ORM\DiscriminatorColumn(name="type", type="string")
- * @ORM\DiscriminatorMap({"skill_group" = "SkillGroup", "equity_group" = "EquityGroup"})
  */
-abstract class Group
+class Group
 {
     /**
      * @ORM\Id()
@@ -33,19 +30,20 @@ abstract class Group
     private $description;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Task", inversedBy="groups")
-     */
-    private $tasks;
-
-    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Event", inversedBy="groups")
      * @ORM\JoinColumn(nullable=false)
      */
     private $event;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\User", mappedBy="group")
+     */
+    private $users;
+
     public function __construct()
     {
         $this->tasks = new ArrayCollection();
+        $this->users = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -77,32 +75,6 @@ abstract class Group
         return $this;
     }
 
-    /**
-     * @return Collection|Task[]
-     */
-    public function getTasks(): Collection
-    {
-        return $this->tasks;
-    }
-
-    public function addTask(Task $task): self
-    {
-        if (!$this->tasks->contains($task)) {
-            $this->tasks[] = $task;
-        }
-
-        return $this;
-    }
-
-    public function removeTask(Task $task): self
-    {
-        if ($this->tasks->contains($task)) {
-            $this->tasks->removeElement($task);
-        }
-
-        return $this;
-    }
-
     public function getEvent(): ?Event
     {
         return $this->event;
@@ -120,14 +92,34 @@ abstract class Group
         return $this->getName();
     }
 
-
     /**
      * @return Collection|User[]
      */
-    abstract public function getUsers(): Collection;
+    public function getUsers(): Collection
+    {
+        return $this->users;
+    }
 
-    /**
-     * @return string
-     */
-    abstract public function getType(): string;
+    public function addUser(User $user): self
+    {
+        if (!$this->users->contains($user)) {
+            $this->users[] = $user;
+            $user->setEquityGroup($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUser(User $user): self
+    {
+        if ($this->users->contains($user)) {
+            $this->users->removeElement($user);
+            // set the owning side to null (unless already changed)
+            if ($user->getEquityGroup() === $this) {
+                $user->setEquityGroup(null);
+            }
+        }
+
+        return $this;
+    }
 }

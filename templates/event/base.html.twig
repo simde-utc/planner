@@ -22,7 +22,7 @@
                         <a class="nav-item nav-link {{ app.request.get('_route') starts with 'event_resources' ? 'active' }}" href="{{ path('event_resources', {id: event.id}) }}">
                             <i class="fa fa-sm fa-user mr-2"></i>Ressources <sup class="fa fa-sm fa-circle text-primary" style="font-size: 0.6em;"></sup>
                         </a>
-                        <a class="nav-item nav-link {{ app.request.get('_route') starts with 'event_groups' ? 'active' }}" href="{{ path('event_groups', {id: event.id}) }}">
+                        <a class="nav-item nav-link {{ app.request.get('_route') starts with 'event_skills' ? 'active' }}" href="{{ path('event_skills', {id: event.id}) }}">
                             <i class="fa fa-sm fa-skills mr-2"></i>Compétences
                         </a>
                         <a class="nav-item nav-link {{ app.request.get('_route') starts with 'event_settings' ? 'active' }}" href="{{ path('event_settings', {id: event.id}) }}">

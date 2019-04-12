@@ -155,7 +155,7 @@ document.addEventListener('DOMContentLoaded', function() {
  */
 let filter = function () {
     let value = this.value.toLowerCase();
-    let listItems = Array.from(document.querySelectorAll(".event-list .list-group-item"));
+    let listItems = Array.from(document.querySelectorAll(".searchable-list .list-group-item"));
     listItems.forEach(el => {
        if (el.text.toLowerCase().indexOf(value) > -1) {
            el.classList.remove('d-none');

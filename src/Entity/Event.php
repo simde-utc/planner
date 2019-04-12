@@ -69,11 +69,17 @@ class Event
      */
     private $groups;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Skill", mappedBy="event", orphanRemoval=true)
+     */
+    private $skills;
+
     public function __construct()
     {
         $this->tasks = new ArrayCollection();
         $this->availabilities = new ArrayCollection();
         $this->groups = new ArrayCollection();
+        $this->skills = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -252,6 +258,37 @@ class Event
             // set the owning side to null (unless already changed)
             if ($group->getEvent() === $this) {
                 $group->setEvent(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Skill[]
+     */
+    public function getSkills(): Collection
+    {
+        return $this->skills;
+    }
+
+    public function addSkill(Skill $skill): self
+    {
+        if (!$this->skills->contains($skill)) {
+            $this->skills[] = $skill;
+            $skill->setEvent($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSkill(Skill $skill): self
+    {
+        if ($this->skills->contains($skill)) {
+            $this->skills->removeElement($skill);
+            // set the owning side to null (unless already changed)
+            if ($skill->getEvent() === $this) {
+                $skill->setEvent(null);
             }
         }
 

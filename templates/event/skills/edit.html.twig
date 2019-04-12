@@ -1,32 +1,20 @@
-{% extends 'event/tasks/base.html.twig' %}
+{% extends 'event/skills/base.html.twig' %}
 
 {% block event_container_tools %}
-    <a href="{{ path('event_tasks_show', {id: event.id, task_id: task.id}) }}"><i class="fa fa-arrow-left mr-2"></i>retour</a>
+    <a href="{{ path('event_skills_show', {id: event.id, skill_id: skill.id}) }}"><i class="fa fa-arrow-left mr-2"></i>retour</a>
 {% endblock %}
 
-{% block tasks_container %}
+{% block skills_container %}
     <h3>Modifier la tâche</h3>
     {{ form_start(form) }}
     {{ form_row(form.name) }}
     {{ form_row(form.description) }}
-    {{ form_row(form.location) }}
-    {{ form_row(form.color) }}
-    <hr/>
-    <h5>Contraintes</h5>
-    <div class="row">
-        <div class="col-md-6">
-            {{ form_row(form.minWorkingTime) }}
-        </div>
-        <div class="col-md-6">
-            {{ form_row(form.maxWorkingTime) }}
-        </div>
-    </div>
-    {{ form_row(form.skills) }}
-
+    {{ form_row(form.askOnSubscribe) }}
+    {{ form_row(form.users) }}
     <div class="mt-5">
         {{ form_widget(form.submit) }}
         <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delete_modal">
-            Supprimer la tâche
+            Supprimer la compétence
         </button>
     </div>
     {{ form_end(form) }}
@@ -36,19 +24,21 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Supprimer la tâche "{{ task.name }}" ?</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Supprimer la compétence "{{ skill.name }}" ?</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <p>Etes vous sûr de vouloir supprimer cette tâche ?</p>
-                    <p>12 ressources sont affecté·e·s à cette tâche</p>
+                    <p>Etes vous sûr de vouloir supprimer cette compétence ?</p>
+                    {% if skill.users %}
+                        <p>{{ skill.users|length }} ressources sont affecté·e·s à cette compétence</p>
+                    {% endif %}
                     <strong>Attention, cette action est irreversible.</strong>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
-                    <a href="{{ path('event_tasks_delete', {id: event.id, task_id: task.id}) }}" class="btn btn-danger">Supprimer</a>
+                    <a href="{{ path('event_skills_delete', {id: event.id, skill_id: skill.id}) }}" class="btn btn-danger">Supprimer</a>
                 </div>
             </div>
         </div>

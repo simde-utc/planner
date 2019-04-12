@@ -55,14 +55,13 @@ class Task
     private $maxWorkingTime;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Group", mappedBy="tasks", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="App\Entity\Skill", inversedBy="tasks")
      */
-    private $groups;
+    private $skills;
 
     public function __construct()
     {
-        $this->users = new ArrayCollection();
-        $this->groups = new ArrayCollection();
+        $this->skills = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -155,28 +154,26 @@ class Task
     }
 
     /**
-     * @return Collection|Group[]
+     * @return Collection|Skill[]
      */
-    public function getGroups(): Collection
+    public function getSkills(): Collection
     {
-        return $this->groups;
+        return $this->skills;
     }
 
-    public function addGroup(Group $group): self
+    public function addSkill(Skill $skill): self
     {
-        if (!$this->groups->contains($group)) {
-            $this->groups[] = $group;
-            $group->addTask($this);
+        if (!$this->skills->contains($skill)) {
+            $this->skills[] = $skill;
         }
 
         return $this;
     }
 
-    public function removeGroup(Group $group): self
+    public function removeSkill(Skill $skill): self
     {
-        if ($this->groups->contains($group)) {
-            $this->groups->removeElement($group);
-            $group->removeTask($this);
+        if ($this->skills->contains($skill)) {
+            $this->skills->removeElement($skill);
         }
 
         return $this;

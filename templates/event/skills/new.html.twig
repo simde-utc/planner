@@ -1,0 +1,14 @@
+{% extends 'event/skills/base.html.twig' %}
+
+{% block skills_container %}
+    <h3>Nouvelle compétence</h3>
+    {{ form_start(form) }}
+    {{ form_row(form.name) }}
+    {{ form_row(form.description) }}
+    {{ form_row(form.askOnSubscribe) }}
+    {{ form_row(form.users) }}
+    <div class="mt-5">
+        {{ form_widget(form.submit) }}
+    </div>
+    {{ form_end(form) }}
+{% endblock %}

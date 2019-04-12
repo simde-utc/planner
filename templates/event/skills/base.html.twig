@@ -3,7 +3,7 @@
 {% block event_container %}
     <div class="row mt-4">
         <div class="col-md-12 d-flex justify-content-between align-items-center">
-            <h2>Configurer les tâches</h2>
+            <h2>Configurer les compétences</h2>
             <div>{% block event_container_tools %}{% endblock %}</div>
         </div>
         <div class="col-4">
@@ -16,28 +16,24 @@
                         <input type="search" id="search_task" class="form-control" placeholder="Rechercher" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
                     </div>
                 </div>
-                <div class="list-group-inner-container searchable-list event-list" style="max-height: 500px">
-                    <div class="list-group">
-                        {% for loop_task in event.tasks %}
-                            <a href="{{ path('event_tasks_show', {id: event.id, task_id: loop_task.id}) }}" style="border-left-color: {{ loop_task.color }};" class="list-group-item list-group-item-action {{ task is defined and task.id == loop_task.id ? 'active' }}">
-                                <h6 class="mb-0">{{ loop_task.name }}</h6>
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <small><i class="fa fa-map-marker-alt mr-1"></i>{{ loop_task.location }}</small>
-                                    <small class="text-danger">20%</small>
-                                </div>
+                <div class="list-group-inner-container" style="max-height: 500px">
+                    <div class="list-group searchable-list">
+                        {% for loop_skill in event.skills %}
+                            <a href="{{ path('event_skills_show', {id: event.id, skill_id: loop_skill.id}) }}" class="list-group-item list-group-item-action {{ skill is defined and skill.id == loop_skill.id ? 'active' }}">
+                                {{ loop_skill.name }}
                             </a>
                         {% endfor %}
                     </div>
                 </div>
                 {% if app.request.get('_route') != 'event_tasks_new' %}
                 <div class="list-group-footer mt-3">
-                    <a href="{{ path('event_tasks_new', {id: event.id}) }}" class="btn btn-primary btn-block"><i class="fa fa-plus mr-2"></i>Nouveau type de tâche</a>
+                    <a href="{{ path('event_skills_new', {id: event.id}) }}" class="btn btn-primary btn-block"><i class="fa fa-plus mr-2"></i>Nouvelle compétence</a>
                 </div>
                 {% endif %}
             </div>
         </div>
         <div class="col-8">
-            {% block tasks_container %}{% endblock %}
+            {% block skills_container %}{% endblock %}
         </div>
     </div>
 {% endblock %}

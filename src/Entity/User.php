@@ -31,9 +31,9 @@ class User implements UserInterface
     private $userTasks;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\EquityGroup", inversedBy="users")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Group", inversedBy="users")
      */
-    private $equityGroup;
+    private $group;
 
     public function __construct($response = [])
     {
