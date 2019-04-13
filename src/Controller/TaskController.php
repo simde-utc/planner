@@ -9,12 +9,14 @@ namespace App\Controller;
 
 
 use App\Entity\Event;
+use App\Entity\Skill;
 use App\Entity\Task;
 use App\Form\TaskType;
 use Colors\RandomColor;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
 class TaskController extends AbstractController
@@ -33,7 +35,9 @@ class TaskController extends AbstractController
         $task = new Task();
         $task->setEvent($event);
 
-        $form = $this->createForm(TaskType::class, $task);
+        $form = $this->createForm(TaskType::class, $task, [
+            'event' => $event,
+        ]);
         $form->add('submit', SubmitType::class, [
             'label' => 'Créer',
         ]);
@@ -69,6 +73,7 @@ class TaskController extends AbstractController
     {
         $form = $this->createForm(TaskType::class, $task, [
             'precision' => $event->getTimePrecision(),
+            'event' => $event,
         ]);
         $form->add('submit', SubmitType::class, [
             'label' => 'Enregistrer',

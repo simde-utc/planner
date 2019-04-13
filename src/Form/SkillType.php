@@ -33,13 +33,14 @@ class SkillType extends AbstractType
             ])
             ->add('askOnSubscribe', CheckboxType::class, [
                 'label' => "Demander lors de l'inscription",
-                "help"  => "L'utilisateur·rice devra renseigner cette compétence lors de son inscription.",
+                "help"  => "L'utilisateur·rice pourra renseigner cette compétence lors de son inscription.",
                 'required' => false,
             ])
             ->add('users', EntityType::class, [
                 'label' => "Affecter les compétences aux utilisateur·rice·s",
                 'class' => User::class,
                 'multiple' => true,
+                'required' => false,
                 'by_reference' => false,
                 'query_builder' => function(UserRepository $er) use ($builder) {
                     return $er->getUsersForEvent($builder->getOption('event'));

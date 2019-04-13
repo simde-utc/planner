@@ -25,6 +25,7 @@
         "chartist-plugin-threshold": "https://github.com/mezzi/chartist-plugin-threshold#dynamic-threshold",
         "fullcalendar-scheduler": "^1.9.4",
         "jquery": "^3.3.1",
-        "popper.js": "^1.14.7"
+        "popper.js": "^1.14.7",
+        "select2": "^4.0.6-rc.1"
     }
 }

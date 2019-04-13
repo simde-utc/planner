@@ -7,7 +7,36 @@
 
 @import "~@fortawesome/fontawesome-free/css/all";
 @import "~chartist/dist/scss/chartist";
+@import "~select2/src/scss/core";
 
+/**
+  SELECT2 styling
+ */
+
+.select2 {
+  width: 100% !important;
+}
+
+.select2-container--default .select2-selection--multiple {
+  border-color: $input-border-color;
+}
+
+.select2-container--default.select2-container--focus .select2-selection--multiple {
+  color: $input-focus-color;
+  background-color: $input-focus-bg;
+  border-color: $input-focus-border-color;
+  outline: 0;
+  // Avoid using mixin so we can pass custom focus shadow properly
+  @if $enable-shadows {
+    box-shadow: $input-box-shadow, $input-focus-box-shadow;
+  } @else {
+    box-shadow: $input-focus-box-shadow;
+  }
+}
+
+.select2-container--default .select2-selection--multiple .select2-selection__choice {
+  border: none;
+}
 
 .ct-series-a .ct-line,
 .ct-series-a .ct-point {
@@ -130,6 +159,13 @@
   border-left-style: solid;
 }
 
+.event-list .requirement-state {
+  color: $danger;
+}
+
+.event-list .active .requirement-state {
+  color: $white;
+}
 
 .user-list {
   td {

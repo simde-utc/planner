@@ -10,6 +10,8 @@ require('../css/app.scss');
 
 // Need jQuery? Install it with "yarn add jquery", then uncomment to require it.
 require('bootstrap');
+global.$ = global.jQuery = require('jquery');
+require('select2');
 
 let slots = document.querySelectorAll('.time-slot .slot');
 var mouseIsDown = false;
@@ -165,6 +167,6 @@ let filter = function () {
     });
 };
 
-let searchInput = document.getElementById("search_task");
+let searchInput = document.getElementById("search_input");
 searchInput.addEventListener("search", filter);
 searchInput.addEventListener("keyup", filter);

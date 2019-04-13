@@ -48,6 +48,10 @@ event_skills:
   path: /{id}/skills
   controller: App\Controller\SkillController:index
 
+event_skills_api_list:
+  path: /{id}/skills.json
+  controller: App\Controller\SkillController:apiList
+
 event_skills_new:
   path: /{id}/skills/new
   controller: App\Controller\SkillController:new

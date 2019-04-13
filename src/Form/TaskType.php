@@ -2,16 +2,16 @@
 
 namespace App\Form;
 
+use App\Entity\Event;
 use App\Entity\Skill;
 use App\Entity\Task;
-use App\Repository\SkillRepository;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ColorType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TimeType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Tetranz\Select2EntityBundle\Form\Type\Select2EntityType;
 
 class TaskType extends AbstractType
 {
@@ -39,17 +39,23 @@ class TaskType extends AbstractType
                 'hours'   => $this->getHoursAsArray($options['precision']),
                 'data' => new \DateTime("03:00:00"),
             ])
-            ->add('skills', EntityType::class, [
+            ->add('skills', Select2EntityType::class, [
                 'label' => 'Compétences requises',
-                'help'  => "Aucune restriction de compétence ne sera appliqué si rien n'est selectionné.",
+                'help'  => "Seul les utilisateur·rice·s avec ces compétences pourront effectuer cette tâche.",
                 'class' => Skill::class,
                 'multiple' => true,
                 'by_reference' => false,
+                'remote_route' => 'event_skills_api_list',
+                'remote_params' => [
+                    'id' => $builder->getOption('event')->getId(),
+                ],
+                /*
                 'query_builder' => function(SkillRepository $er) use ($builder) {
-                    /** @var Task $task */
+                    /** @var Task $task *
                     $task = $builder->getData();
                     return $er->findAllForEvent($task->getEvent());
                 }
+                */
             ])
             ->add('color', ColorType::class, [
                 'label' => 'Couleur',
@@ -63,6 +69,9 @@ class TaskType extends AbstractType
             'data_class' => Task::class,
             'precision'  => null,
         ]);
+
+        $resolver->setRequired('event');
+        $resolver->setAllowedTypes('event', Event::class);
     }
 
     private function getMinutesAsArray(\DateTime $precision = null): array

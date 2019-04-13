@@ -14,6 +14,7 @@ use App\Form\SkillType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -35,7 +36,9 @@ class SkillController extends AbstractController
         $skill = new Skill();
         $skill->setEvent($event);
 
-        $form = $this->createForm(SkillType::class, $skill);
+        $form = $this->createForm(SkillType::class, $skill, [
+            'event' => $event,
+        ]);
         $form->add('submit', SubmitType::class, [
             'label' => 'Créer',
         ]);
@@ -114,5 +117,16 @@ class SkillController extends AbstractController
         return $this->redirectToRoute('event_skills', [
             'id' => $event->getId(),
         ]);
+    }
+
+    public function apiList(Event $event)
+    {
+        $skills = array_map(function(Skill $skill) {
+            return [
+                'id' => $skill->getId(),
+                'text' => $skill->getName(),
+            ];
+        }, $event->getSkills()->toArray());
+        return new JsonResponse($skills);
     }
 }

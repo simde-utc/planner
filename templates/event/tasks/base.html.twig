@@ -13,7 +13,7 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text" ><i class="fa fa-search"></i></span>
                         </div>
-                        <input type="search" id="search_task" class="form-control" placeholder="Rechercher" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                        <input type="search" id="search_input" class="form-control" placeholder="Rechercher" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
                     </div>
                 </div>
                 <div class="list-group-inner-container searchable-list event-list" style="max-height: 500px">
@@ -23,7 +23,7 @@
                                 <h6 class="mb-0">{{ loop_task.name }}</h6>
                                 <div class="d-flex justify-content-between align-items-center">
                                     <small><i class="fa fa-map-marker-alt mr-1"></i>{{ loop_task.location }}</small>
-                                    <small class="text-danger">20%</small>
+                                    <small class="requirement-state">20%</small>
                                 </div>
                             </a>
                         {% endfor %}
