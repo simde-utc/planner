@@ -25,6 +25,11 @@ class RequirementsType extends AbstractType
             ->setDefault('allow_add', true)
             ->setDefault('allow_delete', true)
             ->setDefault('delete_empty', true)
+            ->setDefault('block_name', 'requirements')
+
+            ->setRequired(['startAt', 'endAt'])
+            ->setAllowedTypes('startAt', \DateTime::class)
+            ->setAllowedTypes('endAt', \DateTime::class)
         ;
     }
 

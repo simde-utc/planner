@@ -17,6 +17,8 @@ class TaskType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        /** @var Task $task */
+        $task = $builder->getData();
         $builder
             ->add('name', null, [
                 'label' => 'Titre',
@@ -50,8 +52,18 @@ class TaskType extends AbstractType
                     'id' => $builder->getOption('event')->getId(),
                 ],
             ])
+            ->add('timePrecision', TimeType::class, [
+                'label'   => "Précision de la tâche",
+                'help'    => "Détermine la plus petite unité possible pour la planification de la tâche",
+                'minutes' => [0, 15, 30, 45],
+                'hours'   => [0, 1, 2, 3, 4, 5],
+                'data' => new \DateTime("00:30:00"),
+                'mapped' => false,
+            ])
             ->add('requirements', RequirementsType::class, [
-                'label' => "Profil de la tâche",
+                'label'   => "Profil de la tâche",
+                'startAt' => $task->getEvent()->getStartAt(),
+                'endAt'   => $task->getEvent()->getEndAt(),
             ])
             ->add('color', ColorType::class, [
                 'label' => 'Couleur',

@@ -64,11 +64,6 @@ class Task
      */
     private $requirements;
 
-    /**
-     * @ORM\Column(type="time")
-     */
-    private $timePrecision;
-
     public function __construct()
     {
         $this->skills = new ArrayCollection();
@@ -217,18 +212,6 @@ class Task
                 $requirement->setTask(null);
             }
         }
-
-        return $this;
-    }
-
-    public function getTimePrecision(): ?\DateTimeInterface
-    {
-        return $this->timePrecision;
-    }
-
-    public function setTimePrecision(\DateTimeInterface $timePrecision): self
-    {
-        $this->timePrecision = $timePrecision;
 
         return $this;
     }

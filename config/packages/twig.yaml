@@ -4,4 +4,5 @@ twig:
     strict_variables: '%kernel.debug%'
     form_themes:
         - 'bootstrap_4_layout.html.twig'
+        - 'forms/requirements.html.twig'
         - '@TetranzSelect2Entity/Form/fields.html.twig'

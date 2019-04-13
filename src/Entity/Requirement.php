@@ -115,10 +115,16 @@ class Requirement
      */
     public function getEndAt(): ?\DateTime
     {
-        $eventEnd = $this->getTask()->getEvent()->getEndAt();
+        $eventStart = $this->getTask()->getEvent()->getStartAt();
         $relativeEnd = $this->getRelativeEndAt();
         $interval = new \DateInterval('PT'.$relativeEnd->format('H').'H'.$relativeEnd->format('i').'M');
 
-        return $eventEnd->add($interval);
+        return $eventStart->add($interval);
+    }
+
+    public function setEndAt(\DateTime $endAt): self
+    {
+        $eventStart = $this->getTask()->getEvent()->getStartAt();
+        // TODO: implement this function
     }
 }
