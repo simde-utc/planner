@@ -72,7 +72,6 @@ class TaskController extends AbstractController
     public function edit(Event $event, Task $task, Request $request)
     {
         $form = $this->createForm(TaskType::class, $task, [
-            'precision' => $event->getTimePrecision(),
             'event' => $event,
         ]);
         $form->add('submit', SubmitType::class, [

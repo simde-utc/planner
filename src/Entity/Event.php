@@ -44,12 +44,6 @@ class Event
     private $endAt;
 
     /**
-     * @ORM\Column(type="time")
-     * @Assert\NotBlank
-     */
-    private $timePrecision;
-
-    /**
      * @ORM\OneToMany(targetEntity="App\Entity\Task", mappedBy="event", orphanRemoval=true)
      */
     private $tasks;
@@ -111,38 +105,26 @@ class Event
         return $this;
     }
 
-    public function getStartAt(): ?\DateTimeInterface
+    public function getStartAt(): ?\DateTime
     {
         return $this->startAt;
     }
 
-    public function setStartAt(\DateTimeInterface $startAt): self
+    public function setStartAt(\DateTime $startAt): self
     {
         $this->startAt = $startAt;
 
         return $this;
     }
 
-    public function getEndAt(): ?\DateTimeInterface
+    public function getEndAt(): ?\DateTime
     {
         return $this->endAt;
     }
 
-    public function setEndAt(\DateTimeInterface $endAt): self
+    public function setEndAt(\DateTime $endAt): self
     {
         $this->endAt = $endAt;
-
-        return $this;
-    }
-
-    public function getTimePrecision(): ?\DateTimeInterface
-    {
-        return $this->timePrecision;
-    }
-
-    public function setTimePrecision(\DateTimeInterface $timePrecision): self
-    {
-        $this->timePrecision = $timePrecision;
 
         return $this;
     }

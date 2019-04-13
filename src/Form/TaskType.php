@@ -49,13 +49,9 @@ class TaskType extends AbstractType
                 'remote_params' => [
                     'id' => $builder->getOption('event')->getId(),
                 ],
-                /*
-                'query_builder' => function(SkillRepository $er) use ($builder) {
-                    /** @var Task $task *
-                    $task = $builder->getData();
-                    return $er->findAllForEvent($task->getEvent());
-                }
-                */
+            ])
+            ->add('requirements', RequirementsType::class, [
+                'label' => "Profil de la tâche",
             ])
             ->add('color', ColorType::class, [
                 'label' => 'Couleur',

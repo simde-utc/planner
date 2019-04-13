@@ -37,13 +37,6 @@ class EventType extends AbstractType
                 'label' => 'Termine à',
                 'widget' => 'single_text',
             ])
-            ->add('timePrecision', TimeType::class, [
-                'label'   => "Précision de l'évènement",
-                'help'    => "Détermine la plus petite unité possible pour la planification de l'évènement",
-                'minutes' => [0, 15, 30, 45],
-                'hours'   => [0, 1, 2, 3],
-                'data' => new \DateTime("00:30:00"),
-            ])
             ->add('allowSubmissions', CheckboxType::class, [
                 'label' => "Accepter les inscriptions à cet évènement",
                 'help'  => "Tous les utilisateur·rice·s de la plateforme pourrons candidater pour participer à cet évènement",

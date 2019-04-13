@@ -59,9 +59,20 @@ class Task
      */
     private $skills;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Requirement", mappedBy="task", orphanRemoval=true)
+     */
+    private $requirements;
+
+    /**
+     * @ORM\Column(type="time")
+     */
+    private $timePrecision;
+
     public function __construct()
     {
         $this->skills = new ArrayCollection();
+        $this->requirements = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -175,6 +186,49 @@ class Task
         if ($this->skills->contains($skill)) {
             $this->skills->removeElement($skill);
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Requirement[]
+     */
+    public function getRequirements(): Collection
+    {
+        return $this->requirements;
+    }
+
+    public function addRequirement(Requirement $requirement): self
+    {
+        if (!$this->requirements->contains($requirement)) {
+            $this->requirements[] = $requirement;
+            $requirement->setTask($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRequirement(Requirement $requirement): self
+    {
+        if ($this->requirements->contains($requirement)) {
+            $this->requirements->removeElement($requirement);
+            // set the owning side to null (unless already changed)
+            if ($requirement->getTask() === $this) {
+                $requirement->setTask(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getTimePrecision(): ?\DateTimeInterface
+    {
+        return $this->timePrecision;
+    }
+
+    public function setTimePrecision(\DateTimeInterface $timePrecision): self
+    {
+        $this->timePrecision = $timePrecision;
 
         return $this;
     }
