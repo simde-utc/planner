@@ -16,6 +16,7 @@
         "symfony/framework-bundle": "4.2.*",
         "symfony/monolog-bundle": "^3.1",
         "symfony/orm-pack": "^1.0",
+        "symfony/phpunit-bridge": "*@dev",
         "symfony/process": "4.2.*",
         "symfony/security-bundle": "4.2.*",
         "symfony/serializer-pack": "*",
@@ -25,7 +26,6 @@
         "symfony/validator": "4.2.*",
         "symfony/web-link": "4.2.*",
         "symfony/webpack-encore-bundle": "^1.2",
-        "symfony/yaml": "4.2.*",
         "tetranz/select2entity-bundle": "^2.9",
         "twig/extensions": "^1.5"
     },
@@ -79,6 +79,12 @@
         "symfony": {
             "allow-contrib": false,
             "require": "4.2.*"
+        }
+    },
+    "repositories": {
+        "phpunit-bridge": {
+            "type": "path",
+            "url": "/Users/corentinhembise/Projets/planner/vendor/symfony/phpunit-bridge"
         }
     }
 }

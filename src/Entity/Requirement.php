@@ -100,9 +100,10 @@ class Requirement
      */
     public function getStartAt(): ?\DateTime
     {
+        $this->assertEventExists();
         $eventStart = $this->getTask()->getEvent()->getStartAt();
         $relativeStart = $this->getRelativeStartAt();
-        $interval = new \DateInterval('PT'.$relativeStart->format('H').'H'.$relativeStart->format('i').'M');
+        $interval = $this->transformToTimeInterval($relativeStart);
 
         return $eventStart->add($interval);
     }
@@ -115,16 +116,69 @@ class Requirement
      */
     public function getEndAt(): ?\DateTime
     {
+        $this->assertEventExists();
         $eventStart = $this->getTask()->getEvent()->getStartAt();
         $relativeEnd = $this->getRelativeEndAt();
-        $interval = new \DateInterval('PT'.$relativeEnd->format('H').'H'.$relativeEnd->format('i').'M');
+        $interval = $this->transformToTimeInterval($relativeEnd);
 
         return $eventStart->add($interval);
     }
 
+    public function setStartAt(\DateTime $startAt): self
+    {
+        $relativeStartAt = $this->computeRelativeDate($startAt);
+        $this->setRelativeStartAt($relativeStartAt);
+
+        return $this;
+    }
+
     public function setEndAt(\DateTime $endAt): self
     {
+        $relativeEndAt = $this->computeRelativeDate($endAt);
+        $this->setRelativeEndAt($relativeEndAt);
+
+        return $this;
+    }
+
+    private function computeRelativeDate(\DateTime $date): \DateTime
+    {
+        $this->assertEventExists();
         $eventStart = $this->getTask()->getEvent()->getStartAt();
-        // TODO: implement this function
+
+        $relative = $date->diff($eventStart);
+
+        return $this->transformToDateTime($relative);
+    }
+
+    private function transformToDateTime(\DateInterval $dateInterval): \DateTime
+    {
+        $date = new \DateTime(sprintf('%s:%s:%s',
+            $dateInterval->h,
+            $dateInterval->i,
+            $dateInterval->s
+        ));
+
+        return $date;
+    }
+
+    private function transformToTimeInterval(\DateTime $dateTime): \DateInterval
+    {
+        $interval = new \DateInterval(sprintf('PT%sH%sM%dS',
+            $dateTime->format('H'),
+            $dateTime->format('i'),
+            $dateTime->format('s')
+        ));
+
+        return $interval;
+    }
+
+    private function assertEventExists()
+    {
+        if ($this->getTask() === null) {
+            throw new \InvalidArgumentException("A Requirement object should have a task associated to it.");
+        }
+        if ($this->getTask()->getEvent() === null) {
+            throw new \InvalidArgumentException("A Requirement object should have a task with an event associated to it.");
+        }
     }
 }

@@ -1,0 +1,75 @@
+@import "~bootstrap/scss/bootstrap";
+
+.timeline {
+  position: relative;
+  border-radius: 10em;
+  background: $progress-bg;
+  height: $progress-height;
+  margin: 3% 0 3% 0;
+
+  .timeline-progress {
+    background: rgba($primary, 0.7);
+    height: 100%;
+    border-radius: 10em;
+    position: absolute;
+    left: 0;
+  }
+
+  .timeline-event {
+    background: $primary;
+    height: 100%;
+    position: absolute;
+    border-radius: 10em;
+
+    .timeline-event-title {
+      position: absolute;
+      text-align: center;
+      font-size: 0.7em;
+      top: -35%;
+      width: 12em;
+      transform: translateY(-100%) translateX(-50%);
+      font-weight: bold;
+      left: 100%;
+    }
+    .timeline-event-date {
+      position: absolute;
+      bottom: -20%;
+      left: 100%;
+      transform: translateY(100%) translateX(-50%);
+      font-size: 0.7em;
+      color: $text-muted;
+      width: 4em;
+      z-index: 3;
+      background: white;
+      border-radius: 10em;
+    }
+  }
+
+  .timeline-steps {
+    position: absolute;
+    bottom: -20%;
+    transform: translateY(100%);
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    margin: 0 7px;
+
+    .timeline-step {
+      font-size: 0.7em;
+      width: 4em;
+      color: $text-muted;
+      position: relative;
+
+      &::before {
+        content: '';
+        width: 5px;
+        height: 5px;
+        background: rgba(0, 0, 0, 0.3);
+        position: absolute;
+        border-radius: 50%;
+        top: -13px;
+        left: 0;
+      }
+    }
+  }
+}

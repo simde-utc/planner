@@ -1,7 +1,7 @@
 {% extends 'event/tasks/base.html.twig' %}
 
 {% block event_container_tools %}
-    <a href="{{ path('event_tasks_edit', {id: event.id, task_id: task.id}) }}" class="btn mb-3 btn-sm btn-primary"><i class="fa fa-magic mr-2"></i>Plannifier la tâche</a>
+    <a href="{{ path('event_tasks_edit', {id: event.id, task_id: task.id}) }}" class="btn mb-3 btn-sm btn-primary"><i class="fa fa-planner mr-2"></i>Plannifier la tâche</a>
     <a href="{{ path('event_tasks_edit', {id: event.id, task_id: task.id}) }}" class="btn mb-3 btn-sm btn-primary"><i class="fa fa-pencil-alt mr-2"></i>Configurer </a>
     <a href="{{ path('event_tasks_edit', {id: event.id, task_id: task.id}) }}" class="btn mb-3 btn-sm btn-danger"><i class="fa fa-trash mr-2"></i>Supprimer</a>
 {% endblock %}

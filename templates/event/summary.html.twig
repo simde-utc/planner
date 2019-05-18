@@ -1,12 +1,32 @@
 {% extends 'event/base.html.twig' %}
 
 {% block event_container %}
-    <h2 class="mt-5">Profil de l'évènement</h2>
-    <div class="ct-chart"></div>
+    <div class="timeline mt-5">
+        <div class="timeline-progress" style="width: 25%;"></div>
+        <div class="timeline-event" style="width: 16px; left:60%">
+            <div class="timeline-event-title">Publication du planning</div>
+            <div class="timeline-event-date day">4 mai</div>
+        </div>
+        <div class="timeline-event" style="width: 5%; left:95%">
+            <div class="timeline-event-title">Imaginarium Festival 2019</div>
+            <div class="timeline-event-date start">4 mai</div>
+            <div class="timeline-event-date end">4 mai</div>
+        </div>
+        <div class="timeline-steps">
+            <div class="timeline-step">15 avr.</div>
+            <div class="timeline-step">22 avr.</div>
+            <div class="timeline-step">29 avr.</div>
+            <div class="timeline-step">6 mai</div>
+            <div class="timeline-step">13 mai</div>
+        </div>
+    </div>
+
+    <h2 class="mt-4">Profil de l'évènement</h2>
+    <div class="ct-chart" id="chart"></div>
     <div class="mt-5 d-flex w-100 justify-content-between">
         <h2>Planning de l'évènement</h2>
         <div class="tools">
-            <button class="btn btn-sm btn-primary"><i class="fa fa-magic mr-2"></i>Interface de plannification</button>
+            <button class="btn btn-sm btn-primary"><i class="fa fa-planner mr-2"></i>Interface de plannification</button>
             <button class="btn btn-sm btn-primary"><i class="fa fa-compress-arrows-alt mr-2"></i>Plein écran</button>
         </div>
     </div>
@@ -24,7 +44,7 @@
             {# si pas d'affection tache - utilisateur #}
             <h1 class="display-4 text-capitalize">étape 2</h1>
             <p class="lead">Commencer à plannifier votre évènement</p>
-            <a href="#" class="btn btn-primary"><i class="fa fa-magic mr-2"></i>Interface de plannification</a>
+            <a href="#" class="btn btn-primary"><i class="fa fa-planner mr-2"></i>Interface de plannification</a>
         </div>
     </div>
 {% endblock %}

@@ -3,8 +3,11 @@
 {% block main_app %}
     <div class="container">
         <div class="row mt-5">
-            <div class="col-md-12 text-center">
+            <div class="col-md-12">
                 <h1>Créer un nouvel évènement</h1>
+            </div>
+            {#
+            <div class="col-md-12 text-center">
                 <div class="d-flex justify-content-center mt-5">
                     <div class="card border-primary shadow ml-4 mr-4" style="max-width: 18rem;">
                         <div class="card-body text-primary text-center">
@@ -30,16 +33,16 @@
                     </div>
                 </div>
             </div>
+            #}
             <div class="col-md-12">
-
                 {{ form_start(form) }}
                 {{ form_row(form.name) }}
                 {{ form_row(form.description) }}
                 <div class="row">
-                    <div class="col-md-4">{{ form_row(form.startAt) }}</div>
-                    <div class="col-md-4">{{ form_row(form.endAt) }}</div>
+                    <div class="col-md-6">{{ form_row(form.startAt) }}</div>
+                    <div class="col-md-6">{{ form_row(form.endAt) }}</div>
                 </div>
-
+                {{ form_row(form.allowSubmissions) }}
 
                 {{ form_end(form) }}
 

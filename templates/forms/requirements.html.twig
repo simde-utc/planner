@@ -1,3 +1,15 @@
 {% block requirements_widget %}
-    TODO
+    <div class="row">
+        <div class="col-md-4">{{ form_label(form.vars.prototype.startAt)|raw }}</div>
+        <div class="col-md-4">{{ form_label(form.vars.prototype.endAt)|raw }}</div>
+        <div class="col-md-2">{{ form_label(form.vars.prototype.requirements)|raw }}</div>
+
+        <div class="col-md-4">{{ form_widget(form.vars.prototype.startAt)|raw }}</div>
+        <div class="col-md-4">{{ form_widget(form.vars.prototype.endAt)|raw }}</div>
+        <div class="col-md-2">{{ form_widget(form.vars.prototype.requirements)|raw }}</div>
+
+        <div class="col-md-2">
+            <button class="btn btn-primary" id="add-requirement" type="button"><i class="fa fa-plus"></i></button>
+        </div>
+    </div>
 {% endblock %}

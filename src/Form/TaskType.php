@@ -43,7 +43,7 @@ class TaskType extends AbstractType
             ])
             ->add('skills', Select2EntityType::class, [
                 'label' => 'Compétences requises',
-                'help'  => "Seul les utilisateur·rice·s avec ces compétences pourront effectuer cette tâche.",
+                'help'  => "Seul les utilisateur·rice·s avec toute ces compétences pourront effectuer cette tâche.",
                 'class' => Skill::class,
                 'multiple' => true,
                 'by_reference' => false,

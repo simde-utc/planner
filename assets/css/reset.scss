@@ -39,6 +39,10 @@ p {
   @extend .fa-tools;
 }
 
+.fa-planner {
+  @extend .fa-bolt;
+}
+
 .btn-reset {
   border: none;
   background: none;
