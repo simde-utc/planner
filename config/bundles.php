@@ -17,4 +17,5 @@ return [
     Symfony\WebpackEncoreBundle\WebpackEncoreBundle::class => ['all' => true],
     KnpU\OAuth2ClientBundle\KnpUOAuth2ClientBundle::class => ['all' => true],
     Tetranz\Select2EntityBundle\TetranzSelect2EntityBundle::class => ['all' => true],
+    EightPoints\Bundle\GuzzleBundle\EightPointsGuzzleBundle::class => ['all' => true],
 ];

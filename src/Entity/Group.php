@@ -25,11 +25,6 @@ class Group
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=500, nullable=true)
-     */
-    private $description;
-
-    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Event", inversedBy="groups")
      * @ORM\JoinColumn(nullable=false)
      */
@@ -39,6 +34,11 @@ class Group
      * @ORM\OneToMany(targetEntity="App\Entity\User", mappedBy="group")
      */
     private $users;
+
+    /**
+     * @ORM\Column(type="time", nullable=true)
+     */
+    private $workingLimit;
 
     public function __construct()
     {
@@ -59,18 +59,6 @@ class Group
     public function setName(string $name): self
     {
         $this->name = $name;
-
-        return $this;
-    }
-
-    public function getDescription(): ?string
-    {
-        return $this->description;
-    }
-
-    public function setDescription(?string $description): self
-    {
-        $this->description = $description;
 
         return $this;
     }
@@ -119,6 +107,18 @@ class Group
                 $user->setEquityGroup(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getWorkingLimit(): ?\DateTimeInterface
+    {
+        return $this->workingLimit;
+    }
+
+    public function setWorkingLimit(?\DateTimeInterface $workingLimit): self
+    {
+        $this->workingLimit = $workingLimit;
 
         return $this;
     }

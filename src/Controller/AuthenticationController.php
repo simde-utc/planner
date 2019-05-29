@@ -20,7 +20,7 @@ class AuthenticationController extends AbstractController
         return $clientRegistry
             ->getClient('portal_assos') // key used in config/packages/knpu_oauth2_client.yaml
             ->redirect([
-                'user-get-info', // the scopes you want to access
+                '*', // the scopes you want to access
             ])
             ;
     }
@@ -51,5 +51,10 @@ class AuthenticationController extends AbstractController
             dump($e->getMessage()); die;
         }
         */
+    }
+
+    public function logout()
+    {
+        return $this->redirectToRoute("index");
     }
 }

@@ -23,7 +23,7 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string", unique=true)
      */
-    private $portalId;
+    private $remoteId;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\UserTask", mappedBy="user", orphanRemoval=true)
@@ -35,9 +35,33 @@ class User implements UserInterface
      */
     private $group;
 
-    public function __construct($response = [])
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $lastLogin;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $email;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $firstname;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $lastname;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $image;
+
+    public function __construct()
     {
-        parent::__construct($response);
         $this->userTasks = new ArrayCollection();
     }
 
@@ -48,7 +72,7 @@ class User implements UserInterface
 
     public function getUsername(): ?string
     {
-        return $this->getId();
+        return $this->getEmail();
     }
 
     /**
@@ -83,22 +107,6 @@ class User implements UserInterface
     }
 
     /**
-     * @return mixed
-     */
-    public function getPortalId()
-    {
-        return $this->portalId;
-    }
-
-    /**
-     * @param mixed $portalId
-     */
-    public function setPortalId($portalId): void
-    {
-        $this->portalId = $portalId;
-    }
-
-    /**
      * Returns the roles granted to the user.
      *
      *     public function getRoles()
@@ -114,7 +122,9 @@ class User implements UserInterface
      */
     public function getRoles()
     {
-        return [];
+        return [
+            'ROLE_USER'
+        ];
     }
 
     /**
@@ -152,15 +162,115 @@ class User implements UserInterface
     {
     }
 
-    public function getEquityGroup(): ?EquityGroup
+    public function getLastLogin(): ?\DateTimeInterface
     {
-        return $this->equityGroup;
+        return $this->lastLogin;
     }
 
-    public function setEquityGroup(?EquityGroup $equityGroup): self
+    public function setLastLogin(?\DateTimeInterface $lastLogin): self
     {
-        $this->equityGroup = $equityGroup;
+        $this->lastLogin = $lastLogin;
 
         return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEmail(): string
+    {
+        return $this->email;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFirstname(): string
+    {
+        return $this->firstname;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLastname(): string
+    {
+        return $this->lastname;
+    }
+
+    /**
+     * @return string
+     */
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRemoteId()
+    {
+        return $this->remoteId;
+    }
+
+    /**
+     * @param mixed $remoteId
+     * @return self
+     */
+    public function setRemoteId($remoteId)
+    {
+        $this->remoteId = $remoteId;
+        return $this;
+    }
+
+    /**
+     * @param mixed $email
+     * @return self
+     */
+    public function setEmail($email)
+    {
+        $this->email = $email;
+        return $this;
+    }
+
+    /**
+     * @param mixed $firstname
+     * @return self
+     */
+    public function setFirstname($firstname)
+    {
+        $this->firstname = $firstname;
+        return $this;
+    }
+
+    /**
+     * @param mixed $lastname
+     * @return self
+     */
+    public function setLastname($lastname)
+    {
+        $this->lastname = $lastname;
+        return $this;
+    }
+
+    /**
+     * @param mixed $image
+     * @return self
+     */
+    public function setImage($image)
+    {
+        $this->image = $image;
+        return $this;
+    }
+
+    public function getName()
+    {
+        return sprintf("%s %s", $this->getFirstname(), $this->getLastname());
+    }
+
+    public function __toString()
+    {
+        return $this->getName();
     }
 }

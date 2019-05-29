@@ -9,6 +9,10 @@
         <h3>{{ skill.name }}</h3>
         <p class="mt-3">{{ skill.description }}</p>
         <hr/>
+        <p><strong>Ressources possédant cette compétence :</strong></p>
+        {% for user in skill.users %}
+            <p>{{ user }}</p>
+        {% endfor %}
     {% else %}
         <div class="row mt-4">
             <div class="col-md-12 text-center">

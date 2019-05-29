@@ -8,6 +8,8 @@
 namespace App\Provider;
 
 
+use App\Repository\UserRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Psr7\Request;
@@ -30,10 +32,21 @@ class PortalUserProvider implements UserProviderInterface
      */
     private $httpClient;
 
-    public function __construct(ClientRegistry $clientRegistry)
+    /**
+     * @var ClientRegistry
+     */
+    private $clientRegistry;
+    /**
+     * @var UserRepository
+     */
+    private $userRepository;
+
+    public function __construct(ClientRegistry $clientRegistry, UserRepository $userRepository)
     {
         $this->oAuthClient = $clientRegistry->getClient('portal_assos');
         $this->httpClient = new Client();
+        $this->clientRegistry = $clientRegistry;
+        $this->userRepository = $userRepository;
     }
 
     /**
@@ -42,16 +55,25 @@ class PortalUserProvider implements UserProviderInterface
      * This method must throw UsernameNotFoundException if the user is not
      * found.
      *
-     * @param string $portalId The portalId
+     * @param string $remoteId The portalId
      *
      * @return void
      *
      * @throws GuzzleException
      * @throws IdentityProviderException
      */
-    public function loadUserByUsername($portalId)
+    public function loadUserByUsername($remoteId)
     {
-        dump($portalId);
+        $existingUser = $this->userRepository->findByRemoteId($remoteId);
+
+        if ($existingUser) {
+
+        } else {
+
+        }
+
+
+
         $accessToken = $this->oAuthClient->getAccessToken();
         $request = new Request('GET', 'http://127.0.0.1/api/v1/user', [
             'access_token' => $accessToken
@@ -89,6 +111,6 @@ class PortalUserProvider implements UserProviderInterface
      */
     public function supportsClass($class)
     {
-        return $class == PortalResourceOwner::class;
+        return $class == UserInterface::class;
     }
 }

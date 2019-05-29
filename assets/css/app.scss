@@ -9,6 +9,7 @@
 @import "~@fortawesome/fontawesome-free/css/all";
 @import "~chartist/dist/scss/chartist";
 @import "~select2/src/scss/core";
+@import "~bootstrap-table/src/bootstrap-table";
 
 /**
   SELECT2 styling
@@ -171,5 +172,14 @@
 .user-list {
   td {
     vertical-align: middle;
+  }
+}
+
+.card.event {
+  box-shadow: 0 4px 20px 3px #313e4a73;
+  background: linear-gradient(45deg, #29323c, #485563);
+  color: white;
+  .text-muted {
+    color: rgba(255, 255, 255, 0.8);
   }
 }

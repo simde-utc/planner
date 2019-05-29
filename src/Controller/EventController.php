@@ -10,10 +10,19 @@ namespace App\Controller;
 
 
 use App\Entity\Event;
+use App\Entity\User;
 use App\Form\EventType;
+use App\Remote\AssoManager;
+use App\Repository\AvailabilityRepository;
+use App\Repository\EventRepository;
+use App\Repository\UserRepository;
+use GuzzleHttp\Client;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Serializer\SerializerInterface;
 
 class EventController extends AbstractController
 {
@@ -24,42 +33,51 @@ class EventController extends AbstractController
         ]);
     }
 
-    public function resources(Event $event)
+    public function resources(Event $event, AvailabilityRepository $availabilityRepository)
     {
-        $users = [
-            [
-                "name" => "Mark Zuckzuck",
-                "email" => "mzuckzuck@etu.utc.fr",
-                "availability" => 0,
-                "working_time" => new \DateTime("09:00:00"),
-                "group" => null,
-            ],
-            [
-                "name" => "Jacob Delafond",
-                "email" => "jdelafond@etu.utc.fr",
-                "availability" => 1,
-                "working_time" => new \DateTime("09:00:00"),
-                "group" => "Organisation",
-            ],
-            [
-                "name" => "Romain Zuckzuck",
-                "email" => "mzuckzuck@etu.utc.fr",
-                "working_time" => null,
-                "availability" => 2,
-                "group" => "Bénévole",
-            ],
-            [
-                "name" => "René Zuckzuck",
-                "email" => "mzuckzuck@etu.utc.fr",
-                "working_time" => new \DateTime("09:30:00"),
-                "availability" => null,
-                "group" => "Organisation",
-            ]
-        ];
+        $availabilities = $availabilityRepository->findAllUsersForEvent($event);
+
         return $this->render('event/ressources/list.html.twig', [
             'event' => $event,
-            'users' => $users,
+            'availabilities' => $availabilities,
         ]);
+    }
+
+    /**
+     * @ParamConverter("user", class="App\Entity\User",  options={"mapping": {"user_id": "id"}})
+     */
+    public function resourcesContact(Event $event, User $user)
+    {
+        return $this->json([
+              [
+                "id" => "c6fe46d0-57c5-11e9-9c74-2b0c4b0d2c5f",
+                "name" => "Téléphone principal",
+                "value" => "0629017973",
+                "type" => [
+                    "name" => "Numéro de téléphone",
+                  "type" => "phone",
+                  "pattern" => "^\\+?[0-9 \\.]*$"
+                ],
+                "visibility" => [
+                    "id" => "699f9780-5345-11e9-9486-2daa3018b80b",
+                  "type" => "public",
+                  "name" => "Public"
+                ]
+              ]
+        ]);
+    }
+
+    public function resourcesJson(Event $event, AvailabilityRepository $availabilityRepository, SerializerInterface $serializer)
+    {
+        $availabilities = $availabilityRepository->findAllUsersForEvent($event);
+
+        $jsonArray = $serializer->serialize($availabilities, 'json', [
+            'circular_reference_handler' => function ($object) {
+                return $object->getId();
+            }
+        ]);
+
+        return new JsonResponse($jsonArray, 200, [], true);
     }
 
     public function invitations()
@@ -98,15 +116,33 @@ class EventController extends AbstractController
         return $this->render('event/settings/access.html.twig');
     }
 
-    public function new()
+    public function new(AssoManager $assoManager)
     {
-        $form = $this->createForm(EventType::class);
+        $assos = $assoManager->findByUserWithPermissions($this->getUser(), "69d6a120-5345-11e9-8edd-43c9792c1d4a");
+
+        $form = $this->createForm(EventType::class, null, [
+            'organizations' => $assos
+        ]);
         $form->add('submit', SubmitType::class, [
             'label' => 'Créer',
         ]);
 
         return $this->render('event/new.html.twig', [
             'form' => $form->createView()
+        ]);
+    }
+
+    public function planning(Event $event, AssoManager $assoManager)
+    {
+        $asso = $assoManager->find("6a8bc6e0-5345-11e9-aff8-bd263b9b07f9");
+        dump($asso);
+        $assos = $assoManager->findBy([
+            'login'=>"simde",
+        ]);
+        dump($assos);
+
+        return $this->render('event/planning.html.twig', [
+            'event' => $event,
         ]);
     }
 }

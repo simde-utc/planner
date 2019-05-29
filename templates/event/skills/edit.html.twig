@@ -31,9 +31,20 @@
                 </div>
                 <div class="modal-body">
                     <p>Etes vous sûr de vouloir supprimer cette compétence ?</p>
-                    {% if skill.users %}
-                        <p>{{ skill.users|length }} ressources sont affecté·e·s à cette compétence</p>
+                    {% if skill.users|length or skill.tasks|length %}
+                    <div class="alert alert-warning">
+                        {% if skill.users|length %}
+                            {{ skill.users|length }} utilisateur·rice{{ skill.users|length > 1 ? '·s sont affecté·e·s' : ' est affecté·e'}} à cette compétence
+                        {% endif %}
+                        {% if skill.tasks|length  %}
+                            {% if skill.users|length %}et{% endif %}
+                            {{ skill.tasks|length }} tâche{{ skill.users|length > 1 ? 's sont affectées' : ' est affectée'}} à cette compétence.
+                        {% endif %}
+                    </div>
                     {% endif %}
+
+
+
                     <strong>Attention, cette action est irreversible.</strong>
                 </div>
                 <div class="modal-footer">

@@ -11,30 +11,59 @@ namespace App\Security;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use KnpU\OAuth2ClientBundle\Client\OAuth2Client;
-use KnpU\OAuth2ClientBundle\Security\Authenticator\SocialAuthenticator;
+use KnpU\OAuth2ClientBundle\Client\OAuth2ClientInterface;
+use KnpU\OAuth2ClientBundle\Exception\InvalidStateException;
+use KnpU\OAuth2ClientBundle\Exception\MissingAuthorizationCodeException;
 use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
+use KnpU\OAuth2ClientBundle\Security\Exception\IdentityProviderAuthenticationException;
+use KnpU\OAuth2ClientBundle\Security\Exception\InvalidStateAuthenticationException;
+use KnpU\OAuth2ClientBundle\Security\Exception\NoAuthCodeAuthenticationException;
+use KnpU\OAuth2ClientBundle\Security\Helper\PreviousUrlHelper;
+use KnpU\OAuth2ClientBundle\Security\Helper\SaveAuthFailureMessage;
+use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
+use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
+use Symfony\Component\Security\Guard\AbstractGuardAuthenticator;
+use Symfony\Component\Serializer\SerializerInterface;
 
-class PortalAuthenticator extends SocialAuthenticator
+class PortalAuthenticator extends AbstractGuardAuthenticator
 {
+    use PreviousUrlHelper;
+    use SaveAuthFailureMessage;
+
+    /**
+     * @var ClientRegistry
+     */
     private $clientRegistry;
+
+    /**
+     * @var EntityManagerInterface
+     */
     private $em;
+
     /**
      * @var SessionInterface
      */
     private $session;
 
-    public function __construct(ClientRegistry $clientRegistry, EntityManagerInterface $em, SessionInterface $session)
+    /**
+     * @var SerializerInterface
+     */
+    private $serializer;
+
+    public function __construct(ClientRegistry $clientRegistry, EntityManagerInterface $em, SessionInterface $session, SerializerInterface $serializer)
     {
         $this->clientRegistry = $clientRegistry;
         $this->em = $em;
         $this->session = $session;
+        $this->serializer = $serializer;
     }
 
     public function supports(Request $request)
@@ -68,70 +97,45 @@ class PortalAuthenticator extends SocialAuthenticator
      */
     public function getCredentials(Request $request)
     {
-        return $this->fetchAccessToken($this->getPortalClient());
+        try {
+            return $this->getPortalClient()->getAccessToken();
+        } catch (MissingAuthorizationCodeException $e) {
+            throw new NoAuthCodeAuthenticationException();
+        } catch (IdentityProviderException $e) {
+            throw new IdentityProviderAuthenticationException($e);
+        } catch (InvalidStateException $e) {
+            throw new InvalidStateAuthenticationException($e);
+        }
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getUser($credentials, UserProviderInterface $userProvider)
     {
-        $portalUser = $this->getPortalClient()
-            ->fetchUserFromToken($credentials);
-
-
-
-        $this->session->set('access_token', $credentials);
-
-        return $portalUser;
-
-        $user = $userProvider->loadUserByUsername($portalUser['id']);
-
-        return $user;
-
-        $portalUser = $portalUser->toArray();
-        $user = new User();
-        $user->setName($portalUser['name']);
-        $user->setEmail($portalUser['email']);
-        $user->setPortalId($portalUser['id']);
-        $user->setEmail($portalUser['email']);
-        $user->setFirstname($portalUser['firstname']);
-        $user->setLastname($portalUser['lastname']);
-        $user->setImage($portalUser['image']);
-        $user->setIsActive($portalUser['is_active']);
-        $user->setType($portalUser['type']);
-        $user->setName($portalUser['name']);
-
+        // Fetch remote user
+        $remoteUser = $this->getPortalClient()->fetchUserFromToken($credentials);
+        // Check if user exists locally, otherwise, create it
         try {
-            $user->setLastLoginAt(new \DateTime($portalUser['last_login_at']));
-        } catch (\Exception $e) {}
-        try {
-            $user->setUpdatedAt(new \DateTime($portalUser['updated_at']));
-        } catch (\Exception $e) {}
-        try {
-            $user->setCreatedAt(new \DateTime($portalUser['created_at']));
-        } catch (\Exception $e) {}
-
-        return $user;
-
-        return $userProvider->loadUserByUsername($portalUser['email']);
-        /*
-        $email = $portalUser->getEmail();
-
-        // 1) have they logged in with Facebook before? Easy!
-        $existingUser = $this->em->getRepository(User::class)
-            ->findOneBy(['facebookId' => $portalUser->getId()]);
-        if ($existingUser) {
-            return $existingUser;
+            $user = $userProvider->loadUserByUsername($remoteUser->getId());
+        } catch (UsernameNotFoundException $e) {
+            //$user = new User();
+            //$this->serializer
+            $remoteUser = $remoteUser->toArray();
+            $user = new User();
+            $user
+                ->setEmail($remoteUser['email'])
+                ->setFirstname($remoteUser["firstname"])
+                ->setLastname($remoteUser["lastname"])
+                ->setImage($remoteUser["image"])
+            ;
+            $this->em->persist($user);
         }
 
-        // 2) do we have a matching user by email?
-        $user = $this->em->getRepository(User::class)
-            ->findOneBy(['email' => $email]);
-
-        // 3) Maybe you just want to "register" them by creating
-        // a User object
-        $user->setFacebookId($portalUser->getId());
-        $this->em->persist($user);
+        $user->setLastLogin(new \DateTime());
         $this->em->flush();
-*/
+        $this->session->set('access_token', $credentials);
+
         return $user;
     }
 
@@ -160,6 +164,9 @@ class PortalAuthenticator extends SocialAuthenticator
     /**
      * Called when authentication is needed, but it's not sent.
      * This redirects to the 'login'.
+     * @param Request $request
+     * @param AuthenticationException|null $authException
+     * @return RedirectResponse
      */
     public function start(Request $request, AuthenticationException $authException = null)
     {
@@ -169,5 +176,14 @@ class PortalAuthenticator extends SocialAuthenticator
         );
     }
 
-    // ...
+    public function checkCredentials($credentials, UserInterface $user)
+    {
+        // do nothing - the fact that the access token works is enough
+        return true;
+    }
+
+    public function supportsRememberMe()
+    {
+        return true;
+    }
 }

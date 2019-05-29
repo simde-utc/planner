@@ -1,0 +1,106 @@
+{% extends 'event/ressources/base.html.twig' %}
+
+{% block resource_container %}
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h3>Liste des groupes</h3>
+    </div>
+    <div class="input-group">
+        <input type="text" class="form-control" placeholder="Rechercher" aria-label="Text input with dropdown button">
+        <div class="input-group-append">
+            <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Disponibilité</button>
+            <div class="dropdown-menu">
+                <h6 class="dropdown-header">Rôle</h6>
+                <div class="p-3">
+                    <div class="form-group">
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="dropdownCheck2">
+                            <label class="form-check-label" for="dropdownCheck2">Remember me</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="dropdownCheck2">
+                            <label class="form-check-label" for="dropdownCheck2">Remember me</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="dropdownCheck2">
+                            <label class="form-check-label" for="dropdownCheck2">Remember me</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div role="separator" class="dropdown-divider"></div>
+            </div>
+        </div>
+        <div class="input-group-append">
+            <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Groupe d'équité</button>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" href="#">Action</a>
+                <a class="dropdown-item" href="#">Another action</a>
+                <a class="dropdown-item" href="#">Something else here</a>
+                <div role="separator" class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#">Separated link</a>
+            </div>
+        </div>
+    </div>
+    {# TABLE : LIST OF USER : #}
+    <table class="table table-hover mt-4 user-list">
+        <thead class="thead-light">
+        <tr>
+            <th scope="col"></th>
+            <th scope="col">Nom</th>
+            <th scope="col">Charge de travail</th>
+            <th scope="col">Groupe</th>
+            <th scope="col">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for user in users %}
+            <tr>
+                <td class="text-right" width="15">
+                    {% if user.availability is null %}
+                        <i class="fa fa-circle text-secondary" title="En attente"></i>
+                    {% elseif user.availability == 2 %}
+                        <i class="fa fa-circle text-medium-success" title="Partiellement disponible"></i>
+                    {% elseif user.availability == 1 %}
+                        <i class="fa fa-circle text-success" title="Disponible"></i>
+                    {% elseif user.availability == 0 %}
+                        <i class="fa fa-circle text-danger" title="Non disponible"></i>
+                    {% endif %}
+                </td>
+                <th>
+                    <p class="mb-0"><strong>{{ user.name }}</strong></p>
+                    <a href="mailto:{{ user.email }}" class="text-muted"><small>{{ user.email }}</small></a>
+                </th>
+                <td class="text-center">
+                    <span class="badge badge-pill badge-success"><small>{{ user.working_time|date("H\\hi") }}</small></span>
+
+                </td>
+                <td class="text-muted">
+                    {% if user.group %}
+                        <a href="#">{{ user.group }}</a>
+                    {% else %}
+                        Aucun
+                    {% endif %}
+                </td>
+                <td>
+                    <div class="dropdown text-center">
+                        <button class="btn-reset" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fa fa-ellipsis-v text-muted"></i>
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="#">Voir le profil</a>
+                            <a class="dropdown-item" href="#">Voir le planning</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item text-danger" href="#"><i class="fa fa-sm fa-user-slash mr-1"></i>Retirer</a>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
+

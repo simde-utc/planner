@@ -5,14 +5,14 @@
         <div class="col-md-12">
             <h1 class="mb-3">Evènements à venir</h1>
             <h2 class="mb-4">Evènements auxquels vous êtes invité :</h2>
-            <div class="card">
+            <div class="card event">
                 <div class="card-body" style="position: relative">
                     <h4 class="card-title">Imaginarium Festival 2019</h4>
                     <div class="row">
                         <div class="col-md-9">
                             <h6 class="card-subtitle mb-3 text-muted">par <a href="#">Imaginarium Festival</a></h6>
                             <p class="card-text">Planning des deux jours de l'Imaginarium Festival</p>
-                            <a href="{{ path('planning') }}" class="card-link">Voir mon planning</a>
+                            <a href="{{ path('event_planning', {id: 1}) }}" class="card-link">Voir mon planning</a>
                             <a href="{{ path('event_show', {id: 1}) }}" class="card-link">Gérer l'évènement</a>
                         </div>
                         <div class="col-md-3 text-center">
@@ -117,7 +117,7 @@
                 </div>
             </div>
             <h2 class="mt-5 mb-4">Evènements recherchant des participants</h2>
-            <div class="card">
+            <div class="card event">
                 <div class="card-body" style="position: relative">
                     <h4 class="card-title">Imaginarium Festival 2019</h4>
                     <div class="row">

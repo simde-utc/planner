@@ -8,6 +8,9 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\AvailabilityRepository")
+ * @ORM\Table(name="availability", uniqueConstraints={
+ *      @ORM\UniqueConstraint(name="availability_user_event", columns={"user_id", "event_id"})
+ * })
  */
 class Availability
 {
@@ -31,14 +34,14 @@ class Availability
     private $event;
 
     /**
-     * @ORM\Column(type="boolean")
-     */
-    private $fullyAvailable;
-
-    /**
      * @ORM\OneToMany(targetEntity="App\Entity\TimeInterval", mappedBy="availability", orphanRemoval=true)
      */
     private $timeIntervals;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $isAvailable;
 
     public function __construct()
     {
@@ -74,18 +77,6 @@ class Availability
         return $this;
     }
 
-    public function getFullyAvailable(): ?bool
-    {
-        return $this->fullyAvailable;
-    }
-
-    public function setFullyAvailable(bool $fullyAvailable): self
-    {
-        $this->fullyAvailable = $fullyAvailable;
-
-        return $this;
-    }
-
     /**
      * @return Collection|TimeInterval[]
      */
@@ -115,5 +106,44 @@ class Availability
         }
 
         return $this;
+    }
+
+    public function setIsAvailable(?bool $isAvailable): self
+    {
+        $this->isAvailable = $isAvailable;
+
+        return $this;
+    }
+
+    /**
+     * L'utilisateur est disponible pendant au
+     * moins une partie de l'évènement.
+     * Retourne null si l'utilisateur n'a pas encore répondu
+     * @return bool|null
+     */
+    public function isAvailable(): ?bool
+    {
+        return $this->isAvailable;
+    }
+
+    /**
+     * L'utilisateur n'a pas répondu à l'invitation
+     * @return bool
+     */
+    public function isPending(): bool
+    {
+        return $this->isAvailable() === null;
+    }
+
+    /**
+     * L'utilisateur est disponible pendant toute la durée de l'évènement,
+     * s'il n'a pas précisé de dates de disponibilité
+     * (On suppose que les dates de disponibilités sont cohérentes avec
+     * les dates de début et fin d'évènement)
+     * @return bool
+     */
+    public function isFullyAvailable(): bool
+    {
+        return $this->isAvailable() && $this->getTimeIntervals()->count() === 0;
     }
 }

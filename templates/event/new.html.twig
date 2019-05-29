@@ -36,7 +36,10 @@
             #}
             <div class="col-md-12">
                 {{ form_start(form) }}
-                {{ form_row(form.name) }}
+                <div class="row">
+                    <div class="col-md-6">{{ form_row(form.name) }}</div>
+                    <div class="col-md-6">{{ form_row(form.remoteOrganizationId) }}</div>
+                </div>
                 {{ form_row(form.description) }}
                 <div class="row">
                     <div class="col-md-6">{{ form_row(form.startAt) }}</div>

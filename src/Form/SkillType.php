@@ -36,6 +36,7 @@ class SkillType extends AbstractType
                 "help"  => "L'utilisateur·rice pourra renseigner cette compétence lors de son inscription.",
                 'required' => false,
             ])
+            // TODO: replace this type by Select2EntityType
             ->add('users', EntityType::class, [
                 'label' => "Affecter les compétences aux utilisateur·rice·s",
                 'class' => User::class,

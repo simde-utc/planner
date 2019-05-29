@@ -43,6 +43,19 @@ class EventType extends AbstractType
                 "required" => false,
             ])
         ;
+        if ($options['organizations']) {
+            $builder->add('remoteOrganizationId', ChoiceType::class, [
+                'label' => "Association",
+                'choices' => $options['organizations'],
+                'choice_label' => function ($choice, $key, $value) {
+                    return $choice->shortname;
+                },
+                'choice_value' => function ($entity = null) {
+                    if ($entity)
+                        return $entity->id;
+                },
+            ]);
+        }
         if ($options['from_base']) {
             $builder->add('fromBase', ChoiceType::class, [
                 'mapped' => false
@@ -55,6 +68,7 @@ class EventType extends AbstractType
         $resolver->setDefaults([
             'data_class' => Event::class,
             'from_base'  => false,
+            'organizations' => null,
         ]);
     }
 }

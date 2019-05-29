@@ -1,15 +1,20 @@
 security:
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
-        oauth:
-            id: App\Provider\PortalUserProvider
+        users:
+            entity:
+                # the class of the entity that represents users
+                class: 'App\Entity\User'
+                # the property to query by - e.g. username, email, etc
+                property: 'remoteId'
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
             anonymous: ~
-            logout: ~
+            logout:
+                path: connect_portal_logout
             guard:
                 authenticators:
                     - App\Security\PortalAuthenticator

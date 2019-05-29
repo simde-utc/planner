@@ -14,6 +14,7 @@ use League\OAuth2\Client\Provider\ResourceOwnerInterface;
 use League\OAuth2\Client\Token\AccessToken;
 use League\OAuth2\Client\Tool\BearerAuthorizationTrait;
 use Psr\Http\Message\ResponseInterface;
+use Symfony\Component\Security\Core\Role\Role;
 
 class PortalProvider extends AbstractProvider
 {
@@ -36,7 +37,7 @@ class PortalProvider extends AbstractProvider
      */
     public function getBaseAuthorizationUrl()
     {
-        return $this->baseUrl . '/oauth/authorize';
+        return sprintf("%s/oauth/authorize", $this->baseUrl);
     }
 
     /**
@@ -49,7 +50,7 @@ class PortalProvider extends AbstractProvider
      */
     public function getBaseAccessTokenUrl(array $params)
     {
-        return $this->baseUrl . '/oauth/token';
+        return sprintf("%s/oauth/token", $this->baseUrl);
     }
 
     /**
@@ -60,7 +61,7 @@ class PortalProvider extends AbstractProvider
      */
     public function getResourceOwnerDetailsUrl(AccessToken $token)
     {
-        return $this->baseUrl . '/api/v1/user';
+        return sprintf("%s/api/v1/user", $this->baseUrl);
     }
 
     /**
@@ -86,7 +87,7 @@ class PortalProvider extends AbstractProvider
      */
     protected function checkResponse(ResponseInterface $response, $data)
     {
-        if (!empty($data['error'])) {
+        if ($response->getStatusCode() >= 400 || !empty($data['error'])) {
             throw new IdentityProviderException($data['message'], $response->getStatusCode(), $response);
         }
     }

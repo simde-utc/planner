@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Availability;
+use App\Entity\Event;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
@@ -17,6 +18,31 @@ class AvailabilityRepository extends ServiceEntityRepository
     public function __construct(RegistryInterface $registry)
     {
         parent::__construct($registry, Availability::class);
+    }
+
+    public function findAllUsersForEvent(Event $event)
+    {
+        return $this->createQbAllUsersForEvent($event)->getQuery()->getResult();
+    }
+
+    public function findAvailableUsersForEvent(Event $event)
+    {
+        $qb = $this->createQbAllUsersForEvent($event)
+            ->andWhere('a.isAvailable = true')
+        ;
+        return $qb->getQuery()->getResult();
+    }
+
+    protected function createQbAllUsersForEvent(Event $event)
+    {
+        return $this
+            ->createQueryBuilder('a')
+            ->join('a.user', 'u')
+            ->join('a.event', 'e')
+            ->leftJoin('a.timeIntervals', 'ti')
+            ->andWhere('e = :eventId')
+            ->setParameter('eventId', $event->getId())
+        ;
     }
 
     // /**

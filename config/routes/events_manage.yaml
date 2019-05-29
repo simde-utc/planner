@@ -1,17 +1,27 @@
-event_new:
-  path: /new
-  controller: App\Controller\EventController::new
+
 
 event_resources:
-  path: /{id}/resources
+  path: /resources
   controller: App\Controller\EventController::resources
 
+event_resources_json:
+  path: /resources.json
+  controller: App\Controller\EventController::resourcesJson
+
+event_resources_contact_json:
+  path: /resources/{user_id}/contact.json
+  controller: App\Controller\EventController::resourcesContact
+
+
 event_show:
-  path: /{id}
+  path: /
   controller: App\Controller\EventController::show
 
+# ----------
+# EVENT SETTINGS
+# ----------
 event_settings:
-  path: /{id}/settings
+  path: /settings
   controller: App\Controller\EventController::edit
 
 event_settings_access:
@@ -22,48 +32,48 @@ event_settings_access:
 # EVENT TASK
 # ----------
 event_tasks:
-  path: /{id}/tasks
+  path: /tasks
   controller: App\Controller\TaskController:tasks
 
 event_tasks_new:
-  path: /{id}/tasks/new
+  path: /tasks/new
   controller: App\Controller\TaskController:new
 
 event_tasks_show:
-  path: /{id}/tasks/{task_id}
+  path: /tasks/{task_id}
   controller: App\Controller\TaskController:show
 
 event_tasks_edit:
-  path: /{id}/tasks/{task_id}/edit
+  path: /tasks/{task_id}/edit
   controller: App\Controller\TaskController:edit
 
 event_tasks_delete:
-  path: /{id}/tasks/{task_id}/delete
+  path: /tasks/{task_id}/delete
   controller: App\Controller\TaskController:delete
 
 # ----------
 # EVENT SKILLS
 # ----------
 event_skills:
-  path: /{id}/skills
+  path: /skills
   controller: App\Controller\SkillController:index
 
 event_skills_api_list:
-  path: /{id}/skills.json
+  path: /skills.json
   controller: App\Controller\SkillController:apiList
 
 event_skills_new:
-  path: /{id}/skills/new
+  path: /skills/new
   controller: App\Controller\SkillController:new
 
 event_skills_edit:
-  path: /{id}/skills/{skill_id}/edit
+  path: /skills/{skill_id}/edit
   controller: App\Controller\SkillController:edit
 
 event_skills_show:
-  path: /{id}/skills/{skill_id}
+  path: /skills/{skill_id}
   controller: App\Controller\SkillController:show
 
 event_skills_delete:
-  path: /{id}/skills/{skill_id}/delete
+  path: /skills/{skill_id}/delete
   controller: App\Controller\SkillController:delete

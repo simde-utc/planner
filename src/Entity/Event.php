@@ -68,6 +68,11 @@ class Event
      */
     private $skills;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $remoteOrganizationId;
+
     public function __construct()
     {
         $this->tasks = new ArrayCollection();
@@ -273,6 +278,18 @@ class Event
                 $skill->setEvent(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getRemoteOrganizationId(): ?string
+    {
+        return $this->remoteOrganizationId;
+    }
+
+    public function setRemoteOrganizationId(string $remoteOrganizationId): self
+    {
+        $this->remoteOrganizationId = $remoteOrganizationId;
 
         return $this;
     }
