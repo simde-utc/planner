@@ -1,0 +1,14 @@
+{% extends 'event/ressources/base.html.twig' %}
+
+{% block resource_container %}
+    <h3>Nouveau groupe d'équité</h3>
+    {{ form_start(form) }}
+    {{ form_row(form.name) }}
+    {{ form_row(form.workingLimit) }}
+
+    <a class="btn btn-secondary" href="{{ path('event_resources_groups', {id: event.id}) }}">Annuler</a>
+    {{ form_widget(form.submit) }}
+
+    {{ form_rest(form) }}
+    {{ form_end(form) }}
+{% endblock %}

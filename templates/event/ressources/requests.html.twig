@@ -1,0 +1,15 @@
+{% extends 'event/ressources/base.html.twig' %}
+
+{% block resource_container %}
+    {% if event.allowSubmissions %}
+
+    {% else %}
+        <div class="pr-5 pl-5 mt-3 text-center">
+            <i class="fa fa-toggle-off fa-5x mb-2"></i>
+            <h3>Les inscriptions pour cet évènement ne sont pas activées</h3>
+            <p>Cette section permet d'accepter ou non les candidature.</p>
+            <a class="btn btn-primary" href="{{ path('event_settings', {id: event.id}) }}">Autoriser les inscriptions</a>
+            <p><small class="text-muted pr-3 pl-3 mt-1">Autoriser les inscriptions a un évènement donne la possibilité a tous les utilisateurs de soumettre une candidature pour participer à l'évènement.</small></p>
+        </div>
+    {% endif %}
+{% endblock %}

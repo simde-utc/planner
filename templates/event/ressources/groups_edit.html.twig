@@ -1,0 +1,42 @@
+{% extends 'event/ressources/base.html.twig' %}
+
+{% block resource_container %}
+    {% set group = form.vars.value %}
+    <h3>Modifier le groupe d'équité</h3>
+    {{ form_start(form) }}
+    {{ form_row(form.name) }}
+    {{ form_row(form.workingLimit) }}
+
+    <a class="btn btn-secondary" href="{{ path('event_resources_groups', {id: event.id}) }}">Annuler</a>
+    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delete_modal">Supprimer</button>
+    {{ form_widget(form.submit) }}
+
+    {{ form_rest(form) }}
+    {{ form_end(form) }}
+
+    <div class="modal fade" id="delete_modal" tabindex="-1" role="dialog" aria-labelledby="delete_modal" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Supprimer le groupe d'équité {{ group.name }} ?</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    {% if group.availabilities|length > 0 %}
+                        <div class="alert alert-warning">
+                            {{ group.availabilities|length }} ressource{{ group.availabilities|length > 1 ? 's sont affectées' : ' est affectée' }} à ce groupe d'équité.
+                            Il{{ group.availabilities|length > 1 ? "s n'aurons" : " n'aura" }} plus de groupe d'équité une fois celui-ci supprimé.
+                        </div>
+                    {% endif %}
+                    <strong>Attention, cette action est irreversible.</strong>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                    <a class="btn btn-danger" href="{{ path('event_resources_groups_delete', {id: event.id, group_id: group.id}) }}">Supprimer</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

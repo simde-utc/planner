@@ -13,6 +13,7 @@ use App\Entity\Availability;
 use App\Entity\Event;
 use App\Entity\EquityGroup;
 use App\Entity\User;
+use App\Form\EquityGroupType;
 use App\Form\EventType;
 use App\Form\UserListType;
 use App\Remote\AssoManager;
@@ -23,6 +24,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\ButtonType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -156,12 +158,89 @@ class EventController extends AbstractController
         return new JsonResponse($jsonArray, 200, [], true);
     }
 
-    public function invitations()
+    public function resourcesRequests(Event $event)
     {
-        return $this->render('event/ressources/invitations.html.twig');
+        return $this->render('event/ressources/requests.html.twig', [
+            'event' => $event,
+        ]);
     }
 
-    public function edit(Event $event, Request $request)
+    public function resourcesEquityGroup(Event $event)
+    {
+        return $this->render('event/ressources/groups.html.twig', [
+            'event' => $event,
+        ]);
+    }
+
+    public function resourcesNewEquityGroup(Event $event, Request $request, EntityManagerInterface $em)
+    {
+        $group = new EquityGroup();
+        $group->setEvent($event);
+
+        $form = $this->createForm(EquityGroupType::class, $group)
+            ->add('submit', SubmitType::class, [
+                'label' => "Créer",
+            ])
+        ;
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em->persist($group);
+            $em->flush();
+
+            return $this->redirectToRoute('event_resources_groups', [
+                'id' => $event->getId(),
+            ]);
+        }
+
+        return $this->render('event/ressources/groups_new.html.twig', [
+            'event' => $event,
+            'form'  => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @ParamConverter("group", class="App\Entity\EquityGroup",  options={"mapping": {"group_id": "id"}})
+     */
+    public function resourcesEditEquityGroup(Event $event, EquityGroup $group, Request $request, EntityManagerInterface $em)
+    {
+        $form = $this->createForm(EquityGroupType::class, $group)
+            ->add('submit', SubmitType::class, [
+                'label' => "Enregistrer",
+            ])
+        ;
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em->flush();
+
+            return $this->redirectToRoute('event_resources_groups', [
+                'id' => $event->getId(),
+            ]);
+        }
+
+        return $this->render('event/ressources/groups_edit.html.twig', [
+            'event' => $event,
+            'form'  => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @ParamConverter("group", class="App\Entity\EquityGroup",  options={"mapping": {"group_id": "id"}})
+     */
+    public function resourcesDeleteEquityGroup(Event $event, EquityGroup $group, EntityManagerInterface $em)
+    {
+        $em->remove($group);
+        $em->flush();
+
+        return $this->redirectToRoute('event_resources_groups', [
+            'id' => $event->getId(),
+        ]);
+    }
+
+    public function edit(Event $event, Request $request, EntityManagerInterface $em)
     {
         $form = $this->createForm(EventType::class, $event, [
             'disabled' => $event->isFinished(),
@@ -174,7 +253,6 @@ class EventController extends AbstractController
             $form->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
-                $em = $this->getDoctrine()->getManager();
                 $em->persist($event);
                 $em->flush();
             }

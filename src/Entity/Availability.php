@@ -45,6 +45,7 @@ class Availability
 
     /**
      * @ORM\ManyToOne(targetEntity="EquityGroup", inversedBy="availabilities")
+     * @ORM\JoinColumn(onDelete="SET NULL")
      */
     private $equityGroup;
 

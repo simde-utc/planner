@@ -1,106 +1,41 @@
 {% extends 'event/ressources/base.html.twig' %}
 
 {% block resource_container %}
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h3>Liste des groupes</h3>
-    </div>
-    <div class="input-group">
-        <input type="text" class="form-control" placeholder="Rechercher" aria-label="Text input with dropdown button">
-        <div class="input-group-append">
-            <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Disponibilité</button>
-            <div class="dropdown-menu">
-                <h6 class="dropdown-header">Rôle</h6>
-                <div class="p-3">
-                    <div class="form-group">
-                        <div class="form-check">
-                            <input type="checkbox" class="form-check-input" id="dropdownCheck2">
-                            <label class="form-check-label" for="dropdownCheck2">Remember me</label>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="form-check">
-                            <input type="checkbox" class="form-check-input" id="dropdownCheck2">
-                            <label class="form-check-label" for="dropdownCheck2">Remember me</label>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="form-check">
-                            <input type="checkbox" class="form-check-input" id="dropdownCheck2">
-                            <label class="form-check-label" for="dropdownCheck2">Remember me</label>
-                        </div>
-                    </div>
-                </div>
-
-                <div role="separator" class="dropdown-divider"></div>
-            </div>
+    {% if event.groups|length > 0 %}
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h3>Liste des groupes</h3>
+            <a class="btn btn-sm btn-primary" href="{{ path('event_resources_groups_new', {id: event.id}) }}"><i class="fa fa-plus mr-2"></i>Créer un groupe</a>
         </div>
-        <div class="input-group-append">
-            <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Groupe d'équité</button>
-            <div class="dropdown-menu">
-                <a class="dropdown-item" href="#">Action</a>
-                <a class="dropdown-item" href="#">Another action</a>
-                <a class="dropdown-item" href="#">Something else here</a>
-                <div role="separator" class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#">Separated link</a>
-            </div>
-        </div>
-    </div>
-    {# TABLE : LIST OF USER : #}
-    <table class="table table-hover mt-4 user-list">
-        <thead class="thead-light">
-        <tr>
-            <th scope="col"></th>
-            <th scope="col">Nom</th>
-            <th scope="col">Charge de travail</th>
-            <th scope="col">Groupe</th>
-            <th scope="col">Actions</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for user in users %}
+        <table class="table table-hover">
+            <thead class="thead-light">
             <tr>
-                <td class="text-right" width="15">
-                    {% if user.availability is null %}
-                        <i class="fa fa-circle text-secondary" title="En attente"></i>
-                    {% elseif user.availability == 2 %}
-                        <i class="fa fa-circle text-medium-success" title="Partiellement disponible"></i>
-                    {% elseif user.availability == 1 %}
-                        <i class="fa fa-circle text-success" title="Disponible"></i>
-                    {% elseif user.availability == 0 %}
-                        <i class="fa fa-circle text-danger" title="Non disponible"></i>
-                    {% endif %}
-                </td>
-                <th>
-                    <p class="mb-0"><strong>{{ user.name }}</strong></p>
-                    <a href="mailto:{{ user.email }}" class="text-muted"><small>{{ user.email }}</small></a>
-                </th>
-                <td class="text-center">
-                    <span class="badge badge-pill badge-success"><small>{{ user.working_time|date("H\\hi") }}</small></span>
-
-                </td>
-                <td class="text-muted">
-                    {% if user.group %}
-                        <a href="#">{{ user.group }}</a>
-                    {% else %}
-                        Aucun
-                    {% endif %}
-                </td>
-                <td>
-                    <div class="dropdown text-center">
-                        <button class="btn-reset" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="fa fa-ellipsis-v text-muted"></i>
-                        </button>
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <a class="dropdown-item" href="#">Voir le profil</a>
-                            <a class="dropdown-item" href="#">Voir le planning</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item text-danger" href="#"><i class="fa fa-sm fa-user-slash mr-1"></i>Retirer</a>
-                        </div>
-                    </div>
-                </td>
+                <th>Groupe d'équité</th>
+                <th>Limite de temps</th>
+                <th>Nombre de ressources</th>
+                <th style="text-transform: capitalize;">écart type<i class="fa fa-sm fa-question-circle ml-2" title="Calcul l'écart type des ressources du groupe d'équité. Un faible écart type est signe d'équité dans le groupe."></i></th>
             </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+            {% for group in event.groups %}
+                <tr>
+                    <td><a href="{{ path('event_resources_groups_edit', {id: event.id, group_id: group.id}) }}">{{ group.name }}</a></td>
+                    <td>{{ group.workingLimit ? group.workingLimit|date('H\\hi') : '-' }}</td>
+                    <td>{{ group.availabilities|length }}</td>
+                    <td><span class="badge badge-success">1h</span></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+    {% else %}
+        <div class="mr-5 ml-5 mt-3 text-center">
+            <i class="fa fa-equity fa-5x mb-4"></i>
+            <h3 class="mb-4">Aucun groupe d'équité pour le moment</h3>
+            <p>Les groupes d'équité permettent de définir des groupes de ressources qui doivent avoir une charge de travail équivalente.</p>
+            <p>Une ressource peut alors appartenir au plus a un seul groupe d'équité.</p>
+            <p>Il est également possible de fixer une limite de charge de travail pour un groupe d'équité.</p>
+            <a class="btn btn-primary mt-2" href="{{ path('event_resources_groups_new', {id: event.id}) }}"><i class="fa fa-plus mr-2"></i>Créer un groupe d'équité</a>
+        </div>
+    {% endif %}
 {% endblock %}
 

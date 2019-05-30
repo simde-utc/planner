@@ -1,5 +1,7 @@
 
-
+# ----------
+# EVENT RESOURCES
+# ----------
 event_resources:
   path: /resources
   controller: App\Controller\EventController::resources
@@ -12,6 +14,25 @@ event_resources_contact_json:
   path: /resources/{user_id}/contact.json
   controller: App\Controller\EventController::resourcesContact
 
+event_resources_groups:
+  path: /resources/requests/groups
+  controller: App\Controller\EventController::resourcesEquityGroup
+
+event_resources_groups_new:
+  path: /resources/requests/groups/new
+  controller: App\Controller\EventController::resourcesNewEquityGroup
+
+event_resources_groups_edit:
+  path: /resources/requests/groups/{group_id}/edit
+  controller: App\Controller\EventController::resourcesEditEquityGroup
+
+event_resources_groups_delete:
+  path: /resources/requests/groups/{group_id}/delete
+  controller: App\Controller\EventController::resourcesDeleteEquityGroup
+
+event_resources_requests:
+  path: /resources/requests
+  controller: App\Controller\EventController::resourcesRequests
 
 event_show:
   path: /
