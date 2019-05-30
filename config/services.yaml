@@ -29,3 +29,6 @@ services:
 
     App\Remote\AssoManager:
         arguments: ['@eight_points_guzzle.client.portail']
+
+    App\Remote\UserRemoteManager:
+        arguments: ['@eight_points_guzzle.client.portail']

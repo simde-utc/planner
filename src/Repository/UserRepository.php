@@ -23,6 +23,9 @@ class UserRepository extends ServiceEntityRepository
     public function getUsersForEvent(Event $event)
     {
         return $this->createQueryBuilder('u')
+            ->join('u.availabilities', 'a')
+            ->andWhere('a.event = :eventId')
+            ->setParameter('eventId', $event->getId())
         ;
     }
 

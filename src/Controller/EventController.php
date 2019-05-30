@@ -9,20 +9,26 @@
 namespace App\Controller;
 
 
+use App\Entity\Availability;
 use App\Entity\Event;
+use App\Entity\EquityGroup;
 use App\Entity\User;
 use App\Form\EventType;
+use App\Form\UserListType;
 use App\Remote\AssoManager;
+use App\Remote\UserRemoteManager;
 use App\Repository\AvailabilityRepository;
-use App\Repository\EventRepository;
 use App\Repository\UserRepository;
-use GuzzleHttp\Client;
+use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Serializer\SerializerInterface;
+use Tetranz\Select2EntityBundle\Form\Type\Select2EntityType;
 
 class EventController extends AbstractController
 {
@@ -33,38 +39,108 @@ class EventController extends AbstractController
         ]);
     }
 
-    public function resources(Event $event, AvailabilityRepository $availabilityRepository)
+    public function resources(Event $event, Request $request, AvailabilityRepository $availabilityRepository, EntityManagerInterface $em, UserRemoteManager $userRemoteManager)
     {
-        $availabilities = $availabilityRepository->findAllUsersForEvent($event);
+        if ($request->query->has('field_name')) {
+            dump($userRemoteManager->findAll());
+            return $this->json([
+                [
+                    'id' => 'dddaab',
+                    'text' => 'Corentin HEMBISE'
+                ],[
+                    'id' => 'dddaac',
+                    'text' => 'Alfred HICHOFA'
+                ],[
+                    'id' => 'dddaad',
+                    'text' => 'Renand Lute'
+                ],[
+                    'id' => 'dddaae',
+                    'text' => 'Camille Jouarie'
+                ],[
+                    'id' => 'dddaaf',
+                    'text' => 'Albert CAMUS',
+                    "disabled"=> true
+                ],
+            ]);
+        }
+        $removeForm = $this->createFormBuilder()
+            ->add('users', UserListType::class, [
+                'query_builder' => $availabilityRepository->createQbAllUsersForEvent($event),
+            ])
+            ->add('submit', SubmitType::class, [
+                'label' => 'Retirer',
+            ])
+            ->getForm()
+        ;
+
+        $groupForm = $this->createFormBuilder()
+            ->add('users', UserListType::class, [
+                'query_builder' => $availabilityRepository->createQbAllUsersForEvent($event),
+            ])
+            ->add('group', EntityType::class, [
+                'label' => "Groupe d'équité",
+                'class' => EquityGroup::class,
+                'choices' => $event->getGroups(),
+                'required' => false,
+            ])
+            ->add('submit', SubmitType::class, [
+                'label' => 'Affecter',
+            ])
+            ->getForm()
+        ;
+
+        // Handle request for remove form and re
+        $removeForm->handleRequest($request);
+        $groupForm->handleRequest($request);
+
+        if ($removeForm->isSubmitted() && $removeForm->isValid()) {
+            $usersToRemove = $removeForm->get('users')->getData();
+            foreach ($usersToRemove as $user) {
+                $em->remove($user);
+            }
+            $em->flush();
+        }
+
+        if ($groupForm->isSubmitted() && $groupForm->isValid()) {
+            $availabilitiesToChange = $groupForm->get('users')->getData();
+            /** @var EquityGroup $group */
+            $group = $groupForm->get('group')->getData();
+            /** @var Availability $availability */
+            foreach ($availabilitiesToChange as $availability) {
+                $availability->setEquityGroup($group);
+            }
+            $em->flush();
+        }
+
+        $invitationForm = $this->createFormBuilder()
+            ->add('users', Select2EntityType::class, [
+                'label' => 'Selectionner des utilisateur·ice·s',
+                'help' => "Il n'est possible d'inviter que des utilisateurs disposant un compte sur le portail des assos.",
+                'remote_route' => 'index',
+                'placeholder' => 'Rechercher un utilisateur·ice·s du portail',
+                'multiple' => true,
+            ])
+            ->add('message', TextareaType::class, [
+                'label' => "Message d'invitation",
+            ])
+            ->getForm()
+        ;
 
         return $this->render('event/ressources/list.html.twig', [
             'event' => $event,
-            'availabilities' => $availabilities,
+            'removeForm' => $removeForm->createView(),
+            'invitationForm' => $invitationForm->createView(),
+            'groupForm' => $groupForm->createView(),
         ]);
     }
 
     /**
      * @ParamConverter("user", class="App\Entity\User",  options={"mapping": {"user_id": "id"}})
      */
-    public function resourcesContact(Event $event, User $user)
+    public function resourcesContact(Event $event, User $user, UserRemoteManager $userRemoteManager)
     {
-        return $this->json([
-              [
-                "id" => "c6fe46d0-57c5-11e9-9c74-2b0c4b0d2c5f",
-                "name" => "Téléphone principal",
-                "value" => "0629017973",
-                "type" => [
-                    "name" => "Numéro de téléphone",
-                  "type" => "phone",
-                  "pattern" => "^\\+?[0-9 \\.]*$"
-                ],
-                "visibility" => [
-                    "id" => "699f9780-5345-11e9-9486-2daa3018b80b",
-                  "type" => "public",
-                  "name" => "Public"
-                ]
-              ]
-        ]);
+        $contacts = $userRemoteManager->findContactFor($user->getRemoteId());
+        return $this->json($contacts);
     }
 
     public function resourcesJson(Event $event, AvailabilityRepository $availabilityRepository, SerializerInterface $serializer)

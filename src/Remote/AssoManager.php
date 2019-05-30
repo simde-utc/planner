@@ -100,9 +100,4 @@ class AssoManager extends RemoteManager
     {
         return Asso::class;
     }
-
-    protected function getBaseUrl()
-    {
-        return "http://127.0.0.1:8000/api/v1";
-    }
 }

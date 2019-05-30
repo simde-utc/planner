@@ -22,12 +22,6 @@ class Availability
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $user;
-
-    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Event", inversedBy="availabilities")
      * @ORM\JoinColumn(nullable=false)
      */
@@ -43,6 +37,17 @@ class Availability
      */
     private $isAvailable;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="availabilities")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $user;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="EquityGroup", inversedBy="availabilities")
+     */
+    private $equityGroup;
+
     public function __construct()
     {
         $this->timeIntervals = new ArrayCollection();
@@ -51,18 +56,6 @@ class Availability
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getUser(): ?User
-    {
-        return $this->user;
-    }
-
-    public function setUser(?User $user): self
-    {
-        $this->user = $user;
-
-        return $this;
     }
 
     public function getEvent(): ?Event
@@ -145,5 +138,29 @@ class Availability
     public function isFullyAvailable(): bool
     {
         return $this->isAvailable() && $this->getTimeIntervals()->count() === 0;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    public function getEquityGroup(): ?EquityGroup
+    {
+        return $this->equityGroup;
+    }
+
+    public function setEquityGroup(?EquityGroup $equityGroup): self
+    {
+        $this->equityGroup = $equityGroup;
+
+        return $this;
     }
 }

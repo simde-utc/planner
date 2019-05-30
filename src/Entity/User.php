@@ -31,11 +31,6 @@ class User implements UserInterface
     private $userTasks;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Group", inversedBy="users")
-     */
-    private $group;
-
-    /**
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $lastLogin;
@@ -60,9 +55,15 @@ class User implements UserInterface
      */
     private $image;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Availability", mappedBy="user", orphanRemoval=true)
+     */
+    private $availabilities;
+
     public function __construct()
     {
         $this->userTasks = new ArrayCollection();
+        $this->availabilities = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -272,5 +273,36 @@ class User implements UserInterface
     public function __toString()
     {
         return $this->getName();
+    }
+
+    /**
+     * @return Collection|Availability[]
+     */
+    public function getAvailabilities(): Collection
+    {
+        return $this->availabilities;
+    }
+
+    public function addAvailability(Availability $availability): self
+    {
+        if (!$this->availabilities->contains($availability)) {
+            $this->availabilities[] = $availability;
+            $availability->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAvailability(Availability $availability): self
+    {
+        if ($this->availabilities->contains($availability)) {
+            $this->availabilities->removeElement($availability);
+            // set the owning side to null (unless already changed)
+            if ($availability->getUser() === $this) {
+                $availability->setUser(null);
+            }
+        }
+
+        return $this;
     }
 }

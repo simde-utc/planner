@@ -8,7 +8,7 @@
 namespace App\Form;
 
 
-use App\Entity\Group;
+use App\Entity\EquityGroup;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TimeType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -27,7 +27,7 @@ class GroupType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Group::class,
+            'data_class' => EquityGroup::class,
         ]);
     }
 }

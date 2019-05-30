@@ -33,7 +33,7 @@ class AvailabilityRepository extends ServiceEntityRepository
         return $qb->getQuery()->getResult();
     }
 
-    protected function createQbAllUsersForEvent(Event $event)
+    public function createQbAllUsersForEvent(Event $event)
     {
         return $this
             ->createQueryBuilder('a')
@@ -42,6 +42,8 @@ class AvailabilityRepository extends ServiceEntityRepository
             ->leftJoin('a.timeIntervals', 'ti')
             ->andWhere('e = :eventId')
             ->setParameter('eventId', $event->getId())
+            ->orderBy('a.isAvailable', 'DESC')
+            ->addOrderBy('a.user', 'DESC')
         ;
     }
 

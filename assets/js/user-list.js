@@ -17,7 +17,8 @@ userList.bootstrapTable({
     detailFormatter: function(index, row, element) {
         let formattedHtml = "";
         if (row.contacts === undefined) {
-            $.ajax("http://127.0.0.1:8080/events/1/manage/resources/1/contact.json", {
+            //TODO: find a way to do it async
+            $.ajax("http://127.0.0.1:8080/events/1/manage/resources/"+row.user.id+"/contact.json", {
                 async: false,
                 complete: function (data) {
                     row.contacts = data.responseJSON;
@@ -25,7 +26,9 @@ userList.bootstrapTable({
             });
         }
         row.contacts.forEach(function (contact) {
-            formattedHtml += '<a href="tel:'+contact.value+'" class="badge badge-primary" title="'+contact.name+'"><i class="fa fa-phone mr-2"></i>'+contact.value+'</a>';
+            let icon = contact.type.type === 'phone' ? 'phone' : 'envelope';
+            let href = contact.type.type === 'phone' ? 'tel' : 'mailto';
+            formattedHtml += '<a href="'+href+':'+contact.value+'" class="badge badge-primary" title="'+contact.name+'"><i class="fa fa-'+icon+' mr-2"></i>'+contact.value+'</a>';
         });
         return formattedHtml;
     },
@@ -66,10 +69,9 @@ userList.bootstrapTable({
                     '<a href="mailto:'+row.user.email+'" class="text-muted"><small>'+row.user.email+'</small></a>';
             }
         }, {
-            field: '',
+            sortable: true,
+            field: 'equityGroup.name',
             title: "Groupe d'équité",
-        },{
-            title: 'Actions',
         }
     ],
 });
@@ -108,3 +110,19 @@ availabilityCheckboxes.forEach(function (availabilityCheckbox) {
         });
     });
 });
+
+$("#remove_modal, #add_group_modal").on('show.bs.modal', function (e) {
+    let usersToRemove = userList.bootstrapTable('getSelections');
+    let idsToRemove = [].map.call(usersToRemove, user => user.id);
+    $(this).find(".nb-users").html(usersToRemove.length);
+    $(this).find(".users-to-remove select option").each(function () {
+        if (idsToRemove.includes(this.value*1)) {
+            $(this).attr('selected', true);
+            $(this).removeClass('d-none');
+        } else {
+            $(this).addClass('d-none');
+            $(this).removeAttr('selected');
+        }
+    });
+});
+

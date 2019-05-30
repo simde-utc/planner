@@ -59,7 +59,7 @@ class Event
     private $allowSubmissions;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Group", mappedBy="event", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="EquityGroup", mappedBy="event", orphanRemoval=true)
      */
     private $groups;
 
@@ -221,14 +221,14 @@ class Event
     }
 
     /**
-     * @return Collection|Group[]
+     * @return Collection|EquityGroup[]
      */
     public function getGroups(): Collection
     {
         return $this->groups;
     }
 
-    public function addGroup(Group $group): self
+    public function addGroup(EquityGroup $group): self
     {
         if (!$this->groups->contains($group)) {
             $this->groups[] = $group;
@@ -238,7 +238,7 @@ class Event
         return $this;
     }
 
-    public function removeGroup(Group $group): self
+    public function removeGroup(EquityGroup $group): self
     {
         if ($this->groups->contains($group)) {
             $this->groups->removeElement($group);

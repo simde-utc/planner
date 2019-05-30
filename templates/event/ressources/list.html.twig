@@ -7,23 +7,16 @@
 
 {% block resource_container %}
 <div class="d-flex justify-content-between align-items-center mb-4">
-    <h3>Liste des ressources <small>({{ availabilities|length }})</small></h3>
-    <div class="dropdown">
-        <button class="btn btn-sm btn-outline-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Ajouter une ressource</button>
-        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <a class="dropdown-item" href="#">Importer depuis un fichier</a>
-            <a class="dropdown-item" href="#">Inviter</a>
-            <a class="dropdown-item" href="#">Autoriser les candidatures</a>
-        </div>
-    </div>
+    <h3>Liste des ressources</h3>
+    <button class="btn btn-sm btn-outline-primary" data-toggle="modal" data-target="#invite_modal" type="button"><i class="fa fa-paper-plane mr-2"></i>Inviter un/des utilisateur·rice·s</button>
 </div>
 
 <div class="btn-group ml-2" id="toolbar">
     <div class="btn-group">
         <button type="button" id="actions-btn" disabled class="btn btn-outline-secondary dropdown-toggle" data-toggle="dropdown"><span class="fa fa-ellipsis-v"></span> <span class="caret"></span></button>
         <div class="dropdown-menu dropdown-menu-right">
-            <button type="button" class="dropdown-item small" tabIndex="-1"><i class="fa fa-balance-scale mr-2"></i>Affecter au groupe d'équité ...</button>
-            <button type="button" data-toggle="modal" data-target="#remove_modal" class="dropdown-item small text-danger" tabIndex="-1"><i class="fa fa-user-slash mr-2"></i>Retirer des ressources</button>
+            <button type="button" class="dropdown-item"             data-toggle="modal" data-target="#add_group_modal" tabIndex="-1"><i class="fa fa-balance-scale mr-2"></i>Affecter au groupe d'équité ...</button>
+            <button type="button" class="dropdown-item text-danger" data-toggle="modal" data-target="#remove_modal"    tabIndex="-1"><i class="fa fa-user-slash mr-2"></i>Retirer des ressources</button>
         </div>
     </div>
     <div class="btn-group" id="availability-btn-filter">
@@ -39,24 +32,83 @@
 {# TABLE : LIST OF USER : #}
 <table class="table mt-4 user-list" id="user-list"></table>
 
-<!-- Modal -->
+<!-- Modal remove user -->
 <div class="modal fade" id="remove_modal" tabindex="-1" role="dialog" aria-labelledby="remove_modal" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
+            {{ form_start(removeForm) }}
             <div class="modal-header">
-                <h5 class="modal-title">Retirer <span class="nb-users"></span> utilisateur·rice·s des ressources l'évènement ?</h5>
+                <h5 class="modal-title">Retirer <span class="nb-users"></span> utilisateur·rice·s des ressources de l'évènement ?</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <p>Ces ressources de seront plus affectables aux tâches et leurs compétences seront perdues.</p>
+                <div class="users-to-remove">
+                    {{ form_widget(removeForm.users) }}
+                </div>
+                {{ form_widget(removeForm._token) }}
+                <p>Ces ressources ne seront plus affectables aux tâches et leurs compétences seront perdues.</p>
                 <strong>Attention, cette action est irreversible.</strong>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
-                <a href="#" class="btn btn-danger">Retirer</a>
+                {{ form_widget(removeForm.submit, {attr: {class: 'btn-danger'}}) }}
             </div>
+            {{ form_end(removeForm) }}
+        </div>
+    </div>
+</div>
+
+<!-- Modal add group -->
+<div class="modal fade" id="add_group_modal" tabindex="-1" role="dialog" aria-labelledby="remove_modal" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            {{ form_start(groupForm) }}
+            <div class="modal-header">
+                <h5 class="modal-title">Affecter <span class="nb-users"></span>  utilisateur·ice·s a un groupe d'équité</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="users-to-remove d-none">
+                    {{ form_widget(groupForm.users) }}
+                </div>
+                {{ form_widget(removeForm._token) }}
+                {{ form_row(groupForm.group) }}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                {{ form_widget(groupForm.submit) }}
+            </div>
+            {{ form_rest(groupForm) }}
+            {{ form_end(groupForm) }}
+        </div>
+    </div>
+</div>
+
+<!-- Modal invite to join -->
+<div class="modal fade" id="invite_modal" tabindex="-1" role="dialog" aria-labelledby="remove_modal" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            {{ form_start(invitationForm) }}
+            <div class="modal-header">
+                <h5 class="modal-title">Inviter un/des utilisateur·rice·s à participer à l'évènement</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-info">Les utilisateur·ice·s invité·e·s devront préciser s'il sont disponible, ainsi que leur période de disponibilité.</div>
+                {{ form_row(invitationForm.users) }}
+                <button type="button" class="btn btn-sm btn-outline-primary mb-5"><i class="fa fa-user-plus mr-2"></i>Selectionner tous les membres de l'association</button>
+                {{ form_row(invitationForm.message) }}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Inviter 6 utilisateur·ice·s<i class="fa fa-paper-plane ml-2"></i></button>
+            </div>
+            {{ form_end(invitationForm) }}
         </div>
     </div>
 </div>

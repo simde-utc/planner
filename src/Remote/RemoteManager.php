@@ -110,4 +110,9 @@ abstract class RemoteManager implements ObjectRepository
 
         return $this->client->request($method, $uri, $options);
     }
+
+    protected function getBaseUrl()
+    {
+        return "http://127.0.0.1:8000/api/v1";
+    }
 }
