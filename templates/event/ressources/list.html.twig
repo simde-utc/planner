@@ -6,8 +6,9 @@
 {% endblock %}
 
 {% block resource_container %}
+{% if event.availabilities|length > 0 %}
 <div class="d-flex justify-content-between align-items-center mb-4">
-    <h3>Liste des ressources</h3>
+    <h3>Liste des permanenciers</h3>
     <button class="btn btn-sm btn-outline-primary" data-toggle="modal" data-target="#invite_modal" type="button"><i class="fa fa-paper-plane mr-2"></i>Inviter un/des utilisateur·rice·s</button>
 </div>
 
@@ -16,7 +17,7 @@
         <button type="button" id="actions-btn" disabled class="btn btn-outline-secondary dropdown-toggle" data-toggle="dropdown"><span class="fa fa-ellipsis-v"></span> <span class="caret"></span></button>
         <div class="dropdown-menu dropdown-menu-right">
             <button type="button" class="dropdown-item"             data-toggle="modal" data-target="#add_group_modal" tabIndex="-1"><i class="fa fa-balance-scale mr-2"></i>Affecter au groupe d'équité ...</button>
-            <button type="button" class="dropdown-item text-danger" data-toggle="modal" data-target="#remove_modal"    tabIndex="-1"><i class="fa fa-user-slash mr-2"></i>Retirer des ressources</button>
+            <button type="button" class="dropdown-item text-danger" data-toggle="modal" data-target="#remove_modal"    tabIndex="-1"><i class="fa fa-user-slash mr-2"></i>Retirer des permanenciers</button>
         </div>
     </div>
     <div class="btn-group" id="availability-btn-filter">
@@ -38,7 +39,7 @@
         <div class="modal-content">
             {{ form_start(removeForm) }}
             <div class="modal-header">
-                <h5 class="modal-title">Retirer <span class="nb-users"></span> utilisateur·rice·s des ressources de l'évènement ?</h5>
+                <h5 class="modal-title">Retirer <span class="nb-users"></span> utilisateur·rice·s des permanenciers de l'évènement ?</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -48,7 +49,7 @@
                     {{ form_widget(removeForm.users) }}
                 </div>
                 {{ form_widget(removeForm._token) }}
-                <p>Ces ressources ne seront plus affectables aux tâches et leurs compétences seront perdues.</p>
+                <p>Ces permanenciers ne seront plus affectables aux tâches et leurs compétences seront perdues.</p>
                 <strong>Attention, cette action est irreversible.</strong>
             </div>
             <div class="modal-footer">
@@ -87,6 +88,14 @@
         </div>
     </div>
 </div>
+{% else %}{# Aucun permanenciers ?#}
+    <div class="mr-5 ml-5 mt-3 text-center">
+        <i class="fa fa-user-slash fa-5x mb-4"></i>
+        <h3 class="mb-4">Aucun permanenciers pour le moment</h3>
+        <p>Invitez des utilisateur·rice·s {{ not event.allowSubmissions ? 'ou autoriser les inscriptions ' }}pour ajouter des permanenciers.</p>
+        <button class="btn btn-primary" data-toggle="modal" data-target="#invite_modal" type="button"><i class="fa fa-paper-plane mr-2"></i>Inviter un/des utilisateur·rice·s</button>
+    </div>
+{% endif %}
 
 <!-- Modal invite to join -->
 <div class="modal fade" id="invite_modal" tabindex="-1" role="dialog" aria-labelledby="remove_modal" aria-hidden="true">
