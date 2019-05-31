@@ -304,7 +304,7 @@ class Event
     /**
      * @return Collection|EventRequest[]
      */
-    public function getEventRequests(): Collection
+    public function getEventRequests($isAccepted = []): Collection
     {
         return $this->eventRequests;
     }
@@ -330,5 +330,26 @@ class Event
         }
 
         return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasPendingEventRequests()
+    {
+        return !$this->getPendingEventRequests()->isEmpty();
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getPendingEventRequests()
+    {
+        return $this->eventRequests->filter(function (EventRequest $eventRequest) {
+            if ($eventRequest->isAccepted() === null) {
+                return true;
+            }
+            return false;
+        });
     }
 }

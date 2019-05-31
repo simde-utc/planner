@@ -182,7 +182,7 @@ class EventController extends AbstractController
     /**
      * @param Event $event
      * @param EventRequest $eventRequest
-     *
+     * @ParamConverter("eventRequest", class="App\Entity\EventRequest",  options={"mapping": {"user_id": "user", "id": "event"}})
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function resourcesRequestsRefuse(Event $event, EventRequest $eventRequest)

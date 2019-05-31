@@ -38,6 +38,11 @@
                                data-message="{{ request.message }}"
                                data-user="{{ request.user }}"
                                data-date="{{ request.createdAt|date('d/m/Y') }}"
+                               data-accepted="{{ request.accepted is null ? 'null' : request.accepted ? 'true' : 'false' }}"
+                           {% if request.accepted is not null %}
+                               data-accepted-by="{{ request.moderator }}"
+                               data-accepted-at="{{ request.updatedAt|date('d/m/Y') }}"
+                           {% endif %}
                                data-accept-url="{{ path('event_resources_requests_accept', {id: event.id, user_id: request.user.id}) }}"
                                data-refuse-url="{{ path('event_resources_requests_refuse', {id: event.id, user_id: request.user.id}) }}"
                                data-target="#more_modal">
@@ -63,9 +68,12 @@
                             <p class="text-right text-muted mr-5">Le <span class="request-date"></span></p>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
-                            <a href="#" id="refuse-btn" class="btn btn-danger">Refuser</a>
-                            <a href="#" id="accept-btn" class="btn btn-success">Accepter</a>
+                            <div class="tools">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                                <a href="#" id="refuse-btn" class="btn btn-danger">Refuser</a>
+                                <a href="#" id="accept-btn" class="btn btn-success">Accepter</a>
+                            </div>
+                            <div class="accepted text-right"></div>
                         </div>
                     </div>
                 </div>

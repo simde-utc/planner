@@ -20,7 +20,7 @@
                             <i class="fa fa-sm fa-list mr-2"></i>Tâches
                         </a>
                         <a class="nav-item nav-link {{ app.request.get('_route') starts with 'event_resources' ? 'active' }}" href="{{ path('event_resources', {id: event.id}) }}">
-                            <i class="fa fa-sm fa-user mr-2"></i>Permanenciers <sup class="fa fa-sm fa-circle text-primary" style="font-size: 0.6em;"></sup>
+                            <i class="fa fa-sm fa-user mr-2"></i>Permanenciers{% if event.hasPendingEventRequests %} <sup class="fa fa-sm fa-circle text-primary" style="font-size: 0.6em;"></sup>{% endif %}
                         </a>
                         <a class="nav-item nav-link {{ app.request.get('_route') starts with 'event_skills' ? 'active' }}" href="{{ path('event_skills', {id: event.id}) }}">
                             <i class="fa fa-sm fa-skills mr-2"></i>Compétences
