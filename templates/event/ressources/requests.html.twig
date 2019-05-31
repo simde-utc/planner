@@ -1,8 +1,71 @@
 {% extends 'event/ressources/base.html.twig' %}
 
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('user-request') }}
+{% endblock %}
+
 {% block resource_container %}
     {% if event.allowSubmissions %}
+        {% if event.eventRequests|length > 0 %}
+            <h3>Candidatures à l'évènement</h3>
+            <table class="table table-hover mt-5">
+                <thead class="thead-light">
+                <tr>
+                    <th class="align-middle">Nom</th>
+                    <th class="align-middle">Date</th>
+                    <th width="150" class="align-middle">Etat</th>
+                    <th width="170" class="align-middle">Voir la candidature</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for request in event.eventRequests %}
+                    <tr>
+                        <td><strong>{{ request.user }}</strong></td>
+                        <td>{{ request.createdAt|date('d/m/Y') }}</td>
+                        <td class="text-center">
+                        {% if request.accepted is same as(true) %}
+                            <i class="fa fa-check-circle text-success" data-toggle="tooltip" title="Accepté le {{ request.updatedAt|date('d/m/Y') }}"></i>
+                        {% elseif request.accepted is same as(false) %}
+                            <i class="fa fa-times-circle text-danger" data-toggle="tooltip" title="Refusé le {{ request.updatedAt|date('d/m/Y') }}"></i>
+                        {% else %}
+                            <i class="fa fa-circle text-muted" data-toggle="tooltip" title="En attente"></i>
+                        {% endif %}
+                        </td>
+                        <td class="text-center"><a href="#more_modal" data-toggle="modal" data-message="{{ request.message }}" data-user="{{ request.user }}" data-date="{{ request.createdAt|date('d/m/Y') }}" data-target="#more_modal"><i class="fa fa-eye"></i></a></td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
 
+            <div class="modal fade" id="more_modal" tabindex="-1" role="dialog" aria-labelledby="more_modal" aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Candidature de <span class="request-user"></span></h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p class="request-message"></p>
+                            <p class="text-right text-muted mr-5">Le <span class="request-date"></span></p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Refuser</button>
+                            <button type="button" class="btn btn-success" data-dismiss="modal">Accepter</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <div class="pr-5 pl-5 mt-3 text-center">
+                <i class="fa fa-envelope-open fa-5x mb-2"></i>
+                <h3>Aucune candidature pour le moment</h3>
+                <p>Cette section permet d'accepter ou non les candidature.</p>
+            </div>
+        {% endif %}
     {% else %}
         <div class="pr-5 pl-5 mt-3 text-center">
             <i class="fa fa-toggle-off fa-5x mb-2"></i>

@@ -151,6 +151,7 @@ class EventController extends AbstractController
 
         $jsonArray = $serializer->serialize($availabilities, 'json', [
             'circular_reference_handler' => function ($object) {
+                // TODO: handle this better
                 return $object->getId();
             }
         ]);

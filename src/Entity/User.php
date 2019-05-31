@@ -60,10 +60,16 @@ class User implements UserInterface
      */
     private $availabilities;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\EventRequest", mappedBy="user", orphanRemoval=true)
+     */
+    private $eventRequests;
+
     public function __construct()
     {
         $this->userTasks = new ArrayCollection();
         $this->availabilities = new ArrayCollection();
+        $this->eventRequests = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -300,6 +306,37 @@ class User implements UserInterface
             // set the owning side to null (unless already changed)
             if ($availability->getUser() === $this) {
                 $availability->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|EventRequest[]
+     */
+    public function getEventRequests(): Collection
+    {
+        return $this->eventRequests;
+    }
+
+    public function addEventRequest(EventRequest $eventRequest): self
+    {
+        if (!$this->eventRequests->contains($eventRequest)) {
+            $this->eventRequests[] = $eventRequest;
+            $eventRequest->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEventRequest(EventRequest $eventRequest): self
+    {
+        if ($this->eventRequests->contains($eventRequest)) {
+            $this->eventRequests->removeElement($eventRequest);
+            // set the owning side to null (unless already changed)
+            if ($eventRequest->getUser() === $this) {
+                $eventRequest->setUser(null);
             }
         }
 

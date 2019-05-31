@@ -13,3 +13,6 @@ require('bootstrap');
 global.$ = global.jQuery = require('jquery');
 require('select2');
 
+$(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+})

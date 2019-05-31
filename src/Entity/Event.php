@@ -73,12 +73,19 @@ class Event
      */
     private $remoteOrganizationId;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\EventRequest", mappedBy="event", orphanRemoval=true)
+     * @ORM\OrderBy({"accepted" = "ASC"})
+     */
+    private $eventRequests;
+
     public function __construct()
     {
         $this->tasks = new ArrayCollection();
         $this->availabilities = new ArrayCollection();
         $this->groups = new ArrayCollection();
         $this->skills = new ArrayCollection();
+        $this->eventRequests = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -290,6 +297,37 @@ class Event
     public function setRemoteOrganizationId(string $remoteOrganizationId): self
     {
         $this->remoteOrganizationId = $remoteOrganizationId;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|EventRequest[]
+     */
+    public function getEventRequests(): Collection
+    {
+        return $this->eventRequests;
+    }
+
+    public function addEventRequest(EventRequest $eventRequest): self
+    {
+        if (!$this->eventRequests->contains($eventRequest)) {
+            $this->eventRequests[] = $eventRequest;
+            $eventRequest->setEvent($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEventRequest(EventRequest $eventRequest): self
+    {
+        if ($this->eventRequests->contains($eventRequest)) {
+            $this->eventRequests->removeElement($eventRequest);
+            // set the owning side to null (unless already changed)
+            if ($eventRequest->getEvent() === $this) {
+                $eventRequest->setEvent(null);
+            }
+        }
 
         return $this;
     }

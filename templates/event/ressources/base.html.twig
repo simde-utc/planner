@@ -6,7 +6,7 @@
             <div class="list-group" style="font-size: 0.775em;" id="list-tab" role="tablist">
                 <a class="list-group-item list-group-item-action {{ app.request.get('_route') == 'event_resources' ? 'active' }}" href="{{ path('event_resources', {id: event.id}) }}"><i class="fa fa-users-cog mr-2"></i>Gérer les permanenciers</a>
                 <a class="list-group-item list-group-item-action {{ app.request.get('_route') starts with 'event_resources_groups' ? 'active' }}" href="{{ path('event_resources_groups', {id: event.id}) }}"><i class="fa fa-equity mr-2"></i>Gérer les groupes d'équité</a>
-                <a class="list-group-item list-group-item-action {{ app.request.get('_route') == 'event_resources_requests' ? 'active' }} d-flex justify-content-between align-items-center" href="{{ path('event_resources_requests', {id: event.id}) }}"><span><i class="fa fa-envelope-open-text mr-2"></i>Demandes d'inscription</span><span class="badge badge-danger badge-pill">14</span></a>
+                <a class="list-group-item list-group-item-action {{ app.request.get('_route') == 'event_resources_requests' ? 'active' }} d-flex justify-content-between align-items-center" href="{{ path('event_resources_requests', {id: event.id}) }}"><span><i class="fa fa-envelope-open{{ event.eventRequests|length > 0 ? '-text' }} mr-2"></i>Demandes d'inscription</span>{% if event.eventRequests|length > 0 %}<span class="badge badge-danger badge-pill">{{ event.eventRequests|length }}</span>{% endif %}</a>
             </div>
         </div>
         <div class="col-lg-9">
