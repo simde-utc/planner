@@ -12,6 +12,7 @@ namespace App\Controller;
 use App\Entity\Availability;
 use App\Entity\Event;
 use App\Entity\EquityGroup;
+use App\Entity\EventRequest;
 use App\Entity\User;
 use App\Form\EquityGroupType;
 use App\Form\EventType;
@@ -29,6 +30,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Serializer\SerializerInterface;
 use Tetranz\Select2EntityBundle\Form\Type\Select2EntityType;
 
@@ -163,6 +165,57 @@ class EventController extends AbstractController
     {
         return $this->render('event/ressources/requests.html.twig', [
             'event' => $event,
+        ]);
+    }
+
+    /**
+     * @param Event $event
+     * @param EventRequest $eventRequest
+     * @ParamConverter("eventRequest", class="App\Entity\EventRequest",  options={"mapping": {"user_id": "user", "id": "event"}})
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function resourcesRequestsAccept(Event $event, EventRequest $eventRequest)
+    {
+        return $this->resourcesRequestsAcceptOrRefuse($event, $eventRequest, true);
+    }
+
+    /**
+     * @param Event $event
+     * @param EventRequest $eventRequest
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function resourcesRequestsRefuse(Event $event, EventRequest $eventRequest)
+    {
+        return $this->resourcesRequestsAcceptOrRefuse($event, $eventRequest, false);
+    }
+
+    private function resourcesRequestsAcceptOrRefuse(Event $event, EventRequest $eventRequest, bool $accept)
+    {
+        $em = $this->getDoctrine()->getManager();
+        if ($eventRequest->isAccepted() !== null) {
+            throw new BadRequestHttpException("Impossible de modifier une candidature déjà acceptée ou refusée");
+        }
+        $eventRequest->setAccepted($accept);
+        $eventRequest->setUpdatedAt(new \DateTime());
+        $eventRequest->setModerator($this->getUser());
+        // TODO: send a notification
+
+        // Let's create a resource from the user
+        if ($accept) {
+            $availability = new Availability();
+            $availability
+                ->setEvent($event)
+                ->setUser($eventRequest->getUser())
+                ->setIsAvailable(true)
+            ;
+            $em->persist($availability);
+        }
+
+        $em->flush();
+
+        return $this->redirectToRoute('event_resources_requests', [
+            'id' => $event->getId(),
         ]);
     }
 

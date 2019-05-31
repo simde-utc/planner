@@ -44,6 +44,12 @@ class EventRequest
      */
     private $updatedAt;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $moderator;
+
     public function getEvent(): ?Event
     {
         return $this->event;
@@ -92,7 +98,7 @@ class EventRequest
         return $this;
     }
 
-    public function getAccepted(): ?bool
+    public function isAccepted(): ?bool
     {
         return $this->accepted;
     }
@@ -112,6 +118,18 @@ class EventRequest
     public function setUpdatedAt(\DateTimeInterface $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    public function getModerator(): ?User
+    {
+        return $this->moderator;
+    }
+
+    public function setModerator(?User $moderator): self
+    {
+        $this->moderator = $moderator;
 
         return $this;
     }

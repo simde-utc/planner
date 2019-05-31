@@ -14,7 +14,7 @@
                 <tr>
                     <th class="align-middle">Nom</th>
                     <th class="align-middle">Date</th>
-                    <th width="150" class="align-middle">Etat</th>
+                    <th width="100" class="align-middle text-center">Etat</th>
                     <th width="170" class="align-middle">Voir la candidature</th>
                 </tr>
                 </thead>
@@ -25,14 +25,25 @@
                         <td>{{ request.createdAt|date('d/m/Y') }}</td>
                         <td class="text-center">
                         {% if request.accepted is same as(true) %}
-                            <i class="fa fa-check-circle text-success" data-toggle="tooltip" title="Accepté le {{ request.updatedAt|date('d/m/Y') }}"></i>
+                            <i class="fa fa-check-circle text-success" data-toggle="tooltip" title="Accepté le {{ request.updatedAt|date('d/m/Y') }} par {{ request.moderator }}"></i>
                         {% elseif request.accepted is same as(false) %}
-                            <i class="fa fa-times-circle text-danger" data-toggle="tooltip" title="Refusé le {{ request.updatedAt|date('d/m/Y') }}"></i>
+                            <i class="fa fa-times-circle text-danger" data-toggle="tooltip" title="Refusé le {{ request.updatedAt|date('d/m/Y') }} par {{ request.moderator }}"></i>
                         {% else %}
                             <i class="fa fa-circle text-muted" data-toggle="tooltip" title="En attente"></i>
                         {% endif %}
                         </td>
-                        <td class="text-center"><a href="#more_modal" data-toggle="modal" data-message="{{ request.message }}" data-user="{{ request.user }}" data-date="{{ request.createdAt|date('d/m/Y') }}" data-target="#more_modal"><i class="fa fa-eye"></i></a></td>
+                        <td class="text-center">
+                            <a href="#more_modal"
+                               data-toggle="modal"
+                               data-message="{{ request.message }}"
+                               data-user="{{ request.user }}"
+                               data-date="{{ request.createdAt|date('d/m/Y') }}"
+                               data-accept-url="{{ path('event_resources_requests_accept', {id: event.id, user_id: request.user.id}) }}"
+                               data-refuse-url="{{ path('event_resources_requests_refuse', {id: event.id, user_id: request.user.id}) }}"
+                               data-target="#more_modal">
+                                <i class="fa fa-eye"></i>
+                            </a>
+                        </td>
                     </tr>
                 {% endfor %}
                 </tbody>
@@ -53,8 +64,8 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
-                            <button type="button" class="btn btn-danger" data-dismiss="modal">Refuser</button>
-                            <button type="button" class="btn btn-success" data-dismiss="modal">Accepter</button>
+                            <a href="#" id="refuse-btn" class="btn btn-danger">Refuser</a>
+                            <a href="#" id="accept-btn" class="btn btn-success">Accepter</a>
                         </div>
                     </div>
                 </div>

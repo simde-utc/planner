@@ -1,3 +1,6 @@
+event_show:
+  path: /
+  controller: App\Controller\EventController::show
 
 # ----------
 # EVENT RESOURCES
@@ -34,9 +37,13 @@ event_resources_requests:
   path: /resources/requests
   controller: App\Controller\EventController::resourcesRequests
 
-event_show:
-  path: /
-  controller: App\Controller\EventController::show
+event_resources_requests_accept:
+  path: /resources/requests/{user_id}/accept
+  controller: App\Controller\EventController::resourcesRequestsAccept
+
+event_resources_requests_refuse:
+  path: /resources/requests/{user_id}/refuse
+  controller: App\Controller\EventController::resourcesRequestsRefuse
 
 # ----------
 # EVENT SETTINGS
