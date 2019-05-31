@@ -14,7 +14,7 @@
                 <tr>
                     <th class="align-middle">Nom</th>
                     <th class="align-middle">Date</th>
-                    <th width="100" class="align-middle text-center">Etat</th>
+                    <th width="100" class="align-middle text-center">Validation</th>
                     <th width="170" class="align-middle">Voir la candidature</th>
                 </tr>
                 </thead>
@@ -25,9 +25,9 @@
                         <td>{{ request.createdAt|date('d/m/Y') }}</td>
                         <td class="text-center">
                         {% if request.accepted is same as(true) %}
-                            <i class="fa fa-check-circle text-success" data-toggle="tooltip" title="Accepté le {{ request.updatedAt|date('d/m/Y') }} par {{ request.moderator }}"></i>
+                            <i class="fa fa-check-circle text-success" data-toggle="tooltip" title="Acceptée le {{ request.updatedAt|date('d/m/Y') }} par {{ request.moderator }}"></i>
                         {% elseif request.accepted is same as(false) %}
-                            <i class="fa fa-times-circle text-danger" data-toggle="tooltip" title="Refusé le {{ request.updatedAt|date('d/m/Y') }} par {{ request.moderator }}"></i>
+                            <i class="fa fa-times-circle text-danger" data-toggle="tooltip" title="Refusée le {{ request.updatedAt|date('d/m/Y') }} par {{ request.moderator }}"></i>
                         {% else %}
                             <i class="fa fa-circle text-muted" data-toggle="tooltip" title="En attente"></i>
                         {% endif %}

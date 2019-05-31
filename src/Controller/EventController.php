@@ -20,12 +20,10 @@ use App\Form\UserListType;
 use App\Remote\AssoManager;
 use App\Remote\UserRemoteManager;
 use App\Repository\AvailabilityRepository;
-use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\Extension\Core\Type\ButtonType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -34,6 +32,7 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Serializer\SerializerInterface;
 use Tetranz\Select2EntityBundle\Form\Type\Select2EntityType;
 
+//TODO: split this controller
 class EventController extends AbstractController
 {
     public function show(Event $event)
@@ -152,10 +151,9 @@ class EventController extends AbstractController
         $availabilities = $availabilityRepository->findAllUsersForEvent($event);
 
         $jsonArray = $serializer->serialize($availabilities, 'json', [
-            'circular_reference_handler' => function ($object) {
-                // TODO: handle this better
-                return $object->getId();
-            }
+            'ignored_attributes' => [
+                'tasks', 'availabilities', 'skills', 'eventRequests',
+            ],
         ]);
 
         return new JsonResponse($jsonArray, 200, [], true);

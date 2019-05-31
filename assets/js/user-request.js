@@ -23,7 +23,7 @@ $("#more_modal").on('show.bs.modal', function (e) {
         modal.find('.modal-footer .accepted').hide();
         modal.find('.modal-footer .tools').show();
     } else {
-        let text = accepted ? "Accepté" : "Refusé";
+        let text = accepted ? "Acceptée" : "Refusée";
         text += " le "+acceptedAt+" par "+acceptedBy;
 
         modal.find('.modal-footer .accepted').text(text).show();

@@ -43,16 +43,16 @@ userList.bootstrapTable({
             formatter: function(val, row, i, field) {
                 if (row.pending) {
                     row.availabilityValue = 3;
-                    return '<i class="fa fa-circle text-secondary" title="En attente"></i>';
+                    return '<i data-toggle="tooltip" class="fa fa-circle text-secondary" title="En attente"></i>';
                 } else if (row.fullyAvailable) {
                     row.availabilityValue = 1;
-                    return '<i class="fa fa-circle text-success" title="Disponible"></i>';
+                    return '<i data-toggle="tooltip" class="fa fa-circle text-success" title="Disponible"></i>';
                 } else if (row.available) {
                     row.availabilityValue = 2;
-                    return '<i class="fa fa-circle text-medium-success" title="Partiellement disponible"></i>';
+                    return '<i data-toggle="tooltip" class="fa fa-circle text-medium-success" title="Partiellement disponible"></i>';
                 } else {
                     row.availabilityValue = 4;
-                    return '<i class="fa fa-circle text-danger" title="Non disponible"></i>';
+                    return '<i data-toggle="tooltip" class="fa fa-circle text-danger" title="Non disponible"></i>';
                 }
             },
             sorter: function(a, b, rowA, rowB) {
