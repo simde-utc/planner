@@ -3,6 +3,7 @@ require("bootstrap-table/dist/locale/bootstrap-table-fr-BE.min.js");
 
 let userList = $('#user-list');
 let availabilityBtnFilter = document.getElementById('availability-btn-filter');
+let userIconSrc = userList.data('user-icon-url');
 
 userList.bootstrapTable({
     url: 'http://127.0.0.1:8080/events/1/manage/resources.json',
@@ -65,8 +66,9 @@ userList.bootstrapTable({
             sortable: true,
             searchable: true,
             formatter: function (val, row, i, field) {
-                return '<p class="mb-0"><strong>'+val+'</strong></p>\n' +
-                    '<a href="mailto:'+row.user.email+'" class="text-muted"><small>'+row.user.email+'</small></a>';
+                let imgSrc = row.user.image === null ? userIconSrc : row.user.image;
+                return '<div class="user-list-picture"><img src="'+imgSrc+'" alt=""></div><div class="user-list-name"><p class="mb-0"><strong>'+val+'</strong></p>\n' +
+                    '<a href="mailto:'+row.user.email+'" class="text-muted"><small>'+row.user.email+'</small></a></div>';
             }
         }, {
             sortable: true,

@@ -31,7 +31,7 @@
     </div>
 </div>
 {# TABLE : LIST OF USER : #}
-<table class="table mt-4 user-list" id="user-list"></table>
+<table class="table mt-4 user-list" id="user-list" data-user-icon-url="{{ asset('build/user-icon.svg') }}"></table>
 
 <!-- Modal remove user -->
 <div class="modal fade" id="remove_modal" tabindex="-1" role="dialog" aria-labelledby="remove_modal" aria-hidden="true">
@@ -116,6 +116,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" data-dismiss="modal">Inviter 6 utilisateur·ice·s<i class="fa fa-paper-plane ml-2"></i></button>
+                {{ form_row(invitationForm.submit) }}
             </div>
             {{ form_end(invitationForm) }}
         </div>

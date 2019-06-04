@@ -192,3 +192,28 @@
   color: #404040;
   text-align: justify;
 }
+
+.user-list-picture {
+  height: 40px;
+  overflow: hidden;
+  position: relative;
+  border-radius: 50px;
+  display: inline-block;
+  vertical-align: middle;
+  width: 40px;
+  margin-right: 12px;
+
+  img {
+    width: 40px;
+    vertical-align: middle;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    filter: brightness(1.25);
+  }
+}
+
+.user-list-name {
+  display: inline-block;
+  vertical-align: middle;
+}
