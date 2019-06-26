@@ -58,6 +58,7 @@ class UserTaskSerializer implements NormalizerInterface
         $data['start'] = $data['startAt'];
         $data['end'] = $data['endAt'];
         $data['resourceId'] = $userTask->getUser()->getId();
+        $data['backgroundColor'] = $userTask->getTask()->getColor();
 
         // constraint this task based on skills
         $skills = $userTask->getTask()->getSkills();
