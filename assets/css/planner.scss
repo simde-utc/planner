@@ -1,0 +1,66 @@
+:root {
+  --light-grey: #f8f9fa;
+}
+
+.fc {
+  --border-radius: .5rem;
+}
+
+.fc-head .fc-cell-content {
+  color: rgb(168, 180, 192);
+  background: var(--light-grey);
+  font-weight: 600;
+}
+
+.fc-chrono th {
+  border-color: var(--light-grey);
+}
+
+.fc-resizer {
+  border-radius: var(--border-radius) 0 0 var(--border-radius);
+  cursor: ew-resize;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: .6rem;
+  height: 100%;
+  opacity: 0;
+  transition: all .15s ease-in;
+  background: rgba(0, 0, 0, 0.3);
+  &:hover {
+    opacity: 1;
+  }
+  &.fc-end-resizer {
+    border-radius: 0 var(--border-radius) var(--border-radius) 0;
+    left: auto;
+    right: 0;
+  }
+}
+
+.fc-view-container {
+  .fc-event {
+    border: none;
+    border-radius: var(--border-radius);
+    color: white !important;
+    font-size: 1em;
+    padding: 2px 9px;
+    transition: all .2s;
+    &:hover {
+      //filter: brightness(92%);
+    }
+  }
+  .fc-now-indicator-line {
+    border-left-width: 2px;
+    border-color: rgba(255, 0, 0, 0.5);
+  }
+}
+
+.fc-event .fc-bg {
+  z-index: 1 !important;
+  background: inherit !important;
+  opacity: .25 !important;
+}
+
+.fc-highlight {
+  background: rgba(0, 0, 0, 0.15);
+}

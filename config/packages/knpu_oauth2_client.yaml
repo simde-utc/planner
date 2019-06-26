@@ -8,7 +8,7 @@ knpu_oauth2_client:
       provider_class: App\Provider\PortalProvider
 
       client_id: '44696575-2065-7374-2075-6e6971756521'
-      client_secret: 'okok'
+      client_secret: 'password'
       # the route that you're redirected to after
       # see the controller example below
       redirect_route: connect_portal_check

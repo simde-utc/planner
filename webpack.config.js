@@ -20,6 +20,7 @@ Encore
     .addEntry('app', './assets/js/app.js')
     .addEntry('user-list', './assets/js/user-list.js')
     .addEntry('user-request', './assets/js/user-request.js')
+    .addEntry('planner', './assets/js/planner.js')
 
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
     .splitEntryChunks()
@@ -44,8 +45,11 @@ Encore
     // enables Sass/SCSS support
     .enableSassLoader()
 
+    .copyFiles({
+        from: './assets/img',
+    })
     // uncomment if you use TypeScript
-    //.enableTypeScriptLoader()
+    .enableTypeScriptLoader()
 
     // uncomment if you're having problems with a jQuery plugin
     //.autoProvidejQuery()

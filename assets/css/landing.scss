@@ -1,0 +1,10 @@
+.landing {
+  background: linear-gradient(#3a30b0, #dd5c8b, #feb592);
+  .landing-logo {
+    position: absolute;
+    left: -18%;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 60%;
+  }
+}

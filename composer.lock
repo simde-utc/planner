@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "7dfb8400973d37db4440ac38078fc595",
+    "content-hash": "a14d06e5ea9a551eb26cdb5cff88750a",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -1374,6 +1374,117 @@
             "time": "2016-10-17T18:31:11+00:00"
         },
         {
+            "name": "firebase/php-jwt",
+            "version": "v5.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/firebase/php-jwt.git",
+                "reference": "9984a4d3a32ae7673d6971ea00bae9d0a1abba0e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/firebase/php-jwt/zipball/9984a4d3a32ae7673d6971ea00bae9d0a1abba0e",
+                "reference": "9984a4d3a32ae7673d6971ea00bae9d0a1abba0e",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": " 4.8.35"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Firebase\\JWT\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Neuman Vong",
+                    "email": "neuman+pear@twilio.com",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Anant Narayanan",
+                    "email": "anant@php.net",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A simple library to encode and decode JSON Web Tokens (JWT) in PHP. Should conform to the current spec.",
+            "homepage": "https://github.com/firebase/php-jwt",
+            "time": "2017-06-27T22:17:23+00:00"
+        },
+        {
+            "name": "gregurco/guzzle-bundle-oauth2-plugin",
+            "version": "v1.0.8",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/gregurco/GuzzleBundleOAuth2Plugin.git",
+                "reference": "57cd80566d974ee752f3a22e749193ceb7093ab2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/gregurco/GuzzleBundleOAuth2Plugin/zipball/57cd80566d974ee752f3a22e749193ceb7093ab2",
+                "reference": "57cd80566d974ee752f3a22e749193ceb7093ab2",
+                "shasum": ""
+            },
+            "require": {
+                "eightpoints/guzzle-bundle": "~7.1",
+                "guzzlehttp/guzzle": "^6.0",
+                "php": "^7.0",
+                "sainsburys/guzzle-oauth2-plugin": "^3.0.5",
+                "symfony/config": "~2.7|~3.0|~4.0",
+                "symfony/dependency-injection": "~2.7|~3.0|~4.0",
+                "symfony/expression-language": "~2.7|~3.0|~4.0",
+                "symfony/http-kernel": "~2.7|~3.0|~4.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~6.1",
+                "satooshi/php-coveralls": "~1.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Gregurco\\Bundle\\GuzzleBundleOAuth2Plugin\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Gregurco Vlad",
+                    "email": "gregurco.vlad@gmail.com",
+                    "homepage": "https://github.com/gregurco"
+                },
+                {
+                    "name": "Community",
+                    "homepage": "https://github.com/gregurco/GuzzleBundleOAuth2Plugin/contributors"
+                }
+            ],
+            "description": "OAuth2 Plugin for Guzzle Bundle, a PHP HTTP client library and framework for building RESTful web service clients",
+            "homepage": "https://github.com/gregurco/GuzzleBundleOAuth2Plugin",
+            "keywords": [
+                "client",
+                "curl",
+                "framework",
+                "http",
+                "http client",
+                "middleware",
+                "oauth2",
+                "plugin",
+                "rest",
+                "web service"
+            ],
+            "time": "2019-02-04T08:51:14+00:00"
+        },
+        {
             "name": "guzzlehttp/guzzle",
             "version": "6.3.3",
             "source": {
@@ -2404,6 +2515,55 @@
             ],
             "description": "A polyfill for getallheaders.",
             "time": "2016-02-11T07:05:27+00:00"
+        },
+        {
+            "name": "sainsburys/guzzle-oauth2-plugin",
+            "version": "v3.0.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Sainsburys/guzzle-oauth2-plugin.git",
+                "reference": "485edd64870dd951f8fc6ec362296f11787194bf"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Sainsburys/guzzle-oauth2-plugin/zipball/485edd64870dd951f8fc6ec362296f11787194bf",
+                "reference": "485edd64870dd951f8fc6ec362296f11787194bf",
+                "shasum": ""
+            },
+            "require": {
+                "firebase/php-jwt": "^3.0|^4.0|^5.0",
+                "guzzlehttp/guzzle": "^6.0",
+                "php": ">=5.6"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^4.8"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Sainsburys\\Guzzle\\Oauth2\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Bojan Zivanovic"
+                },
+                {
+                    "name": "Damien Tournoud"
+                },
+                {
+                    "name": "Patrick Dawkins"
+                },
+                {
+                    "name": "Daniel Macedo"
+                }
+            ],
+            "description": "An OAuth2 middleware for Guzzle",
+            "time": "2017-11-07T13:08:06+00:00"
         },
         {
             "name": "sensio/framework-extra-bundle",

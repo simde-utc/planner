@@ -16,21 +16,21 @@ use App\Entity\EventRequest;
 use App\Entity\User;
 use App\Form\EquityGroupType;
 use App\Form\EventType;
+use App\Form\InvitationForm;
 use App\Form\UserListType;
 use App\Remote\AssoManager;
 use App\Remote\UserRemoteManager;
 use App\Repository\AvailabilityRepository;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Serializer\SerializerInterface;
-use Tetranz\Select2EntityBundle\Form\Type\Select2EntityType;
 
 //TODO: split this controller
 class EventController extends AbstractController
@@ -42,29 +42,12 @@ class EventController extends AbstractController
         ]);
     }
 
-    public function resources(Event $event, Request $request, AvailabilityRepository $availabilityRepository, EntityManagerInterface $em, UserRemoteManager $userRemoteManager)
+    public function resources(Event $event, Request $request, AvailabilityRepository $availabilityRepository, EntityManagerInterface $em, UserRemoteManager $userRemoteManager, SerializerInterface $serializer)
     {
-        if ($request->query->has('field_name')) {
-            dump($userRemoteManager->findAll());
-            return $this->json([
-                [
-                    'id' => 'dddaab',
-                    'text' => 'Corentin HEMBISE'
-                ],[
-                    'id' => 'dddaac',
-                    'text' => 'Alfred HICHOFA'
-                ],[
-                    'id' => 'dddaad',
-                    'text' => 'Renand Lute'
-                ],[
-                    'id' => 'dddaae',
-                    'text' => 'Camille Jouarie'
-                ],[
-                    'id' => 'dddaaf',
-                    'text' => 'Albert CAMUS',
-                    "disabled"=> true
-                ],
-            ]);
+        if ($request->query->has('q')) {
+            $users = $userRemoteManager->search($request->query->get('q'));
+
+            return $this->json($users);
         }
         $removeForm = $this->createFormBuilder()
             ->add('users', UserListType::class, [
@@ -115,19 +98,12 @@ class EventController extends AbstractController
             $em->flush();
         }
 
-        $invitationForm = $this->createFormBuilder()
-            ->add('users', Select2EntityType::class, [
-                'label' => 'Selectionner des utilisateur·ice·s',
-                'help' => "Il n'est possible d'inviter que des utilisateurs disposant un compte sur le portail des assos.",
-                'remote_route' => 'index',
-                'placeholder' => 'Rechercher un utilisateur·ice·s du portail',
-                'multiple' => true,
-            ])
-            ->add('message', TextareaType::class, [
-                'label' => "Message d'invitation",
-            ])
-            ->getForm()
-        ;
+        $invitationForm = $this->createForm(InvitationForm::class);
+
+        $invitationForm->handleRequest($request);
+        if ($invitationForm->isSubmitted() && $invitationForm->isValid()) {
+            dump($invitationForm->getData());
+        }
 
         return $this->render('event/ressources/list.html.twig', [
             'event' => $event,
@@ -135,6 +111,38 @@ class EventController extends AbstractController
             'invitationForm' => $invitationForm->createView(),
             'groupForm' => $groupForm->createView(),
         ]);
+    }
+
+    public function resourcesAsso(Event $event, UserRemoteManager $userRemoteManager, UserRepository $userRepository)
+    {
+        //TODO: refactor this ugly code
+        $remoteUsers = $userRemoteManager->findUsersForAsso($event->getRemoteOrganizationId());
+
+        // Extract ids to search them in db
+        $ids = array_map(function($remoteUser) {
+            return $remoteUser->id;
+        }, $remoteUsers);
+
+        $qb = $userRepository->createQueryBuilder('u', 'u.remoteId');
+        $qb
+            ->innerJoin('u.availabilities', 'a')
+            ->where($qb->expr()->in('u.remoteId', $ids))
+            ->andWhere('a.event = :event')
+            ->setParameter('event', $event->getId())
+        ;
+        /** @var User[] $invitedUsers */
+        $invitedUsers = $qb->getQuery()->getResult();
+        $idsInvitedUsers = array_keys($invitedUsers);
+        $returnedUsers = [];
+        foreach ($remoteUsers as $key => $remoteUser) {
+            $returnedUsers[] = [
+                'id' => $remoteUser->id,
+                'text' => $remoteUser->name,
+                'disabled' => in_array($remoteUser->id, $idsInvitedUsers),
+            ];
+        }
+
+        return $this->json($returnedUsers);
     }
 
     /**
@@ -152,7 +160,7 @@ class EventController extends AbstractController
 
         $jsonArray = $serializer->serialize($availabilities, 'json', [
             'ignored_attributes' => [
-                'tasks', 'availabilities', 'skills', 'eventRequests',
+                'event', 'availabilities', 'availability', 'skills', 'eventRequests',
             ],
         ]);
 
@@ -340,14 +348,7 @@ class EventController extends AbstractController
 
     public function planning(Event $event, AssoManager $assoManager)
     {
-        $asso = $assoManager->find("6a8bc6e0-5345-11e9-aff8-bd263b9b07f9");
-        dump($asso);
-        $assos = $assoManager->findBy([
-            'login'=>"simde",
-        ]);
-        dump($assos);
-
-        return $this->render('event/planning.html.twig', [
+        return $this->render('event/planner.html.twig', [
             'event' => $event,
         ]);
     }

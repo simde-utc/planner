@@ -10,5 +10,12 @@ namespace App\Remote\Entity;
 
 class User
 {
+    public $id;
+    public $name;
+    public $image;
 
+    public function getText()
+    {
+        return $this->name;
+    }
 }

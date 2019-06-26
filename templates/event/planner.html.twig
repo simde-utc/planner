@@ -1,0 +1,23 @@
+{% extends 'event/base.html.twig' %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('planner') }}
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('planner') }}
+{% endblock %}
+
+{% block main_app %}
+<div id="planner" class="mt-3 mr-2 ml-2"
+     data-users-url="{{ absolute_url(path('event_planner_user_list_json', {id: event.id})) }}"
+     data-tasks-url="{{ absolute_url(path('event_planner_user_task_json', {id: event.id})) }}"
+></div>
+<div id="draggable">
+    <div class="event-draggable" data-id="1" data-title="my title" data-duration="01:00">
+        Titre
+    </div>
+</div>
+{% endblock %}

@@ -41,8 +41,6 @@ class EquityGroup
 
     public function __construct()
     {
-        $this->tasks = new ArrayCollection();
-        $this->users = new ArrayCollection();
         $this->availabilities = new ArrayCollection();
     }
 

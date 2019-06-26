@@ -2,6 +2,18 @@ event_show:
   path: /
   controller: App\Controller\EventController::show
 
+event_planner:
+  path: /planner
+  controller: App\Controller\EventController::planning
+
+event_planner_user_list_json:
+  path: /planner/users.json
+  controller: App\Controller\PlannerController::userList
+
+event_planner_user_task_json:
+  path: /planner/tasks.json
+  controller: App\Controller\PlannerController::userTaskList
+
 # ----------
 # EVENT RESOURCES
 # ----------
@@ -44,6 +56,10 @@ event_resources_requests_accept:
 event_resources_requests_refuse:
   path: /resources/requests/{user_id}/refuse
   controller: App\Controller\EventController::resourcesRequestsRefuse
+
+event_resources_assos_members:
+  path: /resources/orga_members.json
+  controller: App\Controller\EventController::resourcesAsso
 
 # ----------
 # EVENT SETTINGS

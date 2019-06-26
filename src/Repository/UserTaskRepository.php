@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Event;
 use App\Entity\UserTask;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
@@ -19,32 +20,31 @@ class UserTaskRepository extends ServiceEntityRepository
         parent::__construct($registry, UserTask::class);
     }
 
-    // /**
-    //  * @return UserTask[] Returns an array of UserTask objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function getUserTaskForEvent(Event $event, $withSkills = false, $withUsers)
     {
-        return $this->createQueryBuilder('u')
-            ->andWhere('u.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('u.id', 'ASC')
-            ->setMaxResults(10)
+        $qb = $this->createQueryBuilder('ut')
+            ->join('ut.task', 't')
+            ->addSelect('t')
+            ->andWhere('t.event = :event')
+            ->setParameter('event', $event->getId())
+        ;
+
+        if ($withSkills) {
+            $qb = $qb
+                ->leftJoin('t.skills', 's')
+                ->addSelect('s')
+            ;
+            if ($withUsers) {
+                $qb = $qb
+                    ->leftJoin('s.users', 'u')
+                    ->addSelect('u')
+                ;
+            }
+        }
+
+        return $qb
             ->getQuery()
             ->getResult()
         ;
     }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?UserTask
-    {
-        return $this->createQueryBuilder('u')
-            ->andWhere('u.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }

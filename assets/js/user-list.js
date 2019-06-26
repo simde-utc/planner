@@ -128,3 +128,10 @@ $("#remove_modal, #add_group_modal").on('show.bs.modal', function (e) {
     });
 });
 
+/**
+ * HANDLE USER INVITATIONS
+ */
+let invitationSelect = $("#invitation_form_users");
+
+var newOption = new Option('hey', 'id', false, false);
+invitationSelect.append(newOption).trigger('change');

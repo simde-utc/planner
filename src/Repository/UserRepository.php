@@ -20,41 +20,41 @@ class UserRepository extends ServiceEntityRepository
         parent::__construct($registry, User::class);
     }
 
-    public function getUsersForEvent(Event $event)
+    /**
+     * @param Event $event
+     * @return User[]
+     */
+    public function getUsersForEvent(Event $event, bool $whithAvailabilitySlots = false)
+    {
+        return $this->queryBuilderUsersForEvent($event)->getQuery()->getResult();
+    }
+
+    /**
+     * @param Event $event
+     * @param bool $whithAvailabilitySlots
+     * @return User[]
+     */
+    public function getAvailableUsersForEvent(Event $event, bool $whithAvailabilitySlots = false)
+    {
+        $qb = $this->queryBuilderUsersForEvent($event)->andWhere('a.isAvailable = true');
+
+        if ($whithAvailabilitySlots) {
+            $qb = $qb
+                ->leftJoin('a.timeIntervals', 'ti')
+                ->addSelect('ti')
+            ;
+        }
+
+        return $qb->getQuery()->getResult();
+    }
+
+    public function queryBuilderUsersForEvent(Event $event)
     {
         return $this->createQueryBuilder('u')
             ->join('u.availabilities', 'a')
+            ->addSelect('a')
             ->andWhere('a.event = :eventId')
             ->setParameter('eventId', $event->getId())
         ;
     }
-
-    // /**
-    //  * @return User[] Returns an array of User objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('u')
-            ->andWhere('u.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('u.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?User
-    {
-        return $this->createQueryBuilder('u')
-            ->andWhere('u.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }

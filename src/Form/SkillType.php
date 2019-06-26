@@ -44,7 +44,7 @@ class SkillType extends AbstractType
                 'required' => false,
                 'by_reference' => false,
                 'query_builder' => function(UserRepository $er) use ($builder) {
-                    return $er->getUsersForEvent($builder->getOption('event'));
+                    return $er->queryBuilderUsersForEvent($builder->getOption('event'));
                 },
             ])
         ;

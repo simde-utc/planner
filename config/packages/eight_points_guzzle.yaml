@@ -27,4 +27,9 @@ eight_points_guzzle:
 
             # Find plugins here:
             # https://github.com/8p/EightPointsGuzzleBundle#known-and-supported-plugins
-            plugin: ~
+            plugin:
+                oauth2:
+                    base_uri:       "http://127.0.0.1:8000"
+                    token_url:      "/oauth/token"
+                    client_id:      '44696575-2065-7374-2075-6e6971756521'
+                    client_secret:  "password" # optional

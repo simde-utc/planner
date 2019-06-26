@@ -102,12 +102,7 @@ abstract class RemoteManager implements ObjectRepository
 
     protected function request($method, $uri, array $options = [])
     {
-        $headers = $options['headers'] ?? [];
-
-        $options['headers'] = array_merge($headers, [
-            'Authorization' => 'Bearer ' . $this->accessToken
-        ]);
-
+        $options['auth'] = 'oauth2';
         return $this->client->request($method, $uri, $options);
     }
 

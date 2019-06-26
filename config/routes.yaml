@@ -6,10 +6,6 @@ event:
     resource: "routes/events_manage.yaml"
     prefix: /events/{id}/manage
 
-event_planning:
-    path: /events/{id}/planning
-    controller: App\Controller\EventController::planning
-
 event_new:
     path: /events/new
     controller: App\Controller\EventController::new

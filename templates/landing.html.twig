@@ -1,10 +1,12 @@
 {% extends 'layout/base.html.twig' %}
 
 {% block body %}
-    <div class="container-fluid bg-dark text-white" style="height: 100vh">
+    <div class="container-fluid bg-dark text-white landing" style="height: 100vh">
+        <img src="{{ asset('build/planner-logo.svg') }}" class="landing-logo" alt="Logo du Planner">
         <h1 class="text-uppercase">Planner</h1>
+        <h2>Plannificateur d'événements</h2>
         <div>
-
+            <a href="#" class="btn btn-primary">Se connecter</a>
         </div>
     </div>
 {% endblock %}

@@ -4,12 +4,17 @@
 @import "~bootswatch/dist/litera/bootswatch";
 
 @import "reset";
-@import "calendar";
+@import '~@fullcalendar/core/main.css';
+@import '~@fullcalendar/timeline/main.css';
+@import '~@fullcalendar/resource-timeline/main.css';
+@import '~@fullcalendar/bootstrap/main.css';
+
 
 @import "~@fortawesome/fontawesome-free/css/all";
 @import "~chartist/dist/scss/chartist";
 @import "~select2/src/scss/core";
 @import "~bootstrap-table/src/bootstrap-table";
+@import "landing";
 
 /**
   SELECT2 styling
