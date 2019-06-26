@@ -14,4 +14,9 @@ class Asso
     public $login;
     public $name;
     public $shortname;
+
+    public function __toString()
+    {
+        return $this->id;
+    }
 }

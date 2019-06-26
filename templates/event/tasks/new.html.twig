@@ -3,11 +3,17 @@
 {% block tasks_container %}
     <h3>Nouveau type de tâche</h3>
     {{ form_start(form) }}
-    {{ form_row(form.name) }}
+    <div class="row">
+        <div class="col-md-10">
+            {{ form_row(form.name) }}
+        </div>
+        <div class="col-md-2">
+            {{ form_row(form.color) }}
+        </div>
+    </div>
     {{ form_row(form.description) }}
     {{ form_row(form.location) }}
-    {{ form_row(form.color) }}
-    <hr/>
+    <hr class="mt-5 mb-3"/>
     <h5>Contraintes</h5>
     <div class="row">
         <div class="col-md-6">
@@ -17,11 +23,9 @@
             {{ form_row(form.maxWorkingTime) }}
         </div>
     </div>
-    {{ form_row(form.groups) }}
+    {{ form_row(form.skills) }}
+    {{ form_row(form.timePrecision) }}
+    {{ form_row(form.requirements) }}
 
-
-    <div class="mt-5">
-        {{ form_widget(form.submit) }}
-    </div>
     {{ form_end(form) }}
 {% endblock %}

@@ -22,6 +22,7 @@ use App\Remote\AssoManager;
 use App\Remote\UserRemoteManager;
 use App\Repository\AvailabilityRepository;
 use App\Repository\UserRepository;
+use App\Repository\UserTaskRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -35,14 +36,16 @@ use Symfony\Component\Serializer\SerializerInterface;
 //TODO: split this controller
 class EventController extends AbstractController
 {
-    public function show(Event $event)
+    public function show(Event $event, UserTaskRepository $userTaskRepository)
     {
+        $userTasks = $userTaskRepository->getUserTaskForEvent($event);
         return $this->render('event/summary.html.twig', [
             'event' => $event,
+            'has_a_planning' => count($userTasks) > 0,
         ]);
     }
 
-    public function resources(Event $event, Request $request, AvailabilityRepository $availabilityRepository, EntityManagerInterface $em, UserRemoteManager $userRemoteManager, SerializerInterface $serializer)
+    public function resources(Event $event, Request $request, AvailabilityRepository $availabilityRepository, EntityManagerInterface $em, UserRemoteManager $userRemoteManager, SerializerInterface $serializer, UserRepository $userRepository)
     {
         if ($request->query->has('q')) {
             $users = $userRemoteManager->search($request->query->get('q'));
@@ -101,8 +104,22 @@ class EventController extends AbstractController
         $invitationForm = $this->createForm(InvitationForm::class);
 
         $invitationForm->handleRequest($request);
-        if ($invitationForm->isSubmitted() && $invitationForm->isValid()) {
-            dump($invitationForm->getData());
+        if ($invitationForm->isSubmitted()) {
+            /** @var User[] $users */
+            $users = $invitationForm->get('users')->getData();
+
+            foreach ($users as $user) {
+                $availability = new Availability();
+                $availability
+                    ->setIsAvailable(null)
+                    ->setUser($user)
+                    ->setEvent($event)
+                ;
+
+                $em->persist($availability);
+            }
+
+            $em->flush();
         }
 
         return $this->render('event/ressources/list.html.twig', [
@@ -330,16 +347,27 @@ class EventController extends AbstractController
         return $this->render('event/settings/access.html.twig');
     }
 
-    public function new(AssoManager $assoManager)
+    public function new(AssoManager $assoManager, Request $request, EntityManagerInterface $em)
     {
         $assos = $assoManager->findByUserWithPermissions($this->getUser(), "69d6a120-5345-11e9-8edd-43c9792c1d4a");
 
-        $form = $this->createForm(EventType::class, null, [
+        $event = new Event();
+        $form = $this->createForm(EventType::class, $event, [
             'organizations' => $assos
         ]);
         $form->add('submit', SubmitType::class, [
             'label' => 'Créer',
         ]);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em->persist($event);
+            $em->flush();
+
+            return $this->redirectToRoute('event_show', [
+                'id' => $event->getId(),
+            ]);
+        }
 
         return $this->render('event/new.html.twig', [
             'form' => $form->createView()

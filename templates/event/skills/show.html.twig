@@ -1,7 +1,9 @@
 {% extends 'event/skills/base.html.twig' %}
 
 {% block event_container_tools %}
+    {% if skill %}
     <a href="{{ path('event_skills_edit', {id: event.id, skill_id: skill.id}) }}" class="btn mb-3 btn-sm btn-primary"><i class="fa fa-pencil-alt mr-2"></i>Modifier</a>
+    {% endif %}
 {% endblock %}
 
 {% block skills_container %}

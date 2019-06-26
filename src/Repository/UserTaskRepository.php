@@ -20,7 +20,7 @@ class UserTaskRepository extends ServiceEntityRepository
         parent::__construct($registry, UserTask::class);
     }
 
-    public function getUserTaskForEvent(Event $event, $withSkills = false, $withUsers)
+    public function getUserTaskForEvent(Event $event, $withSkills = false, $withUsers = false)
     {
         $qb = $this->createQueryBuilder('ut')
             ->join('ut.task', 't')

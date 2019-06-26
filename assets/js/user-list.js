@@ -4,9 +4,11 @@ require("bootstrap-table/dist/locale/bootstrap-table-fr-BE.min.js");
 let userList = $('#user-list');
 let availabilityBtnFilter = document.getElementById('availability-btn-filter');
 let userIconSrc = userList.data('user-icon-url');
+let userListUrl = userList.data('user-list-url');
+let contactUrl = userList.data('contact-url'); //TODO: implement that
 
 userList.bootstrapTable({
-    url: 'http://127.0.0.1:8080/events/1/manage/resources.json',
+    url: userListUrl,
     classes: 'table-hover',
     theadClasses: 'thead-light',
     pagination: true,

@@ -1,6 +1,8 @@
 {% extends 'event/base.html.twig' %}
 
 {% block event_container %}
+    {% set has_tasks_and_users = event.tasks|length and event.availabilities|filter(a => a.isAvailable)|length %}
+    {#
     <div class="timeline mt-5">
         <div class="timeline-progress" style="width: 25%;"></div>
         <div class="timeline-event" style="width: 16px; left:60%">
@@ -20,9 +22,12 @@
             <div class="timeline-step">13 mai</div>
         </div>
     </div>
-
+#}
+    {% if has_tasks_and_users %}
     <h2 class="mt-4">Profil de l'évènement</h2>
     <div class="ct-chart" id="chart"></div>
+    {% endif %}
+    {#
     <div class="mt-5 d-flex w-100 justify-content-between">
         <h2>Planning de l'évènement</h2>
         <div class="tools">
@@ -30,15 +35,20 @@
             <button class="btn btn-sm btn-primary"><i class="fa fa-compress-arrows-alt mr-2"></i>Plein écran</button>
         </div>
     </div>
-    <div class="jumbotron jumbotron-fluid">
+    #}
+    {% if not has_tasks_and_users %}
+    <h3 class="mt-4">Configurer l'événement</h3>
+    <div class="jumbotron jumbotron-fluid mt-4">
         <div class="container text-center">
             {# si pas de tâche ou pas de ressources dispo #}
             <h1 class="display-4 text-capitalize">étape 1</h1>
             <p class="lead">Créez des tâches et invitez des utilisateurs</p>
-            <a href="#" class="btn btn-primary">Gérer les tâches</a>
-            <a href="#" class="btn btn-primary">Gérer les utilisateurs</a>
+            <a href="{{ path('event_tasks', {id: event.id}) }}" class="btn btn-primary">Gérer les tâches</a>
+            <a href="{{ path('event_resources', {id: event.id}) }}" class="btn btn-primary">Gérer les utilisateurs</a>
         </div>
     </div>
+    {% endif %}
+    {% if has_tasks_and_users and not has_a_planning %}
     <div class="jumbotron jumbotron-fluid">
         <div class="container text-center">
             {# si pas d'affection tache - utilisateur #}
@@ -47,4 +57,5 @@
             <a href="#" class="btn btn-primary"><i class="fa fa-planner mr-2"></i>Interface de plannification</a>
         </div>
     </div>
+    {% endif %}
 {% endblock %}

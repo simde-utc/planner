@@ -62,6 +62,7 @@ class TaskType extends AbstractType
             ])
             ->add('requirements', RequirementsType::class, [
                 'label'   => "Profil de la tâche",
+                'required' => false,
                 'startAt' => $task->getEvent()->getStartAt(),
                 'endAt'   => $task->getEvent()->getEndAt(),
             ])

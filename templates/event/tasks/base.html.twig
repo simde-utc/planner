@@ -23,7 +23,8 @@
                                 <h6 class="mb-0">{{ loop_task.name }}</h6>
                                 <div class="d-flex justify-content-between align-items-center">
                                     <small><i class="fa fa-map-marker-alt mr-1"></i>{{ loop_task.location }}</small>
-                                    <small class="requirement-state">20%</small>
+                                    {# % de remplissage de la contrainte de besoin #}
+                                    {#<small class="requirement-state">20%</small>#}
                                 </div>
                             </a>
                         {% endfor %}
@@ -31,7 +32,7 @@
                 </div>
                 {% if app.request.get('_route') != 'event_tasks_new' %}
                 <div class="list-group-footer mt-3">
-                    <a href="{{ path('event_tasks_new', {id: event.id}) }}" class="btn btn-primary btn-block"><i class="fa fa-plus mr-2"></i>Nouveau type de tâche</a>
+                    <a href="{{ path('event_tasks_new', {id: event.id}) }}" class="btn btn-primary btn-block"><i class="fa fa-plus mr-2"></i>Nouvelle tâche</a>
                 </div>
                 {% endif %}
             </div>

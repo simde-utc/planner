@@ -8,6 +8,8 @@
 namespace App\Form;
 
 
+use App\Entity\User;
+use App\Service\RemoteUserTransformer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -28,6 +30,9 @@ class InvitationForm extends AbstractType
                 'delay' => 3000,
                 'minimum_input_length' => 2, //TODO: see why it doesn't work
                 'text_property' => 'name',
+                'primary_key' => 'remoteId',
+                'class' => User::class,
+                //'transformer' => RemoteUserTransformer::class,
             ])
             ->add('message', TextareaType::class, [
                 'label' => "Message d'invitation",
